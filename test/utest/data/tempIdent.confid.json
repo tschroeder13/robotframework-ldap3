@@ -1,0 +1,299 @@
+{
+    "entries": [
+        {
+            "attributes": {
+                "DirXML-Associations": [
+                    "cn=SAP-GHR,cn=driverset0,o=system#1#91020665",
+                    "cn=Data Collection Service Driver,cn=driverset0,o=system#1#ED561C01-1F28-cd40-6996-ED561C011F28",
+                    "cn=DCS_Driver_47,cn=driverset0,o=system#1#ED561C01-1F28-cd40-6996-ED561C011F28",
+                    "cn=eDir_tempIdent2ident,cn=driverset0,o=system#1#{2BFFCB69-87CE-ec41-80B7-2BFFCB6987CE}"
+                ],
+                "auxADAcctID": "cw01\\uic75084",
+                "auxANSVH": "GF",
+                "auxAdminInfo": [
+                    "2020-04-04 03:00:55 / initiator: uaadmin / process: wf155 (started:2020-04-04 03:00:52/id:5d49b6aee0024ddcb9bde8713cd0a27d) / Matching Decision / Approver(s):  / Reminder: 2020-04-07 03:00 GMT / Timeout: 2020-05-02 03:00 GMT / Escalation: n/a",
+                    "2023-06-30 06:43:21 /  initiator:  tempIdent2Ident /  Matching of Identity uiu24354 and tempIdent  91020665"
+                ],
+                "auxBTRTLText": "Schwalbach",
+                "auxBUKRS": "0655",
+                "auxC": "DE",
+                "auxCTEDT": "0000-00-00",
+                "auxEndDate": "9999-12-31",
+                "auxFunctionalManager": "cn=90204352,ou=tempIdent,ou=data,o=conti",
+                "auxGHRBusinessUnit": "Automotive Information Technology",
+                "auxGHRDivision": "Automotive",
+                "auxGHRStatus": "1",
+                "auxGebMonat": "02",
+                "auxGebTag": "13",
+                "auxGender": "1",
+                "auxIdentityRefs": [
+                    "cn=uic75084,ou=identities,ou=ident,ou=data,o=conti"
+                ],
+                "auxLOCALEEID": "91020665",
+                "auxLastGHRImportTime": "2025-04-22 07:20:37+00:00",
+                "auxORIGEEID": "91020665",
+                "auxOrgEinh": "96063345",
+                "auxPASSIVERETIREMENT": "0000-00-00",
+                "auxPERSG": "1",
+                "auxPERSK": "04",
+                "auxPersonalAreaCode": "7770",
+                "auxPersonalSubAreaCode": "01SA",
+                "auxPlanstelle": "00000000",
+                "auxRegion": "06",
+                "auxSTELL": "00000000",
+                "auxStatus": "3",
+                "auxStdGivenName": "Tobias",
+                "auxStdSurname": "Linkermann",
+                "auxSupplierID": "CPCCLNT100",
+                "auxWERKSText": "Continental Automotive Technologies GmbH - Schwalbach T.",
+                "auxZZHRBUNT": "436",
+                "auxZZHRDAT01": "2020-05-01",
+                "auxZZHRDAT02": "2022-07-01",
+                "auxZZHRHRMA": "91035789",
+                "auxZZHRHRMAMAIL": "marina.lund@continental-corporation.com",
+                "auxZZHRSUED": "00000000",
+                "auxZZHRSUFU": "90204352",
+                "auxZZHRSUFUMAIL": "michaela.friedl@continental-corporation.com",
+                "auxZZHRSUPE": "90204352",
+                "auxZZHRSUPEMAIL": "michaela.friedl@continental-corporation.com",
+                "city": [
+                    "Schwalbach"
+                ],
+                "cn": [
+                    "91020665"
+                ],
+                "co": [
+                    "Germany"
+                ],
+                "company": [
+                    "Continental Automotive Technologies GmbH"
+                ],
+                "costCenter": [
+                    "271-0159"
+                ],
+                "givenName": [
+                    "Tobias"
+                ],
+                "mail": [
+                    "tobias.linkermann@continental-corporation.com"
+                ],
+                "manager": [
+                    "cn=90204352,ou=tempIdent,ou=data,o=conti"
+                ],
+                "objectClass": [
+                    "inetOrgPerson",
+                    "auxSAPAcct",
+                    "auxPerson",
+                    "organizationalPerson",
+                    "Person",
+                    "ndsLoginProperties",
+                    "Top",
+                    "srvprvUserAux",
+                    "srvprvEntityAux"
+                ],
+                "ou": [
+                    "A IT INP CA IAM"
+                ],
+                "postalCode": [
+                    "65824"
+                ],
+                "sn": [
+                    "Linkermann"
+                ],
+                "srvprvUUID": "63f148ae91e940c7a14c8790157d034d",
+                "street": [
+                    "Sodener Strasse 9"
+                ]
+            },
+            "dn": "cn=91020665,ou=tempIdent,ou=data,o=conti",
+            "raw": {
+                "DirXML-Associations": [
+                    "cn=SAP-GHR,cn=driverset0,o=system#1#91020665",
+                    "cn=Data Collection Service Driver,cn=driverset0,o=system#1#ED561C01-1F28-cd40-6996-ED561C011F28",
+                    "cn=DCS_Driver_47,cn=driverset0,o=system#1#ED561C01-1F28-cd40-6996-ED561C011F28",
+                    "cn=eDir_tempIdent2ident,cn=driverset0,o=system#1#{2BFFCB69-87CE-ec41-80B7-2BFFCB6987CE}"
+                ],
+                "auxADAcctID": [
+                    "cw01\\uic75084"
+                ],
+                "auxANSVH": [
+                    "GF"
+                ],
+                "auxAdminInfo": [
+                    "2020-04-04 03:00:55 / initiator: uaadmin / process: wf155 (started:2020-04-04 03:00:52/id:5d49b6aee0024ddcb9bde8713cd0a27d) / Matching Decision / Approver(s):  / Reminder: 2020-04-07 03:00 GMT / Timeout: 2020-05-02 03:00 GMT / Escalation: n/a",
+                    "2023-06-30 06:43:21 /  initiator:  tempIdent2Ident /  Matching of Identity uiu24354 and tempIdent  91020665"
+                ],
+                "auxBTRTLText": [
+                    "Schwalbach"
+                ],
+                "auxBUKRS": [
+                    "0655"
+                ],
+                "auxC": [
+                    "DE"
+                ],
+                "auxCTEDT": [
+                    "0000-00-00"
+                ],
+                "auxEndDate": [
+                    "9999-12-31"
+                ],
+                "auxFunctionalManager": [
+                    "cn=90204352,ou=tempIdent,ou=data,o=conti"
+                ],
+                "auxGHRBusinessUnit": [
+                    "Automotive Information Technology"
+                ],
+                "auxGHRDivision": [
+                    "Automotive"
+                ],
+                "auxGHRStatus": [
+                    "1"
+                ],
+                "auxGebMonat": [
+                    "02"
+                ],
+                "auxGebTag": [
+                    "13"
+                ],
+                "auxGender": [
+                    "1"
+                ],
+                "auxIdentityRefs": [
+                    "cn=uic75084,ou=identities,ou=ident,ou=data,o=conti"
+                ],
+                "auxLOCALEEID": [
+                    "91020665"
+                ],
+                "auxLastGHRImportTime": [
+                    "20250422072037Z"
+                ],
+                "auxORIGEEID": [
+                    "91020665"
+                ],
+                "auxOrgEinh": [
+                    "96063345"
+                ],
+                "auxPASSIVERETIREMENT": [
+                    "0000-00-00"
+                ],
+                "auxPERSG": [
+                    "1"
+                ],
+                "auxPERSK": [
+                    "04"
+                ],
+                "auxPersonalAreaCode": [
+                    "7770"
+                ],
+                "auxPersonalSubAreaCode": [
+                    "01SA"
+                ],
+                "auxPlanstelle": [
+                    "00000000"
+                ],
+                "auxRegion": [
+                    "06"
+                ],
+                "auxSTELL": [
+                    "00000000"
+                ],
+                "auxStatus": [
+                    "3"
+                ],
+                "auxStdGivenName": [
+                    "Tobias"
+                ],
+                "auxStdSurname": [
+                    "Linkermann"
+                ],
+                "auxSupplierID": [
+                    "CPCCLNT100"
+                ],
+                "auxWERKSText": [
+                    "Continental Automotive Technologies GmbH - Schwalbach T."
+                ],
+                "auxZZHRBUNT": [
+                    "436"
+                ],
+                "auxZZHRDAT01": [
+                    "2020-05-01"
+                ],
+                "auxZZHRDAT02": [
+                    "2022-07-01"
+                ],
+                "auxZZHRHRMA": [
+                    "91035789"
+                ],
+                "auxZZHRHRMAMAIL": [
+                    "marina.lund@continental-corporation.com"
+                ],
+                "auxZZHRSUED": [
+                    "00000000"
+                ],
+                "auxZZHRSUFU": [
+                    "90204352"
+                ],
+                "auxZZHRSUFUMAIL": [
+                    "michaela.friedl@continental-corporation.com"
+                ],
+                "auxZZHRSUPE": [
+                    "90204352"
+                ],
+                "auxZZHRSUPEMAIL": [
+                    "michaela.friedl@continental-corporation.com"
+                ],
+                "city": [
+                    "Schwalbach"
+                ],
+                "cn": [
+                    "91020665"
+                ],
+                "co": [
+                    "Germany"
+                ],
+                "company": [
+                    "Continental Automotive Technologies GmbH"
+                ],
+                "costCenter": [
+                    "271-0159"
+                ],
+                "givenName": [
+                    "Tobias"
+                ],
+                "mail": [
+                    "tobias.linkermann@continental-corporation.com"
+                ],
+                "manager": [
+                    "cn=90204352,ou=tempIdent,ou=data,o=conti"
+                ],
+                "objectClass": [
+                    "inetOrgPerson",
+                    "auxSAPAcct",
+                    "auxPerson",
+                    "organizationalPerson",
+                    "Person",
+                    "ndsLoginProperties",
+                    "Top",
+                    "srvprvUserAux",
+                    "srvprvEntityAux"
+                ],
+                "ou": [
+                    "A IT INP CA IAM"
+                ],
+                "postalCode": [
+                    "65824"
+                ],
+                "sn": [
+                    "Linkermann"
+                ],
+                "srvprvUUID": [
+                    "63f148ae91e940c7a14c8790157d034d"
+                ],
+                "street": [
+                    "Sodener Strasse 9"
+                ]
+            }
+        }
+    ]
+}

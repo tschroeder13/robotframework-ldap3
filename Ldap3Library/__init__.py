@@ -13,4 +13,4 @@ class Ldap3Library(Ldap3ConnectionManager):
     ROBOT_LIBRARY_VERSION = VERSION
 
     def __init__(self):
-        super().__init__()
+        Ldap3ConnectionManager.__init__(self)
