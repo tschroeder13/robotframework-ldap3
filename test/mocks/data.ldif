@@ -1,0 +1,13 @@
+# Root DSE
+dn:
+namingContexts: dc=example,dc=com
+
+dn: dc=example,dc=com
+objectClass: top
+
+dn: cn=alice,dc=example,dc=com
+objectClass: inetOrgPerson
+cn: alice
+sn: Smith
+givenName: Alice
+userPassword: 1234qwer

@@ -1,0 +1,6 @@
+mokapi: 1.0
+ldap: 2.0 # file configuration version not LDAP protocol version 
+host: localhost:389
+files:
+  - ../../fake_ldap_data.ldif
+  - ../../fake_admin.ldif

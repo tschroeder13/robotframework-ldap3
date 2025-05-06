@@ -172,3 +172,8 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+
+# Specific internal files
+test/utest/test_ldap3ConnectionManager_online.py
+local_only/

@@ -3,7 +3,7 @@ name = "robotframework-ldap3"
 version = "0.0.1"
 description = "A Robotframework library to interact with a LDAP server"
 authors = [
-    {name = "Tobias Linkermann",email = "tobias.linkermann@outlook.de"}
+    {name = "Wilee Coyote",email = "wilee.coyote@outlook.de"}
 ]
 license = {text = "Apache License 2.0"}
 readme = "README.md"
@@ -12,16 +12,24 @@ dependencies = [
     "ldap3 (>=2.9.1,<3.0.0)",
     "robotframework (>=7.2.2,<8.0.0)",
     "robotframework-crypto (>=0.4.2,<0.5.0)",
-    "robotframework-assertion-engine (>=3.0.3,<4.0.0)"
+    "robotframework-assertion-engine (>=3.0.3,<4.0.0)",
+    "ldif (>=4.2.5,<5.0.0)"
 ]
 
 [tool.poetry]
+packages = [
+    {include = "Ldap3Library"}
+]
+package-mode = true
 
 [tool.poetry.group.dev.dependencies]
 invoke = "^2.2.0"
 pytest = "^7.1.2"
 coverage = "^7.8.0"
+ipykernel = "^6.29.5"
 
+# [tool.poetry.group.test.dependencies]
+faker = "^37.1.0"
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]

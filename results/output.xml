@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 7.2.2 (Python 3.11.2 on win32)" generated="2025-05-06T21:47:59.729265" rpa="false" schemaversion="5">
+<suite id="s1" name="Robotframework-Ldap3" source="D:\git_workspace\robotframework-ldap3">
+<suite id="s1-s1" name="Test" source="D:\git_workspace\robotframework-ldap3\test">
+<suite id="s1-s1-s1" name="Atest" source="D:\git_workspace\robotframework-ldap3\test\atest">
+<suite id="s1-s1-s1-s1" name="Test Ldap Library" source="D:\git_workspace\robotframework-ldap3\test\atest\test_ldap_library.robot">
+<kw name="Run Mokapi" type="SETUP">
+<kw name="Start Process" owner="Process">
+<msg time="2025-05-06T21:47:59.868956" level="INFO">Starting process:
+D:\idmHelpers\PortableApps\mokapi_v0.15.0_windows_amd64\mokapi.exe --providers-file-filename D:\git_workspace\robotframework-ldap3\test\mocks\ldap.yaml shell</msg>
+<msg time="2025-05-06T21:47:59.877959" level="INFO">${mokapi} = &lt;Popen: returncode: None args: ['D:\\idmHelpers\\PortableApps\\mokapi_v0.15....&gt;</msg>
+<var>${mokapi}</var>
+<arg>${MOKAPI_PATH}</arg>
+<arg>--providers-file-filename</arg>
+<arg>${PROV_FILE}</arg>
+<arg>shell</arg>
+<doc>Starts a new process on background.</doc>
+<status status="PASS" start="2025-05-06T21:47:59.867947" elapsed="0.011011"/>
+</kw>
+<kw name="Log Many" owner="BuiltIn">
+<msg time="2025-05-06T21:47:59.879959" level="INFO">&lt;_io.BufferedReader name=4&gt;</msg>
+<msg time="2025-05-06T21:47:59.879959" level="INFO">&lt;_io.BufferedReader name=5&gt;</msg>
+<arg>${mokapi.stdout}</arg>
+<arg>${mokapi.stderr}</arg>
+<doc>Logs the given messages as separate entries using the INFO level.</doc>
+<status status="PASS" start="2025-05-06T21:47:59.878958" elapsed="0.002002"/>
+</kw>
+<arg>${MOKAPI_PATH}</arg>
+<arg>${PROV_FILE}</arg>
+<status status="PASS" start="2025-05-06T21:47:59.866942" elapsed="0.014018"/>
+</kw>
+<test id="s1-s1-s1-s1-t1" name="Test LDAP Connection" line="20">
+<kw name="Connect" owner="Ldap3Library">
+<msg time="2025-05-06T21:47:59.881957" level="INFO">Connecting to LDAP server: localhost</msg>
+<arg>${LDAP_URL}</arg>
+<arg>${BIND_DN}</arg>
+<arg>${PASSWORD}</arg>
+<doc>Connect to an LDAP server.</doc>
+<status status="PASS" start="2025-05-06T21:47:59.881957" elapsed="2.058628"/>
+</kw>
+<kw name="Search" owner="Ldap3Library">
+<msg time="2025-05-06T21:48:01.944397" level="INFO">Search results: 1 entries found.</msg>
+<arg>${LDAP_URL}</arg>
+<status status="PASS" start="2025-05-06T21:48:01.941798" elapsed="0.002599"/>
+</kw>
+<kw name="Check Attribute Value" owner="Ldap3Library">
+<msg time="2025-05-06T21:48:01.948566" level="INFO">Search results: 1 entries found.</msg>
+<msg time="2025-05-06T21:48:01.948566" level="INFO">Expected value: 13029, Actual value: 13029</msg>
+<arg>${LDAP_URL}</arg>
+<arg>postalCode</arg>
+<arg>==</arg>
+<arg>13029</arg>
+<status status="PASS" start="2025-05-06T21:48:01.945553" elapsed="0.003013"/>
+</kw>
+<kw name="Check Attribute Value" owner="Ldap3Library">
+<msg time="2025-05-06T21:48:01.952345" level="INFO">Search results: 1 entries found.</msg>
+<msg time="2025-05-06T21:48:01.952943" level="INFO">Expected value: 13030, Actual value: 13029</msg>
+<arg>${LDAP_URL}</arg>
+<arg>postalCode</arg>
+<arg>&lt;=</arg>
+<arg>13030</arg>
+<status status="PASS" start="2025-05-06T21:48:01.949582" elapsed="0.003361"/>
+</kw>
+<kw name="Check Attribute Value" owner="Ldap3Library">
+<msg time="2025-05-06T21:48:01.954550" level="INFO">Search results: 1 entries found.</msg>
+<msg time="2025-05-06T21:48:01.954550" level="INFO">Expected value: 13028, Actual value: 13029</msg>
+<arg>${LDAP_URL}</arg>
+<arg>postalCode</arg>
+<arg>&gt;=</arg>
+<arg>13028</arg>
+<status status="PASS" start="2025-05-06T21:48:01.952943" elapsed="0.002154"/>
+</kw>
+<kw name="Check Attribute Value" owner="Ldap3Library">
+<msg time="2025-05-06T21:48:01.956425" level="INFO">Search results: 1 entries found.</msg>
+<msg time="2025-05-06T21:48:01.956425" level="INFO">Expected value: 13030, Actual value: 13029</msg>
+<arg>${LDAP_URL}</arg>
+<arg>postalCode</arg>
+<arg>&lt;</arg>
+<arg>13030</arg>
+<status status="PASS" start="2025-05-06T21:48:01.955097" elapsed="0.001835"/>
+</kw>
+<kw name="Check Attribute Value" owner="Ldap3Library">
+<msg time="2025-05-06T21:48:01.958562" level="INFO">Search results: 1 entries found.</msg>
+<msg time="2025-05-06T21:48:01.958562" level="INFO">Expected value: 13028, Actual value: 13029</msg>
+<arg>${LDAP_URL}</arg>
+<arg>postalCode</arg>
+<arg>&gt;</arg>
+<arg>13028</arg>
+<status status="PASS" start="2025-05-06T21:48:01.956932" elapsed="0.001630"/>
+</kw>
+<kw name="Check Attribute Value" owner="Ldap3Library">
+<msg time="2025-05-06T21:48:01.960347" level="INFO">Search results: 1 entries found.</msg>
+<msg time="2025-05-06T21:48:01.960347" level="INFO">Expected value: 13028, Actual value: 13029</msg>
+<arg>${LDAP_URL}</arg>
+<arg>postalCode</arg>
+<arg>!=</arg>
+<arg>13028</arg>
+<status status="PASS" start="2025-05-06T21:48:01.959573" elapsed="0.000774"/>
+</kw>
+<kw name="Disconnect" owner="Ldap3Library">
+<msg time="2025-05-06T21:48:01.960889" level="INFO">Disconnected from LDAP server: localhost</msg>
+<arg>${LDAP_URL}</arg>
+<status status="PASS" start="2025-05-06T21:48:01.960889" elapsed="0.000675"/>
+</kw>
+<status status="PASS" start="2025-05-06T21:47:59.880960" elapsed="2.081110"/>
+</test>
+<kw name="Terminate Process" owner="Process" type="TEARDOWN">
+<msg time="2025-05-06T21:48:01.963081" level="INFO">Gracefully terminating process.</msg>
+<msg time="2025-05-06T21:48:02.065962" level="INFO">Process completed.</msg>
+<arg>${mokapi}</arg>
+<doc>Stops the process gracefully or forcefully.</doc>
+<status status="PASS" start="2025-05-06T21:48:01.963081" elapsed="0.102881"/>
+</kw>
+<status status="PASS" start="2025-05-06T21:47:59.758264" elapsed="2.308804"/>
+</suite>
+<status status="PASS" start="2025-05-06T21:47:59.756268" elapsed="2.315735"/>
+</suite>
+<status status="PASS" start="2025-05-06T21:47:59.753269" elapsed="2.322733"/>
+</suite>
+<status status="PASS" start="2025-05-06T21:47:59.733262" elapsed="2.345405"/>
+</suite>
+<statistics>
+<total>
+<stat pass="1" fail="0" skip="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat name="Robotframework-Ldap3" id="s1" pass="1" fail="0" skip="0">Robotframework-Ldap3</stat>
+<stat name="Test" id="s1-s1" pass="1" fail="0" skip="0">Robotframework-Ldap3.Test</stat>
+<stat name="Atest" id="s1-s1-s1" pass="1" fail="0" skip="0">Robotframework-Ldap3.Test.Atest</stat>
+<stat name="Test Ldap Library" id="s1-s1-s1-s1" pass="1" fail="0" skip="0">Robotframework-Ldap3.Test.Atest.Test Ldap Library</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>

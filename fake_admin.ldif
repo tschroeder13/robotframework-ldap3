@@ -1,0 +1,19 @@
+dn:
+namingContexts: dc=example,dc=com
+
+dn: dc=example,dc=com
+objectClass: top
+
+dn: ou=users,dc=example,dc=com
+objectClass: top
+objectClass: organizationalUnit
+ou: users
+
+dn: cn=admin,dc=example,dc=com
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: admin
+sn: Chef
+userPassword: P4ssW0rd!

@@ -1,0 +1,190 @@
+dn: cn=srodgers,ou=users,dc=example,dc=com
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: srodgers
+sn: Rodgers
+givenName: Stephanie
+mail: srodgers@acme-corp.com
+telephoneNumber: (752)830-8704x61476
+title: Event organiser
+uid: melendeztiffany
+userPassword: P4ssW0rd!
+ou: Sales
+l: Combshaven
+st: Kentucky
+postalCode: 69500
+c: NI
+
+dn: cn=tfoster,ou=users,dc=example,dc=com
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: tfoster
+sn: Foster
+givenName: Teresa
+mail: tfoster@acme-corp.com
+telephoneNumber: 001-821-664-8819
+title: Industrial buyer
+uid: matthewramirez
+userPassword: P4ssW0rd!
+ou: Marketing
+l: North Edward
+st: Florida
+postalCode: 13029
+c: TZ
+
+dn: cn=tfrench,ou=users,dc=example,dc=com
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: tfrench
+sn: French
+givenName: Troy
+mail: tfrench@acme-corp.com
+telephoneNumber: (261)767-4986
+title: Toxicologist
+uid: ballbrian
+userPassword: P4ssW0rd!
+ou: Engineering
+l: South Jennifer
+st: Rhode Island
+postalCode: 79915
+c: IT
+
+dn: cn=tjackson,ou=users,dc=example,dc=com
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: tjackson
+sn: Jackson
+givenName: Timothy
+mail: tjackson@acme-corp.com
+telephoneNumber: 4955737729
+title: Child psychotherapist
+uid: ylyons
+userPassword: P4ssW0rd!
+ou: HR
+l: Biancaton
+st: New Hampshire
+postalCode: 20847
+c: CH
+
+dn: cn=iburgess,ou=users,dc=example,dc=com
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: iburgess
+sn: Burgess
+givenName: Ian
+mail: iburgess@acme-corp.com
+telephoneNumber: +1-809-883-8734x00822
+title: Broadcast presenter
+uid: marybecker
+userPassword: P4ssW0rd!
+ou: Marketing
+l: Nicholasmouth
+st: Virginia
+postalCode: 67617
+c: IR
+
+dn: cn=lcardenas,ou=users,dc=example,dc=com
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: lcardenas
+sn: Cardenas
+givenName: Linda
+mail: lcardenas@acme-corp.com
+telephoneNumber: 537-327-3418
+title: Systems analyst
+uid: blackdestiny
+userPassword: P4ssW0rd!
+ou: Marketing
+l: Port Jason
+st: Kansas
+postalCode: 94202
+c: SL
+
+dn: cn=maguirre,ou=users,dc=example,dc=com
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: maguirre
+sn: Aguirre
+givenName: Madison
+mail: maguirre@acme-corp.com
+telephoneNumber: (963)475-0105
+title: Secretary, company
+uid: garciasummer
+userPassword: P4ssW0rd!
+ou: Sales
+l: New Luke
+st: North Carolina
+postalCode: 09027
+c: ME
+
+dn: cn=lcontreras,ou=users,dc=example,dc=com
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: lcontreras
+sn: Contreras
+givenName: Luke
+mail: lcontreras@acme-corp.com
+telephoneNumber: +1-215-879-3116x3102
+title: Higher education careers adviser
+uid: kimberly78
+userPassword: P4ssW0rd!
+ou: HR
+l: Port Karlmouth
+st: Massachusetts
+postalCode: 28535
+c: SV
+
+dn: cn=rmoreno,ou=users,dc=example,dc=com
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: rmoreno
+sn: Moreno
+givenName: Raven
+mail: rmoreno@acme-corp.com
+telephoneNumber: +1-741-244-3666x713
+title: Ecologist
+uid: victor90
+userPassword: P4ssW0rd!
+ou: HR
+l: Monicashire
+st: New York
+postalCode: 70470
+c: HN
+
+dn: cn=pdavis,ou=users,dc=example,dc=com
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: pdavis
+sn: Davis
+givenName: Paul
+mail: pdavis@acme-corp.com
+telephoneNumber: 001-753-663-4124x23194
+title: Nurse, adult
+uid: vincent30
+userPassword: P4ssW0rd!
+ou: Marketing
+l: East Mirandafort
+st: North Carolina
+postalCode: 48528
+c: KH
+
