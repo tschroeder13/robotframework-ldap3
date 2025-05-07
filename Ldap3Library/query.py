@@ -1,8 +1,9 @@
 from robot.api import logger
-from ldap3 import Connection, BASE, SUBTREE, LEVEL, ALL_ATTRIBUTES, ALL_OPERATIONAL_ATTRIBUTES, ALL
+from ldap3 import Connection, MODIFY_ADD, MODIFY_DELETE, MODIFY_REPLACE, BASE, SUBTREE, LEVEL, ALL_ATTRIBUTES, ALL_OPERATIONAL_ATTRIBUTES, ALL
 from Ldap3Library.connection_manager import Ldap3ConnectionManager
 from assertionengine import AssertionOperator, verify_assertion
 from typing import Any, Optional, List, Union
+from ldif import LDIFParser
 class Ldap3Query():
     """Class to handle LDAP queries."""
     def __init__(self):
@@ -73,26 +74,15 @@ class Ldap3Query():
         return result
     
     def add_attribute_value(self, ldap_url: str, 
-                     attribute_name: str, 
-                     attribute_value: str):
+                            attribute_name: str, 
+                            attribute_value: str
+                            ):
         _url = Ldap3ConnectionManager.parse_uri(ldap_url)
         connection: Connection = self.connection_pool.get_connection(_url["host"])
-        if not connection.add(_url["base"], 
-                              attributes={attribute_name: attribute_value}):
+        if not connection.modify(dn=_url["base"],
+                              changes={attribute_name: [(MODIFY_ADD, [attribute_value])]}):
             raise ValueError(f"Failed to add attribute {attribute_name} with value {attribute_value} to {ldap_url}. Error: {connection.result['description']}")
         logger.info(f"Added attribute {attribute_name} with value {attribute_value} to {ldap_url}.")
-        return True
-    
-    def replace_attribute_value(self, ldap_url: str, 
-                        attribute_name: str, 
-                        old_value: str, 
-                        new_value: str):
-        _url = Ldap3ConnectionManager.parse_uri(ldap_url)
-        connection: Connection = self.connection_pool.get_connection(_url["host"])
-        if not connection.modify(_url["base"], 
-                                 {'replace': {attribute_name: [old_value, new_value]}}):
-            raise ValueError(f"Failed to replace attribute {attribute_name} from {old_value} to {new_value} in {ldap_url}. Error: {connection.result['description']}")
-        logger.info(f"Replaced attribute {attribute_name} from {old_value} to {new_value} in {ldap_url}.")
         return True
     
     def remove_attribute_value(self, ldap_url: str, 
@@ -101,8 +91,58 @@ class Ldap3Query():
         _url = Ldap3ConnectionManager.parse_uri(ldap_url)
         connection: Connection = self.connection_pool.get_connection(_url["host"])
         if not connection.modify(_url["base"], 
-                                 {'delete': {attribute_name: attribute_value}}):
+                                 changes={attribute_name: [(MODIFY_DELETE, [attribute_value])]}):
             raise ValueError(f"Failed to remove attribute {attribute_name} with value {attribute_value} from {ldap_url}. Error: {connection.result['description']}")
         logger.info(f"Removed attribute {attribute_name} with value {attribute_value} from {ldap_url}.")
         return True
     
+    def replace_attribute_value(self, ldap_url: str, 
+                        attribute_name: str, 
+                        old_value: str, 
+                        new_value: str):
+        _url = Ldap3ConnectionManager.parse_uri(ldap_url)
+        connection: Connection = self.connection_pool.get_connection(_url["host"])
+        if not connection.modify(dn=_url["base"],
+                              changes={attribute_name: [(MODIFY_DELETE, [old_value])]}):
+            raise ValueError(f"Failed to add attribute {attribute_name} with value {old_value} to {ldap_url}. Error: {connection.result['description']}")
+        if not connection.modify(dn=_url["base"],
+                              changes={attribute_name: [(MODIFY_ADD, [new_value])]}):
+            raise ValueError(f"Failed to add attribute {attribute_name} with value {new_value} to {ldap_url}. Error: {connection.result['description']}")
+        logger.info(f"Replaced attribute {attribute_name} from {old_value} to {new_value} in {ldap_url}.")
+        return True
+    
+    
+    def overwrite_attribute_value(self, ldap_url: str, 
+                            attribute_name: str, 
+                            attribute_value: str):
+        _url = Ldap3ConnectionManager.parse_uri(ldap_url)
+        connection: Connection = self.connection_pool.get_connection(_url["host"])
+        if not connection.modify(dn=_url["base"],
+                              changes={attribute_name: [(MODIFY_REPLACE, [attribute_value])]}):
+            raise ValueError(f"Failed to add attribute {attribute_name} with value {attribute_value} to {ldap_url}. Error: {connection.result['description']}")
+        logger.info(f"Replaced attribute {attribute_name} with value {attribute_value} in {ldap_url}.")
+        return True
+    
+    def add_object_from_ldif(self, ldap_url: str, ldif_file: str, object_class: str):
+        _url = Ldap3ConnectionManager.parse_uri(ldap_url)
+        connection: Connection = self.connection_pool.get_connection(_url["host"])
+        parser = LDIFParser(open(ldif_file, "rb"))
+        for dn, record in parser.parse():
+            if not connection.add(dn=dn, 
+                                object_class=object_class, 
+                                attributes=record):
+                raise ValueError(f"Failed to add object from LIDF to {ldap_url}. Error: {connection.result['description']}")
+            logger.info(f"Added object from LIDF to {ldap_url}.")
+        return True
+    
+    def delete_object(self, ldap_url: str):
+        _url = Ldap3ConnectionManager.parse_uri(ldap_url)
+        connection: Connection = self.connection_pool.get_connection(_url["host"])
+        if not _url["scope"] == BASE:
+            logger.error(f"Scope must be BASE for delete operation. Current scope: {_url['scope']}")
+            raise ValueError(f"Scope must be BASE for delete operation. Current scope: {_url['scope']}")
+        if not connection.delete(dn=_url["base"]):
+            logger.error(f"Failed to delete object {ldap_url}. Error: {connection.result['description']}")
+            raise ValueError(f"Failed to delete object {ldap_url}. Error: {connection.result['description']}")
+        logger.info(f"Deleted object {ldap_url}.")
+        return True

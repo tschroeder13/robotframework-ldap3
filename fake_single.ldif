@@ -1,0 +1,38 @@
+dn: cn=jmason,ou=users,dc=example,dc=com
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: jmason
+sn: Mason
+givenName: Justin
+mail: jmason@acme-corp.com
+telephoneNumber: 001-251-564-8033x9592
+title: Music tutor
+uid: dixonnicholas
+userPassword: P4ssW0rd!
+ou: Marketing
+l: Velezport
+st: Vermont
+postalCode: 06453
+c: AF
+
+dn: cn=khernandez,ou=users,dc=example,dc=com
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: khernandez
+sn: Hernandez
+givenName: Katherine
+mail: khernandez@acme-corp.com
+telephoneNumber: 905.508.9628x098
+title: Scientific laboratory technician
+uid: davidphillips
+userPassword: P4ssW0rd!
+ou: Sales
+l: Madelineburgh
+st: Illinois
+postalCode: 24732
+c: LR
+

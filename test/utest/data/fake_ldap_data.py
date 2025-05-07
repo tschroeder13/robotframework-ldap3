@@ -4,8 +4,8 @@ import random
 
 fake = Faker()
 
-writer = LDIFWriter(open("fake_ldap_data.ldif", "wb"))
-for _ in range(10):
+writer = LDIFWriter(open("fake_single.ldif", "wb"))
+for _ in range(2):
     fname = fake.first_name()
     lname = fake.last_name()
     flname = f"{fname[0]}{lname}".lower()
