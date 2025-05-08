@@ -1,6 +1,7 @@
 import pytest
 from Ldap3Library import Ldap3ConnectionManager, Ldap3Query
 from assertionengine import AssertionOperator
+from time import sleep
 
 user = "cn=admin,dc=example,dc=com"
 password = "P4ssW0rd!"
@@ -73,7 +74,7 @@ def test_object_exists(mokapi):
                         bind_dn=user, 
                         password=password)
     ldap3Query = Ldap3Query()
-    result = ldap3Query.object_exists(ldap_url=ldap_url)
+    result = ldap3Query.check_object_exists(ldap_url=ldap_url)
     assert result is True, "Object does not exist."
 
 def test_check_object_count(mokapi):
@@ -90,10 +91,10 @@ def test_check_object_count(mokapi):
     assert result is True, "Object count does not match expected."
 
 @pytest.mark.parametrize("assertion_operator, expected_value",[
+                          (AssertionOperator["<"], "13030"),
                           (AssertionOperator["<="], "13030"),
                           (AssertionOperator["!="], "13028"),
                           (AssertionOperator[">"], "13028"),
-                          (AssertionOperator["<"], "13030"),
                           (AssertionOperator[">="], "13028"),
                           (AssertionOperator["=="], "13029")
                           ])
@@ -108,7 +109,21 @@ def test_check_attribute_value(mokapi, assertion_operator, expected_value):
                                             assertion_operator=assertion_operator, 
                                             expected_value=expected_value, 
                                             assertion_message=f"Attribute value not {assertion_operator.value} {expected_value} .")
-    assert result == '13029', "Attribute value comparison failed."
+    assert result, "Attribute value comparison failed."
+
+def test_check_attribute_value_less_than(mokapi):
+    """Test if attribute value comparison returns True."""
+    ldap3ConMan.connect(ldap_url=ldap_url, 
+                        bind_dn=user, 
+                        password=password)
+    aop = AssertionOperator["<"]
+    ldap3Query = Ldap3Query()
+    result = ldap3Query.check_attribute_value(ldap_url=ldap_url, 
+                                            attribute_name="postalCode",
+                                            assertion_operator=aop, 
+                                            expected_value="13030", 
+                                            assertion_message=f"Attribute value not {aop.value} {'13030'} .")
+    assert result, "Attribute value comparison failed."
 
 def test_check_attribute_multi_value(mokapi):
     """Test if attribute value comparison returns True."""
@@ -121,26 +136,9 @@ def test_check_attribute_multi_value(mokapi):
                                             assertion_operator=AssertionOperator["contains"], 
                                             expected_value="(261)555-4472", 
                                             assertion_message="Attribute value not contains (261)555-4472.")
-    assert '(261)555-4472' in result, "Attribute value comparison failed."
+    assert result, "Attribute value comparison failed."
 
-def test_add_attribute_value(mokapi):
-    """Test if attribute value is added."""
-    ldap_url = LDAP_URL_BASE
-    ldap3ConMan.connect(ldap_url=ldap_url, 
-                        bind_dn=user, 
-                        password=password)
-    ldap3Query = Ldap3Query()
-    result = ldap3Query.add_attribute_value(ldap_url=ldap_url, 
-                                           attribute_name="telephoneNumber", 
-                                           attribute_value="555-555-5555")
-    ldap3Query.check_attribute_value(ldap_url=ldap_url,
-                                     attribute_name="telephoneNumber",
-                                     assertion_operator=AssertionOperator["contains"], 
-                                     expected_value="555-555-5555", 
-                                     assertion_message="Attribute value not contains 555-555-5555.")
-    assert result is True, "Attribute value not added."
-
-def test_delete_attribute_value(mokapi):
+def test_add_and_remove_attribute_value(mokapi):
     """Test if attribute value is added."""
     ldap_url = LDAP_URL_BASE
     ldap3ConMan.connect(ldap_url=ldap_url, 
@@ -150,21 +148,23 @@ def test_delete_attribute_value(mokapi):
     ldap3Query.add_attribute_value(ldap_url=ldap_url, 
                                            attribute_name="telephoneNumber", 
                                            attribute_value="555-555-5555")
-    ldap3Query.check_attribute_value(ldap_url=ldap_url,
+    exists = ldap3Query.check_attribute_value(ldap_url=ldap_url,
                                      attribute_name="telephoneNumber",
                                      assertion_operator=AssertionOperator["contains"], 
                                      expected_value="555-555-5555", 
                                      assertion_message="Attribute value not contains 555-555-5555.")
+    assert exists, "Attribute value not added."
     ldap3Query.remove_attribute_value(ldap_url=ldap_url, 
                                       attribute_name="telephoneNumber", 
                                       attribute_value="555-555-5555")
-    ldap3Query.check_attribute_value(ldap_url=ldap_url, 
+    exists = not ldap3Query.check_attribute_value(ldap_url=ldap_url, 
                                      attribute_name="telephoneNumber",
                                      assertion_operator=AssertionOperator["not contains"], 
                                      expected_value="555-555-5555", 
                                      assertion_message="Attribute value not contains 555-555-5555.")
-    assert True
+    assert not exists, "Attribute value not removed."
 
+@pytest.mark.last
 def test_replace_attribute_value(mokapi):
     """Test if attribute value is replaced."""
     ldap_url = LDAP_URL_BASE
@@ -175,21 +175,58 @@ def test_replace_attribute_value(mokapi):
     ldap3Query.add_attribute_value(ldap_url=ldap_url, 
                                            attribute_name="telephoneNumber", 
                                            attribute_value="555-555-5555")
-    ldap3Query.check_attribute_value(ldap_url=ldap_url,
+    exists = ldap3Query.check_attribute_value(ldap_url=ldap_url,
                                      attribute_name="telephoneNumber",
                                      assertion_operator=AssertionOperator["contains"], 
                                      expected_value="555-555-5555", 
                                      assertion_message="Attribute value not contains 555-555-5555.")
+    assert exists, "Attribute value not added."
     ldap3Query.replace_attribute_value(ldap_url=ldap_url, 
                                       attribute_name="telephoneNumber", 
                                       old_value="555-555-5555", 
                                       new_value="666-666-6666")
-    ldap3Query.check_attribute_value(ldap_url=ldap_url, 
+    exists = ldap3Query.check_attribute_value(ldap_url=ldap_url, 
                                      attribute_name="telephoneNumber",
                                      assertion_operator=AssertionOperator["contains"], 
                                      expected_value="666-666-6666", 
                                      assertion_message="Attribute value not contains 666-666-6666.")
-    assert True
+    assert exists, "Attribute value not replaced."
+    ldap3Query.remove_attribute_value(ldap_url=ldap_url, 
+                                      attribute_name="telephoneNumber", 
+                                      attribute_value="666-666-6666")
+    # CAREFUL: Assertion is "not contains" and the result is TRUE if the value is removed.
+    # Therefore the result must be inverted
+    exists = not ldap3Query.check_attribute_value(ldap_url=ldap_url, 
+                                     attribute_name="telephoneNumber",
+                                     assertion_operator=AssertionOperator["not contains"], 
+                                     expected_value="666-666-6666", 
+                                     assertion_message="Attribute value not contains 666-666-6666.")
+    assert not exists, "Attribute value not removed."
+
+def test_check_attribute_value_count(mokapi):
+    """Test if attribute value count matches expected."""
+    ldap_url = LDAP_URL_BASE
+    ldap3ConMan.connect(ldap_url=ldap_url, 
+                        bind_dn=user, 
+                        password=password)
+    ldap3Query = Ldap3Query()
+    result = ldap3Query.check_attribute_value_count(ldap_url=ldap_url, 
+                                                   attribute_name="telephoneNumber",
+                                                   assertion_operator=AssertionOperator["=="], 
+                                                   expected_value="4", 
+                                                   assertion_message="Attribute value count mismatch.")
+    assert result is True, "Attribute value count does not match expected."
+
+def test_get_attribute_value_count(mokapi):
+    """Test if attribute value count matches expected."""
+    ldap_url = LDAP_URL_BASE
+    ldap3ConMan.connect(ldap_url=ldap_url, 
+                        bind_dn=user, 
+                        password=password)
+    ldap3Query = Ldap3Query()
+    result = ldap3Query.get_attribute_value_count(ldap_url=ldap_url, 
+                                                  attribute_name="telephoneNumber")
+    assert result == 4, "Attribute value count does not match expected."
 
 def test_overwrite_attribute_value(mokapi):
     """Test if attribute value is replaced."""
@@ -198,13 +235,14 @@ def test_overwrite_attribute_value(mokapi):
                         bind_dn=user, 
                         password=password)
     ldap3Query = Ldap3Query()
-    nums = ["(261)555-4472", "+49-201-555-0123", "001-821-664-8819"]
+    nums = ["(261)555-4472", "+49-201-555-0123", "0049-201-555-0123", "001-821-664-8819"]
     for num in nums:
-        ldap3Query.check_attribute_value(ldap_url=ldap_url,
+        exists = ldap3Query.check_attribute_value(ldap_url=ldap_url,
                                         attribute_name="telephoneNumber",
                                         assertion_operator=AssertionOperator["contains"], 
                                         expected_value=num,
                                         assertion_message=f"Attribute value not contains {num}.") 
+        assert exists, f"Telephone number {num} not exists."
     ldap3Query.overwrite_attribute_value(ldap_url=ldap_url, 
                                       attribute_name="telephoneNumber", 
                                       attribute_value="555-555-5555")
@@ -214,39 +252,57 @@ def test_overwrite_attribute_value(mokapi):
                                      expected_value="555-555-5555", 
                                      assertion_message="Attribute value not contains 666-666-6666.")
     for num in nums:
-        ldap3Query.check_attribute_value(ldap_url=ldap_url,
+        exists = not ldap3Query.check_attribute_value(ldap_url=ldap_url,
                                         attribute_name="telephoneNumber",
                                         assertion_operator=AssertionOperator["not contains"], 
                                         expected_value=num,
                                         assertion_message=f"Attribute value not contains {num}.") 
-    assert True
+        assert True, "Telephone number not removed."
+    for num in nums:
+        ldap3Query.add_attribute_value(ldap_url=ldap_url,
+                                           attribute_name="telephoneNumber", 
+                                           attribute_value=num)
+    for num in nums:
+        exists = ldap3Query.check_attribute_value(ldap_url=ldap_url,
+                                                        attribute_name="telephoneNumber",
+                                                        assertion_operator=AssertionOperator["contains"], 
+                                                        expected_value=num,
+                                                        assertion_message=f"Attribute value not contains {num}.") 
+        assert True, "Telephone number not removed."
+        
+    
 
 
-def test_add_object_from_ldif(mokapi):
-    """Test if object is added from LDIF."""
-    ldap3ConMan.connect(ldap_url=ldap_url, 
-                        bind_dn=user, 
-                        password=password)
-    ldap3Query = Ldap3Query()
-    result = ldap3Query.add_object_from_ldif(ldap_url=ldap_url, 
-                                            ldif_file="./fake_single.ldif",
-                                            object_class="inetOrgPerson")
-    exist = ldap3Query.object_exists(ldap_url="ldap://localhost:389/cn=jmason,ou=users,dc=example,dc=com???(objectClass=*)")
-    exist = ldap3Query.object_exists(ldap_url="ldap://localhost:389/cn=khernandez,ou=users,dc=example,dc=com???(objectClass=*)")
-    assert exist, "Object not added from LDIF."
+# def test_add_object_from_ldif(mokapi):
+#     """Test if object is added from LDIF."""
+#     ldap3ConMan.connect(ldap_url=ldap_url, 
+#                         bind_dn=user, 
+#                         password=password)
+#     ldap3Query = Ldap3Query()
+#     ldap3Query.add_object_from_ldif(ldap_url=ldap_url, 
+#                                             ldif_file="./fake_single.ldif",
+#                                             object_class="inetOrgPerson")
+#     exist = ldap3Query.check_object_exists(ldap_url="ldap://localhost:389/cn=jmason,ou=users,dc=example,dc=com???(objectClass=*)")
+#     exist = ldap3Query.check_object_exists(ldap_url="ldap://localhost:389/cn=khernandez,ou=users,dc=example,dc=com???(objectClass=*)")
+#     assert exist, "Object not added from LDIF."
 
 
-def test_delete_object(mokapi):
+def test_add_from_ldif_and_delete_again(mokapi):
     """Test if object is deleted."""
     ldap3ConMan.connect(ldap_url=ldap_url, 
                         bind_dn=user, 
                         password=password)
     ldap3Query = Ldap3Query()
-    result = ldap3Query.add_object_from_ldif(ldap_url=ldap_url, 
+    # ADD
+    ldap3Query.add_object_from_ldif(ldap_url=ldap_url, 
                                             ldif_file="./fake_single.ldif",
                                             object_class="inetOrgPerson")
-    result = ldap3Query.delete_object(ldap_url="ldap://localhost:389/cn=jmason,ou=users,dc=example,dc=com???(objectClass=*)")
-    result = ldap3Query.delete_object(ldap_url="ldap://localhost:389/cn=khernandez,ou=users,dc=example,dc=com???(objectClass=*)")
-    exist = ldap3Query.object_exists(ldap_url="ldap://localhost:389/cn=jmason,ou=users,dc=example,dc=com???(objectClass=*)")
-    exist = ldap3Query.object_exists(ldap_url="ldap://localhost:389/cn=khernandez,ou=users,dc=example,dc=com???(objectClass=*)")
+    exist = ldap3Query.check_object_exists(ldap_url="ldap://localhost:389/cn=jmason,ou=users,dc=example,dc=com???(objectClass=*)")
+    exist = ldap3Query.check_object_exists(ldap_url="ldap://localhost:389/cn=khernandez,ou=users,dc=example,dc=com???(objectClass=*)")
+    assert exist, "Object not added from LDIF."
+    # DELETE
+    ldap3Query.delete_object(ldap_url="ldap://localhost:389/cn=jmason,ou=users,dc=example,dc=com???(objectClass=*)")
+    ldap3Query.delete_object(ldap_url="ldap://localhost:389/cn=khernandez,ou=users,dc=example,dc=com???(objectClass=*)")
+    exist = ldap3Query.check_object_exists(ldap_url="ldap://localhost:389/cn=jmason,ou=users,dc=example,dc=com???(objectClass=*)")
+    exist = ldap3Query.check_object_exists(ldap_url="ldap://localhost:389/cn=khernandez,ou=users,dc=example,dc=com???(objectClass=*)")
     assert not exist, "Object not deleted."

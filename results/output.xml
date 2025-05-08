@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 7.2.2 (Python 3.11.2 on win32)" generated="2025-05-08T17:15:39.589325" rpa="false" schemaversion="5">
+<suite id="s1" name="Robotframework-Ldap3" source="D:\git_workspace\robotframework-ldap3">
+<suite id="s1-s1" name="Test" source="D:\git_workspace\robotframework-ldap3\test">
+<suite id="s1-s1-s1" name="Atest" source="D:\git_workspace\robotframework-ldap3\test\atest">
+<suite id="s1-s1-s1-s1" name="Test Ldap Library" source="D:\git_workspace\robotframework-ldap3\test\atest\test_ldap_library.robot">
+<kw name="Set up" type="SETUP">
+<kw name="Start Process" owner="Process">
+<msg time="2025-05-08T17:15:39.776815" level="INFO">Starting process:
+D:\idmHelpers\PortableApps\mokapi_v0.15.0_windows_amd64\mokapi.exe --providers-file-filename D:\git_workspace\robotframework-ldap3\test\mocks\ldap.yaml shell</msg>
+<msg time="2025-05-08T17:15:39.817851" level="INFO">${mokapi} = &lt;Popen: returncode: None args: ['D:\\idmHelpers\\PortableApps\\mokapi_v0.15....&gt;</msg>
+<var>${mokapi}</var>
+<arg>${MOKAPI_PATH}</arg>
+<arg>--providers-file-filename</arg>
+<arg>${PROV_FILE}</arg>
+<arg>shell</arg>
+<doc>Starts a new process on background.</doc>
+<status status="PASS" start="2025-05-08T17:15:39.775704" elapsed="0.043102"/>
+</kw>
+<kw name="Connect" owner="Ldap3Library">
+<msg time="2025-05-08T17:15:39.819806" level="INFO">Connecting to LDAP server: localhost</msg>
+<arg>ldap_url=${LDAP_URL}</arg>
+<arg>bind_dn=${BIND_DN}</arg>
+<arg>password=${PASSWORD}</arg>
+<doc>Connect to an LDAP server.</doc>
+<status status="PASS" start="2025-05-08T17:15:39.818806" elapsed="2.068691"/>
+</kw>
+<kw name="Log Many" owner="BuiltIn">
+<msg time="2025-05-08T17:15:41.888513" level="INFO">&lt;_io.BufferedReader name=4&gt;</msg>
+<msg time="2025-05-08T17:15:41.889509" level="INFO">&lt;_io.BufferedReader name=5&gt;</msg>
+<arg>${mokapi.stdout}</arg>
+<arg>${mokapi.stderr}</arg>
+<doc>Logs the given messages as separate entries using the INFO level.</doc>
+<status status="PASS" start="2025-05-08T17:15:41.887497" elapsed="0.003010"/>
+</kw>
+<status status="PASS" start="2025-05-08T17:15:39.774755" elapsed="2.115752"/>
+</kw>
+<test id="s1-s1-s1-s1-t1" name="Check Add Object fom LDIF File and Delete them instantly" line="112">
+<kw name="Add Object From Ldif" owner="Ldap3Library">
+<msg time="2025-05-08T17:15:41.898940" level="INFO">Added object from LIDF to ldap://localhost:389/cn=tfoster,ou=users,dc=example,dc=com?postalCode,telephoneNumber,title??(postalCode=13029).</msg>
+<msg time="2025-05-08T17:15:41.900813" level="INFO">Added object from LIDF to ldap://localhost:389/cn=tfoster,ou=users,dc=example,dc=com?postalCode,telephoneNumber,title??(postalCode=13029).</msg>
+<arg>${LDAP_URL}</arg>
+<arg>D:\\git_workspace\\robotframework-ldap3\\test\\atest${/}..${/}..${/}fake_single.ldif</arg>
+<status status="PASS" start="2025-05-08T17:15:41.893507" elapsed="0.007811"/>
+</kw>
+<kw name="Check Attribute Value" owner="Ldap3Library">
+<msg time="2025-05-08T17:15:41.907426" level="INFO">Search results: 1 entries found.</msg>
+<msg time="2025-05-08T17:15:41.907929" level="INFO">Expected value: 555-555-5555, Actual value: 555-555-5555</msg>
+<arg>${LDAP_URL}</arg>
+<arg>telephoneNumber</arg>
+<arg>contains</arg>
+<arg>555-555-5555</arg>
+<status status="PASS" start="2025-05-08T17:15:41.903335" elapsed="0.004594"/>
+</kw>
+<kw name="Delete Object" owner="Ldap3Library">
+<msg time="2025-05-08T17:15:41.911860" level="INFO">Deleted object ldap://localhost:389/cn=jmason,ou=users,dc=example,dc=com???(objectClass=*).</msg>
+<arg>ldap://localhost:389/cn=jmason,ou=users,dc=example,dc=com???(objectClass=*)</arg>
+<status status="PASS" start="2025-05-08T17:15:41.909939" elapsed="0.002433"/>
+</kw>
+<kw name="Delete Object" owner="Ldap3Library">
+<msg time="2025-05-08T17:15:41.913380" level="INFO">Deleted object ldap://localhost:389/cn=khernandez,ou=users,dc=example,dc=com???(objectClass=*).</msg>
+<arg>ldap://localhost:389/cn=khernandez,ou=users,dc=example,dc=com???(objectClass=*)</arg>
+<status status="PASS" start="2025-05-08T17:15:41.912372" elapsed="0.001783"/>
+</kw>
+<kw name="Run Keyword And Expect Error" owner="BuiltIn">
+<kw name="Delete Object" owner="Ldap3Library">
+<msg time="2025-05-08T17:15:41.915666" level="ERROR">ScopeError: Scope must be BASE for single object actions. Current scope: SUBTREE</msg>
+<msg time="2025-05-08T17:15:41.916667" level="FAIL">ValueError: ScopeError: Scope must be BASE for single object actions. Current scope: SUBTREE</msg>
+<arg>ldap://localhost:389/cn=notexisting,ou=users,dc=example,dc=com??sub?(objectClass=*)</arg>
+<status status="FAIL" start="2025-05-08T17:15:41.914661" elapsed="0.004012">ValueError: ScopeError: Scope must be BASE for single object actions. Current scope: SUBTREE</status>
+</kw>
+<arg>REGEXP:.*ScopeError.*</arg>
+<arg>Delete Object</arg>
+<arg>ldap://localhost:389/cn=notexisting,ou=users,dc=example,dc=com??sub?(objectClass=*)</arg>
+<doc>Runs the keyword and checks that the expected error occurred.</doc>
+<status status="PASS" start="2025-05-08T17:15:41.914661" elapsed="0.005014"/>
+</kw>
+<status status="PASS" start="2025-05-08T17:15:41.890507" elapsed="0.029168"/>
+</test>
+<kw name="Clean up" type="TEARDOWN">
+<kw name="Disconnect" owner="Ldap3Library">
+<msg time="2025-05-08T17:15:41.923667" level="INFO">Disconnected from LDAP server: localhost</msg>
+<arg>${LDAP_URL}</arg>
+<status status="PASS" start="2025-05-08T17:15:41.922669" elapsed="0.001448"/>
+</kw>
+<kw name="Terminate Process" owner="Process">
+<msg time="2025-05-08T17:15:41.924624" level="INFO">Gracefully terminating process.</msg>
+<msg time="2025-05-08T17:15:42.027281" level="INFO">Process completed.</msg>
+<arg>${mokapi}</arg>
+<doc>Stops the process gracefully or forcefully.</doc>
+<status status="PASS" start="2025-05-08T17:15:41.924624" elapsed="0.103659"/>
+</kw>
+<status status="PASS" start="2025-05-08T17:15:41.921671" elapsed="0.107613"/>
+</kw>
+<status status="PASS" start="2025-05-08T17:15:39.632922" elapsed="2.396362"/>
+</suite>
+<status status="PASS" start="2025-05-08T17:15:39.627738" elapsed="2.404535"/>
+</suite>
+<status status="PASS" start="2025-05-08T17:15:39.623748" elapsed="2.411523"/>
+</suite>
+<status status="PASS" start="2025-05-08T17:15:39.595240" elapsed="2.442032"/>
+</suite>
+<statistics>
+<total>
+<stat pass="1" fail="0" skip="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat name="Robotframework-Ldap3" id="s1" pass="1" fail="0" skip="0">Robotframework-Ldap3</stat>
+<stat name="Test" id="s1-s1" pass="1" fail="0" skip="0">Robotframework-Ldap3.Test</stat>
+<stat name="Atest" id="s1-s1-s1" pass="1" fail="0" skip="0">Robotframework-Ldap3.Test.Atest</stat>
+<stat name="Test Ldap Library" id="s1-s1-s1-s1" pass="1" fail="0" skip="0">Robotframework-Ldap3.Test.Atest.Test Ldap Library</stat>
+</suite>
+</statistics>
+<errors>
+<msg time="2025-05-08T17:15:41.915666" level="ERROR">ScopeError: Scope must be BASE for single object actions. Current scope: SUBTREE</msg>
+</errors>
+</robot>

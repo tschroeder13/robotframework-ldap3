@@ -28,6 +28,7 @@ givenName: Teresa
 mail: tfoster@acme-corp.com
 telephoneNumber: 001-821-664-8819
 telephoneNumber: (261)555-4472
+telephoneNumber: 0049-201-555-0123
 telephoneNumber: +49-201-555-0123
 title: Industrial buyer
 uid: matthewramirez
@@ -35,6 +36,7 @@ userPassword: P4ssW0rd!
 ou: Marketing
 l: North Edward
 st: Florida
+postalCode: 98765
 postalCode: 13029
 c: TZ
 
