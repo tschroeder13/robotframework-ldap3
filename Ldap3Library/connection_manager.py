@@ -62,7 +62,10 @@ class Ldap3ConnectionPool():
 
 class Ldap3ConnectionManager():
     """
-    Connection Manager handles the connection and disconnection of LDAP servers.
+    With Connection Manager one can connect and disconnect to and from a LDAP server.
+
+    The Connection Manager is a singleton class that manages the connection pool.
+    It provides methods to connect, disconnect, and check the status of connections.
     """
     
     connection_pool = Ldap3ConnectionPool()
@@ -82,7 +85,25 @@ class Ldap3ConnectionManager():
                 bind_dn: str = None, 
                 password: str = None, 
                 cert_path: Optional[str] = None) -> None:
-        """Connect to an LDAP server."""
+        """Connect to an LDAP server.
+        Parameters:
+        - ldap_url: The LDAP URL to connect to.
+        - bind_dn: The bind DN to use for authentication.
+        - password: The password to use for authentication.
+        - cert_path: The path to the root certificate for secure connection (optional).
+        
+        Registers the connection with the host as an alias in the connection pool.
+        Raises:
+        - ValueError: If ldap_url, bind_dn, or password is not provided.
+        - FileNotFoundError: If the root certificate is not found.
+        - Forwards LDAP Exceptions if the connection fails.
+
+        Example:
+        | Connect    
+        | ...  ldap_url=${LDAP_URL}
+        | ...  bind_dn=${BIND_DN}
+        | ...  password=${PASSWORD}        
+        """
         if not ldap_url or not bind_dn or not password:
             raise ValueError("Ldap_url, bind_dn and password are required to connect.")
         
@@ -122,8 +143,17 @@ class Ldap3ConnectionManager():
         self.connection_pool.register_connection(_url['host'], con)
     
     def disconnect(self, ldap_url: str = None):
+        """Disconnect from an LDAP server.
+        Parameters:
+        - ldap_url: The LDAP URL to disconnect from.
+        Raises:
+        - ValueError: If ldap_url is not provided.
+        
+        Unbinds the connection stated with the URL and removes it from the connection pool.
+        Example:
+        | Disconnect ldap://localhost:389/cn=admin,dc=example,dc=com???(objectClass=*)
+        """
         _url = Ldap3ConnectionManager.parse_uri(ldap_url)
-        """Disconnect from an LDAP server."""
         if not ldap_url:
             raise ValueError("Ldap_url is required to disconnect.")
         connection = self.connection_pool.pop_connection(_url['host'])
@@ -134,14 +164,26 @@ class Ldap3ConnectionManager():
             logger.warn(f"No connection found for: {_url['host']}")
     
     def disconnect_all(self):
-        """Disconnect from all LDAP servers."""
+        """Unbinds all LDAP connections and cleares the connection pool.
+        Example:
+        | Disconnect all
+        """
         for alias, connection in self.connection_pool.connections.items():
             connection.unbind()
             logger.info(f"Disconnected from LDAP server with alias: {alias}")
         self.connection_pool.clear()
 
     def is_connection_closed(self, ldap_url: str = None) -> bool:
-        """Check if a connection is closed."""
+        """Check if a connection is closed.
+        Parameters:
+        - ldap_url: The LDAP URL to check the connection status.
+        Returns:
+        - True if the connection is closed, False otherwise.
+        Raises:
+        - ValueError: If ldap_url is not provided.
+        Example:
+        | ${status}=    Is Connection Closed    ldap://localhost:389/cn=admin,dc=example,dc=com???(objectClass=*)
+        """
         if not ldap_url:
             logger.warn("Ldap_url not provided, return status of latest connection.")
             connection = self.connection_pool.get_connection()

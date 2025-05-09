@@ -1,104 +1,328 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<robot generator="Robot 7.2.2 (Python 3.11.2 on win32)" generated="2025-05-08T17:15:39.589325" rpa="false" schemaversion="5">
+<robot generator="Robot 7.2.2 (Python 3.11.2 on win32)" generated="2025-05-09T22:08:30.765840" rpa="false" schemaversion="5">
 <suite id="s1" name="Robotframework-Ldap3" source="D:\git_workspace\robotframework-ldap3">
 <suite id="s1-s1" name="Test" source="D:\git_workspace\robotframework-ldap3\test">
 <suite id="s1-s1-s1" name="Atest" source="D:\git_workspace\robotframework-ldap3\test\atest">
 <suite id="s1-s1-s1-s1" name="Test Ldap Library" source="D:\git_workspace\robotframework-ldap3\test\atest\test_ldap_library.robot">
 <kw name="Set up" type="SETUP">
 <kw name="Start Process" owner="Process">
-<msg time="2025-05-08T17:15:39.776815" level="INFO">Starting process:
+<msg time="2025-05-09T22:08:30.905437" level="INFO">Starting process:
 D:\idmHelpers\PortableApps\mokapi_v0.15.0_windows_amd64\mokapi.exe --providers-file-filename D:\git_workspace\robotframework-ldap3\test\mocks\ldap.yaml shell</msg>
-<msg time="2025-05-08T17:15:39.817851" level="INFO">${mokapi} = &lt;Popen: returncode: None args: ['D:\\idmHelpers\\PortableApps\\mokapi_v0.15....&gt;</msg>
+<msg time="2025-05-09T22:08:30.914442" level="INFO">${mokapi} = &lt;Popen: returncode: None args: ['D:\\idmHelpers\\PortableApps\\mokapi_v0.15....&gt;</msg>
 <var>${mokapi}</var>
 <arg>${MOKAPI_PATH}</arg>
 <arg>--providers-file-filename</arg>
 <arg>${PROV_FILE}</arg>
 <arg>shell</arg>
 <doc>Starts a new process on background.</doc>
-<status status="PASS" start="2025-05-08T17:15:39.775704" elapsed="0.043102"/>
+<status status="PASS" start="2025-05-09T22:08:30.905437" elapsed="0.009998"/>
 </kw>
 <kw name="Connect" owner="Ldap3Library">
-<msg time="2025-05-08T17:15:39.819806" level="INFO">Connecting to LDAP server: localhost</msg>
+<msg time="2025-05-09T22:08:30.916434" level="INFO">Connecting to LDAP server: localhost</msg>
 <arg>ldap_url=${LDAP_URL}</arg>
 <arg>bind_dn=${BIND_DN}</arg>
 <arg>password=${PASSWORD}</arg>
 <doc>Connect to an LDAP server.</doc>
-<status status="PASS" start="2025-05-08T17:15:39.818806" elapsed="2.068691"/>
+<status status="PASS" start="2025-05-09T22:08:30.915435" elapsed="2.060241"/>
 </kw>
 <kw name="Log Many" owner="BuiltIn">
-<msg time="2025-05-08T17:15:41.888513" level="INFO">&lt;_io.BufferedReader name=4&gt;</msg>
-<msg time="2025-05-08T17:15:41.889509" level="INFO">&lt;_io.BufferedReader name=5&gt;</msg>
+<msg time="2025-05-09T22:08:32.977697" level="INFO">&lt;_io.BufferedReader name=4&gt;</msg>
+<msg time="2025-05-09T22:08:32.979691" level="INFO">&lt;_io.BufferedReader name=5&gt;</msg>
 <arg>${mokapi.stdout}</arg>
 <arg>${mokapi.stderr}</arg>
 <doc>Logs the given messages as separate entries using the INFO level.</doc>
-<status status="PASS" start="2025-05-08T17:15:41.887497" elapsed="0.003010"/>
+<status status="PASS" start="2025-05-09T22:08:32.976697" elapsed="0.004006"/>
 </kw>
-<status status="PASS" start="2025-05-08T17:15:39.774755" elapsed="2.115752"/>
+<status status="PASS" start="2025-05-09T22:08:30.904442" elapsed="2.076261"/>
 </kw>
-<test id="s1-s1-s1-s1-t1" name="Check Add Object fom LDIF File and Delete them instantly" line="112">
-<kw name="Add Object From Ldif" owner="Ldap3Library">
-<msg time="2025-05-08T17:15:41.898940" level="INFO">Added object from LIDF to ldap://localhost:389/cn=tfoster,ou=users,dc=example,dc=com?postalCode,telephoneNumber,title??(postalCode=13029).</msg>
-<msg time="2025-05-08T17:15:41.900813" level="INFO">Added object from LIDF to ldap://localhost:389/cn=tfoster,ou=users,dc=example,dc=com?postalCode,telephoneNumber,title??(postalCode=13029).</msg>
+<test id="s1-s1-s1-s1-t1" name="Check Attribute Value" line="52">
+<kw name="Check Attribute Value" owner="Ldap3Library">
+<msg time="2025-05-09T22:08:32.987247" level="INFO">Search results: 1 entries found.</msg>
+<msg time="2025-05-09T22:08:32.987247" level="INFO">Expected value: .*, Actual value: Industrial buyer</msg>
 <arg>${LDAP_URL}</arg>
-<arg>D:\\git_workspace\\robotframework-ldap3\\test\\atest${/}..${/}..${/}fake_single.ldif</arg>
-<status status="PASS" start="2025-05-08T17:15:41.893507" elapsed="0.007811"/>
+<arg>title</arg>
+<arg>matches</arg>
+<arg>.*</arg>
+<status status="PASS" start="2025-05-09T22:08:32.982718" elapsed="0.004529"/>
 </kw>
 <kw name="Check Attribute Value" owner="Ldap3Library">
-<msg time="2025-05-08T17:15:41.907426" level="INFO">Search results: 1 entries found.</msg>
-<msg time="2025-05-08T17:15:41.907929" level="INFO">Expected value: 555-555-5555, Actual value: 555-555-5555</msg>
+<msg time="2025-05-09T22:08:32.990796" level="INFO">Search results: 1 entries found.</msg>
+<msg time="2025-05-09T22:08:32.990796" level="INFO">Expected value: buyer, Actual value: Industrial buyer</msg>
+<arg>${LDAP_URL}</arg>
+<arg>title</arg>
+<arg>contains</arg>
+<arg>buyer</arg>
+<status status="PASS" start="2025-05-09T22:08:32.988244" elapsed="0.002552"/>
+</kw>
+<kw name="Check Attribute Value" owner="Ldap3Library">
+<msg time="2025-05-09T22:08:32.993670" level="INFO">Search results: 1 entries found.</msg>
+<msg time="2025-05-09T22:08:32.993670" level="INFO">Assertion failed: Attribute value mismatch</msg>
+<msg time="2025-05-09T22:08:32.993670" level="INFO">Expected value: 13029, Actual value: 13029</msg>
+<arg>${LDAP_URL}</arg>
+<arg>postalCode</arg>
+<arg>==</arg>
+<arg>13029</arg>
+<status status="PASS" start="2025-05-09T22:08:32.991649" elapsed="0.002021"/>
+</kw>
+<kw name="Check Attribute Value" owner="Ldap3Library">
+<msg time="2025-05-09T22:08:32.996956" level="INFO">Search results: 1 entries found.</msg>
+<msg time="2025-05-09T22:08:32.996956" level="INFO">Assertion failed: Attribute value mismatch</msg>
+<msg time="2025-05-09T22:08:32.997461" level="INFO">Expected value: 13029, Actual value: 13029</msg>
+<arg>${LDAP_URL}</arg>
+<arg>postalCode</arg>
+<arg>equals</arg>
+<arg>13029</arg>
+<status status="PASS" start="2025-05-09T22:08:32.993670" elapsed="0.003791"/>
+</kw>
+<kw name="Check Attribute Value" owner="Ldap3Library">
+<msg time="2025-05-09T22:08:32.999883" level="INFO">Search results: 1 entries found.</msg>
+<msg time="2025-05-09T22:08:32.999883" level="INFO">Assertion failed: Attribute value mismatch</msg>
+<msg time="2025-05-09T22:08:32.999883" level="INFO">Expected value: 13029, Actual value: 13029</msg>
+<arg>${LDAP_URL}</arg>
+<arg>postalCode</arg>
+<arg>equal</arg>
+<arg>13029</arg>
+<status status="PASS" start="2025-05-09T22:08:32.997831" elapsed="0.002052"/>
+</kw>
+<kw name="Check Attribute Value" owner="Ldap3Library">
+<msg time="2025-05-09T22:08:33.003222" level="INFO">Search results: 1 entries found.</msg>
+<msg time="2025-05-09T22:08:33.003222" level="INFO">Assertion failed: Attribute value mismatch</msg>
+<msg time="2025-05-09T22:08:33.003222" level="INFO">Expected value: 13030, Actual value: 13029</msg>
+<arg>${LDAP_URL}</arg>
+<arg>postalCode</arg>
+<arg>&lt;=</arg>
+<arg>13030</arg>
+<status status="PASS" start="2025-05-09T22:08:33.000608" elapsed="0.002614"/>
+</kw>
+<kw name="Check Attribute Value" owner="Ldap3Library">
+<msg time="2025-05-09T22:08:33.005723" level="INFO">Search results: 1 entries found.</msg>
+<msg time="2025-05-09T22:08:33.005723" level="INFO">Assertion failed: Attribute value mismatch</msg>
+<msg time="2025-05-09T22:08:33.005723" level="INFO">Expected value: 13030, Actual value: 13029</msg>
+<arg>${LDAP_URL}</arg>
+<arg>postalCode</arg>
+<arg>&lt;</arg>
+<arg>13030</arg>
+<status status="PASS" start="2025-05-09T22:08:33.004260" elapsed="0.001463"/>
+</kw>
+<kw name="Check Attribute Value" owner="Ldap3Library">
+<msg time="2025-05-09T22:08:33.007453" level="INFO">Search results: 1 entries found.</msg>
+<msg time="2025-05-09T22:08:33.007988" level="INFO">Assertion failed: Attribute value mismatch</msg>
+<msg time="2025-05-09T22:08:33.007988" level="INFO">Expected value: 13030, Actual value: 13029</msg>
+<arg>${LDAP_URL}</arg>
+<arg>postalCode</arg>
+<arg>less than</arg>
+<arg>13030</arg>
+<status status="PASS" start="2025-05-09T22:08:33.005723" elapsed="0.002265"/>
+</kw>
+<kw name="Check Attribute Value" owner="Ldap3Library">
+<msg time="2025-05-09T22:08:33.009462" level="INFO">Search results: 1 entries found.</msg>
+<msg time="2025-05-09T22:08:33.009969" level="INFO">Expected value: 13028, Actual value: 98765</msg>
+<arg>${LDAP_URL}</arg>
+<arg>postalCode</arg>
+<arg>&gt;=</arg>
+<arg>13028</arg>
+<status status="PASS" start="2025-05-09T22:08:33.007988" elapsed="0.001981"/>
+</kw>
+<kw name="Check Attribute Value" owner="Ldap3Library">
+<msg time="2025-05-09T22:08:33.012737" level="INFO">Search results: 1 entries found.</msg>
+<msg time="2025-05-09T22:08:33.012737" level="INFO">Expected value: 13028, Actual value: 98765</msg>
+<arg>${LDAP_URL}</arg>
+<arg>postalCode</arg>
+<arg>&gt;</arg>
+<arg>13028</arg>
+<status status="PASS" start="2025-05-09T22:08:33.009969" elapsed="0.003317"/>
+</kw>
+<kw name="Check Attribute Value" owner="Ldap3Library">
+<msg time="2025-05-09T22:08:33.014418" level="INFO">Search results: 1 entries found.</msg>
+<msg time="2025-05-09T22:08:33.014927" level="INFO">Expected value: 13028, Actual value: 98765</msg>
+<arg>${LDAP_URL}</arg>
+<arg>postalCode</arg>
+<arg>greater than</arg>
+<arg>13028</arg>
+<status status="PASS" start="2025-05-09T22:08:33.013286" elapsed="0.001641"/>
+</kw>
+<kw name="Check Attribute Value" owner="Ldap3Library">
+<msg time="2025-05-09T22:08:33.016986" level="INFO">Search results: 1 entries found.</msg>
+<msg time="2025-05-09T22:08:33.016986" level="INFO">Expected value: 13028, Actual value: 98765</msg>
+<arg>${LDAP_URL}</arg>
+<arg>postalCode</arg>
+<arg>!=</arg>
+<arg>13028</arg>
+<status status="PASS" start="2025-05-09T22:08:33.014927" elapsed="0.002059"/>
+</kw>
+<kw name="Check Attribute Value" owner="Ldap3Library">
+<msg time="2025-05-09T22:08:33.018341" level="INFO">Search results: 1 entries found.</msg>
+<msg time="2025-05-09T22:08:33.018850" level="INFO">Expected value: 13028, Actual value: 98765</msg>
+<arg>${LDAP_URL}</arg>
+<arg>postalCode</arg>
+<arg>inequal</arg>
+<arg>13028</arg>
+<status status="PASS" start="2025-05-09T22:08:33.016986" elapsed="0.002875"/>
+</kw>
+<kw name="Check Attribute Value" owner="Ldap3Library">
+<msg time="2025-05-09T22:08:33.021681" level="INFO">Search results: 1 entries found.</msg>
+<msg time="2025-05-09T22:08:33.021681" level="INFO">Expected value: 13028, Actual value: 98765</msg>
+<arg>${LDAP_URL}</arg>
+<arg>postalCode</arg>
+<arg>should not be</arg>
+<arg>13028</arg>
+<status status="PASS" start="2025-05-09T22:08:33.019861" elapsed="0.001820"/>
+</kw>
+<kw name="Check Attribute Value" owner="Ldap3Library">
+<msg time="2025-05-09T22:08:33.022976" level="INFO">Search results: 1 entries found.</msg>
+<msg time="2025-05-09T22:08:33.023483" level="INFO">Expected value: 0049-201-555-0123, Actual value: ['001-821-664-8819', '(261)555-4472', '0049-201-555-0123', '+49-201-555-0123']</msg>
+<arg>${LDAP_URL}</arg>
+<arg>telephoneNumber</arg>
+<arg>*=</arg>
+<arg>0049-201-555-0123</arg>
+<status status="PASS" start="2025-05-09T22:08:33.021681" elapsed="0.001802"/>
+</kw>
+<kw name="Check Attribute Value" owner="Ldap3Library">
+<msg time="2025-05-09T22:08:33.024492" level="INFO">Search results: 1 entries found.</msg>
+<msg time="2025-05-09T22:08:33.025032" level="INFO">Expected value: +49-201-555-0123, Actual value: ['001-821-664-8819', '(261)555-4472', '0049-201-555-0123', '+49-201-555-0123']</msg>
+<arg>${LDAP_URL}</arg>
+<arg>telephoneNumber</arg>
+<arg>*=</arg>
+<arg>+49-201-555-0123</arg>
+<status status="PASS" start="2025-05-09T22:08:33.023483" elapsed="0.001549"/>
+</kw>
+<kw name="Check Attribute Value" owner="Ldap3Library">
+<msg time="2025-05-09T22:08:33.027908" level="INFO">Search results: 1 entries found.</msg>
+<msg time="2025-05-09T22:08:33.027908" level="INFO">Expected value: 001-821-664-8819, Actual value: ['001-821-664-8819', '(261)555-4472', '0049-201-555-0123', '+49-201-555-0123']</msg>
 <arg>${LDAP_URL}</arg>
 <arg>telephoneNumber</arg>
 <arg>contains</arg>
-<arg>555-555-5555</arg>
-<status status="PASS" start="2025-05-08T17:15:41.903335" elapsed="0.004594"/>
+<arg>001-821-664-8819</arg>
+<status status="PASS" start="2025-05-09T22:08:33.025032" elapsed="0.003891"/>
 </kw>
-<kw name="Delete Object" owner="Ldap3Library">
-<msg time="2025-05-08T17:15:41.911860" level="INFO">Deleted object ldap://localhost:389/cn=jmason,ou=users,dc=example,dc=com???(objectClass=*).</msg>
-<arg>ldap://localhost:389/cn=jmason,ou=users,dc=example,dc=com???(objectClass=*)</arg>
-<status status="PASS" start="2025-05-08T17:15:41.909939" elapsed="0.002433"/>
+<kw name="Check Attribute Value" owner="Ldap3Library">
+<msg time="2025-05-09T22:08:33.031444" level="INFO">Search results: 1 entries found.</msg>
+<msg time="2025-05-09T22:08:33.031444" level="INFO">Expected value: 111-111-1111, Actual value: ['001-821-664-8819', '(261)555-4472', '0049-201-555-0123', '+49-201-555-0123']</msg>
+<arg>${LDAP_URL}</arg>
+<arg>telephoneNumber</arg>
+<arg>not contains</arg>
+<arg>111-111-1111</arg>
+<status status="PASS" start="2025-05-09T22:08:33.028923" elapsed="0.002521"/>
 </kw>
-<kw name="Delete Object" owner="Ldap3Library">
-<msg time="2025-05-08T17:15:41.913380" level="INFO">Deleted object ldap://localhost:389/cn=khernandez,ou=users,dc=example,dc=com???(objectClass=*).</msg>
-<arg>ldap://localhost:389/cn=khernandez,ou=users,dc=example,dc=com???(objectClass=*)</arg>
-<status status="PASS" start="2025-05-08T17:15:41.912372" elapsed="0.001783"/>
+<kw name="Check Attribute Value" owner="Ldap3Library">
+<msg time="2025-05-09T22:08:33.033341" level="INFO">Search results: 1 entries found.</msg>
+<msg time="2025-05-09T22:08:33.033891" level="INFO">Expected value: 001, Actual value: 001-821-664-8819</msg>
+<arg>${LDAP_URL}</arg>
+<arg>telephoneNumber</arg>
+<arg>^=</arg>
+<arg>001</arg>
+<status status="PASS" start="2025-05-09T22:08:33.031444" elapsed="0.002447"/>
+</kw>
+<kw name="Check Attribute Value" owner="Ldap3Library">
+<msg time="2025-05-09T22:08:33.037036" level="INFO">Search results: 1 entries found.</msg>
+<msg time="2025-05-09T22:08:33.037573" level="INFO">Assertion failed: Attribute value mismatch</msg>
+<msg time="2025-05-09T22:08:33.037573" level="INFO">Assertion failed: Attribute value mismatch</msg>
+<msg time="2025-05-09T22:08:33.037573" level="INFO">Assertion failed: Attribute value mismatch</msg>
+<msg time="2025-05-09T22:08:33.037573" level="INFO">Expected value: +49-, Actual value: +49-201-555-0123</msg>
+<arg>${LDAP_URL}</arg>
+<arg>telephoneNumber</arg>
+<arg>starts</arg>
+<arg>+49-</arg>
+<status status="PASS" start="2025-05-09T22:08:33.033891" elapsed="0.003682"/>
+</kw>
+<kw name="Check Attribute Value" owner="Ldap3Library">
+<msg time="2025-05-09T22:08:33.040277" level="INFO">Search results: 1 entries found.</msg>
+<msg time="2025-05-09T22:08:33.040277" level="INFO">Assertion failed: Attribute value mismatch</msg>
+<msg time="2025-05-09T22:08:33.040277" level="INFO">Assertion failed: Attribute value mismatch</msg>
+<msg time="2025-05-09T22:08:33.041286" level="INFO">Expected value: 0049-, Actual value: 0049-201-555-0123</msg>
+<arg>${LDAP_URL}</arg>
+<arg>telephoneNumber</arg>
+<arg>starts</arg>
+<arg>0049-</arg>
+<status status="PASS" start="2025-05-09T22:08:33.037573" elapsed="0.003713"/>
+</kw>
+<kw name="Check Attribute Value" owner="Ldap3Library">
+<msg time="2025-05-09T22:08:33.044300" level="INFO">Search results: 1 entries found.</msg>
+<msg time="2025-05-09T22:08:33.044300" level="INFO">Assertion failed: Attribute value mismatch</msg>
+<msg time="2025-05-09T22:08:33.044300" level="INFO">Assertion failed: Attribute value mismatch</msg>
+<msg time="2025-05-09T22:08:33.044300" level="INFO">Expected value: 0049-, Actual value: 0049-201-555-0123</msg>
+<arg>${LDAP_URL}</arg>
+<arg>telephoneNumber</arg>
+<arg>should start with</arg>
+<arg>0049-</arg>
+<status status="PASS" start="2025-05-09T22:08:33.041286" elapsed="0.003014"/>
+</kw>
+<kw name="Check Attribute Value" owner="Ldap3Library">
+<msg time="2025-05-09T22:08:33.046996" level="INFO">Search results: 1 entries found.</msg>
+<msg time="2025-05-09T22:08:33.046996" level="INFO">Assertion failed: Attribute value mismatch</msg>
+<msg time="2025-05-09T22:08:33.046996" level="INFO">Assertion failed: Attribute value mismatch</msg>
+<msg time="2025-05-09T22:08:33.046996" level="INFO">Expected value: 0123, Actual value: 0049-201-555-0123</msg>
+<arg>${LDAP_URL}</arg>
+<arg>telephoneNumber</arg>
+<arg>$=</arg>
+<arg>0123</arg>
+<status status="PASS" start="2025-05-09T22:08:33.045311" elapsed="0.002693"/>
+</kw>
+<kw name="Check Attribute Value" owner="Ldap3Library">
+<msg time="2025-05-09T22:08:33.049619" level="INFO">Search results: 1 entries found.</msg>
+<msg time="2025-05-09T22:08:33.049619" level="INFO">Assertion failed: Attribute value mismatch</msg>
+<msg time="2025-05-09T22:08:33.049619" level="INFO">Assertion failed: Attribute value mismatch</msg>
+<msg time="2025-05-09T22:08:33.049619" level="INFO">Expected value: 0123, Actual value: 0049-201-555-0123</msg>
+<arg>${LDAP_URL}</arg>
+<arg>telephoneNumber</arg>
+<arg>ends</arg>
+<arg>0123</arg>
+<status status="PASS" start="2025-05-09T22:08:33.048004" elapsed="0.001615"/>
+</kw>
+<kw name="Check Attribute Value" owner="Ldap3Library">
+<msg time="2025-05-09T22:08:33.052895" level="INFO">Search results: 1 entries found.</msg>
+<msg time="2025-05-09T22:08:33.052895" level="INFO">Assertion failed: Attribute value mismatch</msg>
+<msg time="2025-05-09T22:08:33.052895" level="INFO">Assertion failed: Attribute value mismatch</msg>
+<msg time="2025-05-09T22:08:33.052895" level="INFO">Expected value: 0123, Actual value: 0049-201-555-0123</msg>
+<arg>${LDAP_URL}</arg>
+<arg>telephoneNumber</arg>
+<arg>should end with</arg>
+<arg>0123</arg>
+<status status="PASS" start="2025-05-09T22:08:33.049619" elapsed="0.004284"/>
 </kw>
 <kw name="Run Keyword And Expect Error" owner="BuiltIn">
-<kw name="Delete Object" owner="Ldap3Library">
-<msg time="2025-05-08T17:15:41.915666" level="ERROR">ScopeError: Scope must be BASE for single object actions. Current scope: SUBTREE</msg>
-<msg time="2025-05-08T17:15:41.916667" level="FAIL">ValueError: ScopeError: Scope must be BASE for single object actions. Current scope: SUBTREE</msg>
-<arg>ldap://localhost:389/cn=notexisting,ou=users,dc=example,dc=com??sub?(objectClass=*)</arg>
-<status status="FAIL" start="2025-05-08T17:15:41.914661" elapsed="0.004012">ValueError: ScopeError: Scope must be BASE for single object actions. Current scope: SUBTREE</status>
+<kw name="Check Attribute Value" owner="Ldap3Library">
+<msg time="2025-05-09T22:08:33.056531" level="INFO">Search results: 1 entries found.</msg>
+<msg time="2025-05-09T22:08:33.056531" level="FAIL">title's current value Industrial buyer mismatches with expected value seller</msg>
+<arg>${LDAP_URL}</arg>
+<arg>title</arg>
+<arg>contains</arg>
+<arg>seller</arg>
+<status status="FAIL" start="2025-05-09T22:08:33.054904" elapsed="0.002637">title's current value Industrial buyer mismatches with expected value seller</status>
 </kw>
-<arg>REGEXP:.*ScopeError.*</arg>
-<arg>Delete Object</arg>
-<arg>ldap://localhost:389/cn=notexisting,ou=users,dc=example,dc=com??sub?(objectClass=*)</arg>
+<arg>*current value * mismatches with expected value*</arg>
+<arg>Check Attribute Value</arg>
+<arg>${LDAP_URL}</arg>
+<arg>title</arg>
+<arg>contains</arg>
+<arg>seller</arg>
 <doc>Runs the keyword and checks that the expected error occurred.</doc>
-<status status="PASS" start="2025-05-08T17:15:41.914661" elapsed="0.005014"/>
+<status status="PASS" start="2025-05-09T22:08:33.053903" elapsed="0.004638"/>
 </kw>
-<status status="PASS" start="2025-05-08T17:15:41.890507" elapsed="0.029168"/>
+<status status="PASS" start="2025-05-09T22:08:32.980703" elapsed="0.077838"/>
 </test>
 <kw name="Clean up" type="TEARDOWN">
 <kw name="Disconnect" owner="Ldap3Library">
-<msg time="2025-05-08T17:15:41.923667" level="INFO">Disconnected from LDAP server: localhost</msg>
+<msg time="2025-05-09T22:08:33.060853" level="INFO">Disconnected from LDAP server: localhost</msg>
 <arg>${LDAP_URL}</arg>
-<status status="PASS" start="2025-05-08T17:15:41.922669" elapsed="0.001448"/>
+<status status="PASS" start="2025-05-09T22:08:33.059539" elapsed="0.001314"/>
 </kw>
 <kw name="Terminate Process" owner="Process">
-<msg time="2025-05-08T17:15:41.924624" level="INFO">Gracefully terminating process.</msg>
-<msg time="2025-05-08T17:15:42.027281" level="INFO">Process completed.</msg>
+<msg time="2025-05-09T22:08:33.061360" level="INFO">Gracefully terminating process.</msg>
+<msg time="2025-05-09T22:08:33.162524" level="INFO">Process completed.</msg>
 <arg>${mokapi}</arg>
 <doc>Stops the process gracefully or forcefully.</doc>
-<status status="PASS" start="2025-05-08T17:15:41.924624" elapsed="0.103659"/>
+<status status="PASS" start="2025-05-09T22:08:33.061360" elapsed="0.101164"/>
 </kw>
-<status status="PASS" start="2025-05-08T17:15:41.921671" elapsed="0.107613"/>
+<status status="PASS" start="2025-05-09T22:08:33.059539" elapsed="0.103999"/>
 </kw>
-<status status="PASS" start="2025-05-08T17:15:39.632922" elapsed="2.396362"/>
+<status status="PASS" start="2025-05-09T22:08:30.800414" elapsed="2.363124"/>
 </suite>
-<status status="PASS" start="2025-05-08T17:15:39.627738" elapsed="2.404535"/>
+<status status="PASS" start="2025-05-09T22:08:30.796410" elapsed="2.371130"/>
 </suite>
-<status status="PASS" start="2025-05-08T17:15:39.623748" elapsed="2.411523"/>
+<status status="PASS" start="2025-05-09T22:08:30.793371" elapsed="2.378170"/>
 </suite>
-<status status="PASS" start="2025-05-08T17:15:39.595240" elapsed="2.442032"/>
+<status status="PASS" start="2025-05-09T22:08:30.771837" elapsed="2.403701"/>
 </suite>
 <statistics>
 <total>
@@ -114,6 +338,5 @@ D:\idmHelpers\PortableApps\mokapi_v0.15.0_windows_amd64\mokapi.exe --providers-f
 </suite>
 </statistics>
 <errors>
-<msg time="2025-05-08T17:15:41.915666" level="ERROR">ScopeError: Scope must be BASE for single object actions. Current scope: SUBTREE</msg>
 </errors>
 </robot>

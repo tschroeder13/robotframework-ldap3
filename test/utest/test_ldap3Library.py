@@ -164,7 +164,6 @@ def test_add_and_remove_attribute_value(mokapi):
                                      assertion_message="Attribute value not contains 555-555-5555.")
     assert not exists, "Attribute value not removed."
 
-@pytest.mark.last
 def test_replace_attribute_value(mokapi):
     """Test if attribute value is replaced."""
     ldap_url = LDAP_URL_BASE
@@ -250,7 +249,7 @@ def test_overwrite_attribute_value(mokapi):
                                      attribute_name="telephoneNumber",
                                      assertion_operator=AssertionOperator["contains"], 
                                      expected_value="555-555-5555", 
-                                     assertion_message="Attribute value not contains 666-666-6666.")
+                                     assertion_message="Attribute value contains 555-555-5555.")
     for num in nums:
         exists = not ldap3Query.check_attribute_value(ldap_url=ldap_url,
                                         attribute_name="telephoneNumber",
@@ -269,7 +268,14 @@ def test_overwrite_attribute_value(mokapi):
                                                         expected_value=num,
                                                         assertion_message=f"Attribute value not contains {num}.") 
         assert True, "Telephone number not removed."
-        
+    ldap3Query.remove_attribute_value(ldap_url=ldap_url,
+                                      attribute_name="telephoneNumber", 
+                                      attribute_value="555-555-5555")
+    exists = not ldap3Query.check_attribute_value(ldap_url=ldap_url,
+                                        attribute_name="telephoneNumber",
+                                        assertion_operator=AssertionOperator["not contains"],
+                                        expected_value="555-555-5555",
+                                        assertion_message="Attribute value unexpectingly contains 555-555-5555.")
     
 
 

@@ -36,7 +36,7 @@ Search LDAP with subtree scope and return JSON
 
 Check OBject Exists
     Check Object Exists    ${LDAP_URL_BASE}
-    Run Keyword And Expect Error  ValueError: Scope must be BASE*
+    Run Keyword And Expect Error  *ScopeError: Scope must be BASE*
     ...   Check Object Exists    ${LDAP_URL_SUB}
     # Run Keyword And Expect Error  STARTS:ValueError
     # ...   Check Object Exists    ldap://localhost:389/cn=notexisting,ou=users,dc=example,dc=com?postalCode,telephoneNumber,title??(postalCode=13029)
@@ -102,10 +102,10 @@ Check Add And Remove Attribute Value
 Check Overwrite Attribute Value
     Overwrite Attribute Value   ${LDAP_URL_BASE}  telephoneNumber  555-555-5555
     Check Attribute Value  ${LDAP_URL}  telephoneNumber  ==  555-555-5555
-    Add Attribute Value  ${LDAP_URL_BASE}  telepohneNumber  (261)555-4472
-    Add Attribute Value  ${LDAP_URL_BASE}  telepohneNumber  +49-201-555-0123
-    Add Attribute Value  ${LDAP_URL_BASE}  telepohneNumber  001-821-664-8819
-    Add Attribute Value  ${LDAP_URL_BASE}  telepohneNumber  0049-201-555-0123
+    Add Attribute Value  ${LDAP_URL_BASE}  telephoneNumber  (261)555-4472
+    Add Attribute Value  ${LDAP_URL_BASE}  telephoneNumber  +49-201-555-0123
+    Add Attribute Value  ${LDAP_URL_BASE}  telephoneNumber  001-821-664-8819
+    Add Attribute Value  ${LDAP_URL_BASE}  telephoneNumber  0049-201-555-0123
     Run Keyword And Expect Error  REGEXP:.*ScopeError.*
     ...   Overwrite Attribute Value   ${LDAP_URL_LEVEL}  telephoneNumber  111-411-1111
 

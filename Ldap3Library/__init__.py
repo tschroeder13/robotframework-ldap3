@@ -37,6 +37,13 @@ class Ldap3Library(Ldap3ConnectionManager, Ldap3Query):
     | `pip install robotframework-ldap3`
 
     = Basic Usage =
+    Ldap3Library leverages URL formated LDAP connection information as one gets from [https://directory.apache.org/studio/|Apache Directory Studio] or [https://ldapvi.sourceforge.net/|ldapvi]. 
+    The URL format is as follows:
+    | <ldap/ldaps>://<host>:<port>/<base_dn>?<attributes>?<scope>?<filter>
+    For existing searches in Apache Directory Studio, you can copy the URL from the context menu in the "LDAP Browser" view.
+    [ADS_ContextMenu|./resources/img/ApDiSt_AdvSe.png]
+
+
     | *** Settings ***
     | Library    Ldap3Library
     | Suite Setup    Connect to LDAP Server

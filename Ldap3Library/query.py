@@ -13,7 +13,7 @@
 #  limitations under the License.
 
 from robot.api import logger
-from ldap3 import Connection, MODIFY_ADD, MODIFY_DELETE, MODIFY_REPLACE, BASE
+from ldap3 import Connection, MODIFY_ADD, MODIFY_DELETE, MODIFY_REPLACE, BASE, Entry
 from Ldap3Library.connection_manager import Ldap3ConnectionManager
 from assertionengine import AssertionOperator, verify_assertion
 from typing import Any, Optional, List, Union
@@ -38,7 +38,13 @@ class Ldap3Query():
     ]
 
     def _is_base_scope(self, ldap_url: str) -> Any:
-        """Check if the scope is BASE."""
+        """Check if the scope is BASE.
+        Args:
+            ldap_url (str): <ldap/ldaps>://<host>:<port>/<base_dn>?<attributes>?<scope>?<filter>
+        Raises:
+            ValueError: ScopeError: Scope must be BASE for single object actions
+        Returns:
+            dict: Parsed LDAP URL."""
         _url = Ldap3ConnectionManager.parse_uri(ldap_url)
         if not _url["scope"] == BASE:
             logger.error(
@@ -48,6 +54,23 @@ class Ldap3Query():
         return _url
 
     def search(self, ldap_url: str, return_type: str = LDIF) -> Union[List[dict], List[str], str]:
+        """Searches the LDAP directory using the provided URL.
+
+        Args:
+            ldap_url (str): <ldap/ldaps>://<host>:<port>/<base_dn>?<attributes>?<scope>?<filter>
+            return_type (str, optional): Can be LDIF, JSON or ENTRIES. Defaults to LDIF.
+
+        Raises:
+            ValueError: Invalid return type:*
+
+        Returns:
+            Union[List[dict], List[str], str]: Returns the search results in the specified format.
+        
+        Examples
+        | Search ldap://localhost:389/cn=admin,dc=example,dc=com???(objectClass=*)  
+        | Search ldap://localhost:389/cn=admin,dc=example,dc=com???(objectClass=*)  LDIF
+        | Search ldap://localhost:389/cn=admin,dc=example,dc=com???(objectClass=*)  JSON
+        """
         _url = Ldap3ConnectionManager.parse_uri(ldap_url)
         connection: Connection = self.connection_pool.get_connection(
             _url["host"])
@@ -69,6 +92,17 @@ class Ldap3Query():
                     f"Invalid return type: {return_type}. Must be one of {self.LDIF}, {self.JSON}, or {self.ENTRIES}.")
 
     def check_object_exists(self, ldap_url: str):
+        """Check if an object exists in the LDAP directory.
+        Args:
+            ldap_url (str): <ldap/ldaps>://<host>:<port>/<base_dn>?<attributes>?<scope>?<filter>
+        Returns:
+            bool: True if the object exists, False otherwise.
+        Raises:
+            ValueError: ScopeError: Scope must be BASE for single object actions
+
+        Example:
+        | Check Object Exists    ldap://localhost:389/cn=admin,dc=example,dc=com???(objectClass=*)
+        """
         _url = self._is_base_scope(ldap_url)
         entries = self.search(ldap_url, self.ENTRIES)
         exists = ((len(entries) == 1) and
@@ -84,6 +118,21 @@ class Ldap3Query():
                            assertion_operator: AssertionOperator,
                            expected_count: int,
                            assertion_message: str = None):
+        """Check the number of objects returned by the search.
+        Args:
+            ldap_url (str): <ldap/ldaps>://<host>:<port>/<base_dn>?<attributes>?<scope>?<filter>
+            assertion_operator (AssertionOperator): The operator to use for the assertion.
+            expected_count (int): The expected number of objects.
+            assertion_message (str, optional): Custom message for the assertion. Defaults to None.
+        Raises:
+            AssertionError: If the assertion fails.
+        Returns:
+            bool: True if the assertion passes, False otherwise.
+        Example:
+        | Check Object Count    ldap://localhost:389/cn=admin,dc=example,dc=com???(objectClass=*)    ==    1
+        | Check Object Count    ldap://localhost:389/cn=admin,dc=example,dc=com???(objectClass=*)    >    0
+        | Check Object Count    ldap://localhost:389/cn=admin,dc=example,dc=com???(objectClass=*)    <=    4
+        """
         _url = Ldap3ConnectionManager.parse_uri(ldap_url)
         entries = self.search(ldap_url, self.ENTRIES)
         # connection: Connection = self.connection_pool.get_connection(_url["host"])
@@ -103,6 +152,27 @@ class Ldap3Query():
                               assertion_operator: AssertionOperator,
                               expected_value: Any,
                               assertion_message: str = None):
+        """Check the value of an attribute in the LDAP entry.
+        Args:
+            ldap_url (str): <ldap/ldaps>://<host>:<port>/<base_dn>?<attributes>?<scope>?<filter>
+            attribute_name (str): The name of the attribute to check.
+            assertion_operator (AssertionOperator): The operator to use for the assertion.
+            expected_value (Any): The expected value of the attribute.
+            assertion_message (str, optional): Custom message for the assertion. Defaults to None.
+        Raises:
+            AssertionError: If the assertion fails.
+            ValueError: ScopeError: Scope must be BASE for single object actions
+            ValueError: If the attribute is not found in the LDAP URL or entry.
+            ValueError: If no entries are found for the given LDAP URL.
+            ValueError: If multiple entries are found for the given LDAP URL.
+        Returns:
+            bool: True if the assertion passes, False otherwise.
+
+        Example:
+        | Check Attribute Value    ldap://localhost:389/cn=admin,dc=example,dc=com???(objectClass=*)    cn    ==    admin
+        | Check Attribute Value    ldap://localhost:389/cn=admin,dc=example,dc=com???(objectClass=*)    cn    !=    admin
+        | Check Attribute Value    ldap://localhost:389/cn=admin,dc=example,dc=com???(objectClass=*)    cn    contains    dmi
+        """
         result = False
         _url = Ldap3ConnectionManager.parse_uri(ldap_url)
         entries = self.search(ldap_url, self.ENTRIES)
@@ -152,7 +222,36 @@ class Ldap3Query():
                                     assertion_operator: AssertionOperator,
                                     expected_value: Any,
                                     assertion_message: str = None):
+        """Check the number of values for an attribute in the LDAP entry.
+        Args:
+            ldap_url (str): <ldap/ldaps>://<host>:<port>/<base_dn>?<attributes>?<scope>?<filter>
+            attribute_name (str): The name of the attribute to check.
+            assertion_operator (AssertionOperator): The operator to use for the assertion.
+            expected_value (Any): The expected number of values for the attribute.
+            assertion_message (str, optional): Custom message for the assertion. Defaults to None.
+        Raises:
+            AssertionError: If the assertion fails.
+            ValueError: ScopeError: Scope must be BASE for single object actions
+            ValueError: If the expected value cannot be parsed to integer.
+            ValueError: If the attribute is not found in the LDAP URL or entry.
+            ValueError: If no entries are found for the given LDAP URL.
+        Returns:
+            bool: True if the assertion passes, False otherwise.
+
+        Example:
+        | Check Attribute Value Count    ldap://localhost:389/cn=admin,dc=example,dc=com???(objectClass=*)    cn    ==    1
+        | Check Attribute Value Count    ldap://localhost:389/cn=admin,dc=example,dc=com???(objectClass=*)    cn    !=    1
+        | Check Attribute Value Count    ldap://localhost:389/cn=admin,dc=example,dc=com???(objectClass=*)    cn    >    0
+        """
+        _url = self._is_base_scope(ldap_url)
+        entries = self.search(ldap_url, self.ENTRIES)
         _expected = int(expected_value)
+        if attribute_name not in _url["attributes"]:
+            raise ValueError(
+                f"Attribute {attribute_name} not found in the LDAP URL: {ldap_url}")
+        if attribute_name not in entries[0].entry_attributes:
+            raise ValueError(
+                f"Attribute {attribute_name} not found in the LDAP entry: {ldap_url}")
         if not isinstance(_expected, int):
             raise ValueError(
                 f"Expected value must be an integer. Got {type(_expected)}")
@@ -171,8 +270,25 @@ class Ldap3Query():
 
     def get_attribute_value_count(self, ldap_url: str,
                                   attribute_name: str) -> int:
+        """Get the number of values for an attribute in the LDAP entry.
+        Args:
+            ldap_url (str): <ldap/ldaps>://<host>:<port>/<base_dn>?<attributes>?<scope>?<filter>
+            attribute_name (str): The name of the attribute to check.
+        Raises:
+            ValueError: ScopeError: Scope must be BASE for single object actions
+            ValueError: If the attribute is not found in the LDAP URL or entry.
+            ValueError: If no entries are found for the given LDAP URL.
+        Returns:
+            int: The number of values for the attribute.
+
+        Example:
+        | Get Attribute Value Count    ldap://localhost:389/cn=admin,dc=example,dc=com???(objectClass=*)
+        """
+        _url = self._is_base_scope(ldap_url)
         entries = self.search(ldap_url, self.ENTRIES)
-        self._is_base_scope(ldap_url)
+        if attribute_name not in _url["attributes"]:
+            raise ValueError(
+                f"Attribute {attribute_name} not found in the LDAP URL: {ldap_url}")
         if not attribute_name in entries[0].entry_attributes:
             raise ValueError(
                 f"Attribute {attribute_name} not found in the LDAP entry: {ldap_url}")
@@ -183,6 +299,20 @@ class Ldap3Query():
                             attribute_name: str,
                             attribute_value: str
                             ):
+        """Add a value to an attribute in the LDAP entry.
+        Args:
+            ldap_url (str): <ldap/ldaps>://<host>:<port>/<base_dn>?<attributes>?<scope>?<filter>
+            attribute_name (str): The name of the attribute to add the value to.
+            attribute_value (str): The value to add to the attribute.
+        Raises:
+            ValueError: ScopeError: Scope must be BASE for single object actions
+            ValueError: If attribute could not been added to the LDAP entry.
+        Returns:
+            bool: True if the value was added successfully, False otherwise.
+
+        Example:
+        | Add Attribute Value    ldap://localhost:389/cn=admin,dc=example,dc=com???(objectClass=*)    telephoneNumber    444-123-4567
+        """
         _url = self._is_base_scope(ldap_url)
         connection: Connection = self.connection_pool.get_connection(
             _url["host"])
@@ -197,6 +327,19 @@ class Ldap3Query():
     def remove_attribute_value(self, ldap_url: str,
                                attribute_name: str,
                                attribute_value: str):
+        """Remove a value from an attribute in the LDAP entry.
+        Args:
+            ldap_url (str): <ldap/ldaps>://<host>:<port>/<base_dn>?<attributes>?<scope>?<filter>
+            attribute_name (str): The name of the attribute to remove the value from.
+            attribute_value (str): The value to remove from the attribute.
+        Raises:
+            ValueError: ScopeError: Scope must be BASE for single object actions
+            ValueError: If attribute could not been removed from the LDAP entry.
+        Returns:
+            bool: True if the value was removed successfully, False otherwise.
+        Example:
+        | Remove Attribute Value    ldap://localhost:389/cn=admin,dc=example,dc=com???(objectClass=*)    telephoneNumber    444-123-4567
+        """
         _url = self._is_base_scope(ldap_url)
         connection: Connection = self.connection_pool.get_connection(
             _url["host"])
@@ -212,6 +355,20 @@ class Ldap3Query():
                                 attribute_name: str,
                                 old_value: str,
                                 new_value: str):
+        """Replace a value in an attribute in the LDAP entry.
+        Args:
+            ldap_url (str): <ldap/ldaps>://<host>:<port>/<base_dn>?<attributes>?<scope>?<filter>
+            attribute_name (str): The name of the attribute to replace the value in.
+            old_value (str): The old value to replace.
+            new_value (str): The new value to set.
+        Raises:
+            ValueError: ScopeError: Scope must be BASE for single object actions
+            ValueError: If attribute could not been removed or added in the LDAP entry.
+        Returns:
+            bool: True if the value was replaced successfully, False otherwise.
+        Example:
+        | Replace Attribute Value    ldap://localhost:389/cn=admin,dc=example,dc=com???(objectClass=*)    telephoneNumber    444-123-4567    555-987-6543
+        """
         _url = self._is_base_scope(ldap_url)
         connection: Connection = self.connection_pool.get_connection(
             _url["host"])
@@ -230,18 +387,43 @@ class Ldap3Query():
     def overwrite_attribute_value(self, ldap_url: str,
                                   attribute_name: str,
                                   attribute_value: str):
+        """Overwrite an attribute in the LDAP entry.
+        Args:
+            ldap_url (str): <ldap/ldaps>://<host>:<port>/<base_dn>?<attributes>?<scope>?<filter>
+            attribute_name (str): The name of the attribute to overwrite.
+            attribute_value (str): The value to set for the attribute.
+        Raises:
+            ValueError: ScopeError: Scope must be BASE for single object actions
+            ValueError: If attribute could not be overwritten to the LDAP entry.
+        Returns:
+            bool: True if the attribute was overwritten successfully, False otherwise.
+        Example:
+        | Overwrite Attribute Value    ldap://localhost:389/cn=admin,dc=example,dc=com???(objectClass=*)    telephoneNumber    444-123-4567
+        """
         _url = self._is_base_scope(ldap_url)
         connection: Connection = self.connection_pool.get_connection(
             _url["host"])
         if not connection.modify(dn=_url["base"],
                                  changes={attribute_name: [(MODIFY_REPLACE, [attribute_value])]}):
             raise ValueError(
-                f"Failed to add attribute {attribute_name} with value {attribute_value} to {ldap_url}. Error: {connection.result['description']}")
+                f"Failed to overwrite {attribute_name} with value {attribute_value} to {ldap_url}. Error: {connection.result['description']}")
         logger.info(
             f"Replaced attribute {attribute_name} with value {attribute_value} in {ldap_url}.")
         return True
 
     def add_object_from_ldif(self, ldap_url: str, ldif_file: str, object_class: Optional[str] = "inetOrgPerson"):
+        """Add an object from a LDIF file to the LDAP directory.
+        Args:
+            ldap_url (str): <ldap/ldaps>://<host>:<port>/<base_dn>?<attributes>?<scope>?<filter>
+            ldif_file (str): Path to the LDIF file.
+            object_class (str, optional): The object class to use. Defaults to "inetOrgPerson".
+        Raises:
+            ValueError: If the object(s) could not be added to the LDAP directory.
+        Returns:
+            bool: True if the object was added successfully, False otherwise.
+        Example:
+        | Add Object From LDIF    ldap://localhost:389/cn=admin,dc=example,dc=com???(objectClass=*)    ${CURDIR}${/}..${/}..${/}fake_single.ldif
+        """
         _url = Ldap3ConnectionManager.parse_uri(ldap_url)
         connection: Connection = self.connection_pool.get_connection(
             _url["host"])
@@ -251,11 +433,22 @@ class Ldap3Query():
                                   object_class=object_class,
                                   attributes=record):
                 raise ValueError(
-                    f"Failed to add object from LIDF to {ldap_url}. Error: {connection.result['description']}")
+                    f"Failed to add object(s) from LIDF to {ldap_url}. Error: {connection.result['description']}")
             logger.info(f"Added object from LIDF to {ldap_url}.")
         return True
 
     def delete_object(self, ldap_url: str):
+        """Delete an object from the LDAP directory.
+        Args:
+            ldap_url (str): <ldap/ldaps>://<host>:<port>/<base_dn>?<attributes>?<scope>?<filter>
+        Raises:
+            ValueError: ScopeError: Scope must be BASE for single object actions
+            ValueError: If the object could not be deleted from the LDAP directory.
+        Returns:
+            bool: True if the object was deleted successfully, False otherwise.
+        Example:
+        | Delete Object    ldap://localhost:389/cn=admin,dc=example,dc=com???(objectClass=*)
+        """
         _url = self._is_base_scope(ldap_url)
         connection: Connection = self.connection_pool.get_connection(
             _url["host"])

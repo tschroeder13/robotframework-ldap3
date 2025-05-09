@@ -1,0 +1,1713 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 7.2.2 (Python 3.11.2 on win32)" generated="2025-05-09T23:39:16.180436" rpa="false" schemaversion="5">
+<suite id="s1" name="Atest" source="D:\git_workspace\robotframework-ldap3\test\atest">
+<suite id="s1-s1" name="Test Ldap Library" source="D:\git_workspace\robotframework-ldap3\test\atest\test_ldap_library.robot">
+<kw name="Set up" type="SETUP">
+<msg time="2025-05-09T23:39:16.366546" level="TRACE">Arguments: [  ]</msg>
+<kw name="Start Process" owner="Process">
+<msg time="2025-05-09T23:39:16.367545" level="TRACE">Arguments: [ 'D:\\idmHelpers\\PortableApps\\mokapi_v0.15.0_windows_amd64\\mokapi.exe' | '--providers-file-filename' | 'D:\\git_workspace\\robotframework-ldap3\\test\\mocks\\ldap.yaml' | 'shell' ]</msg>
+<msg time="2025-05-09T23:39:16.367545" level="INFO">Starting process:
+D:\idmHelpers\PortableApps\mokapi_v0.15.0_windows_amd64\mokapi.exe --providers-file-filename D:\git_workspace\robotframework-ldap3\test\mocks\ldap.yaml shell</msg>
+<msg time="2025-05-09T23:39:16.367545" level="DEBUG">Process configuration:
+cwd:     D:\git_workspace\robotframework-ldap3
+shell:   False
+stdout:  PIPE
+stderr:  PIPE
+stdin:   None
+alias:   None
+env:     None</msg>
+<msg time="2025-05-09T23:39:16.375738" level="TRACE">Return: &lt;Popen: returncode: None args: ['D:\\idmHelpers\\PortableApps\\mokapi_v0.15....&gt;</msg>
+<msg time="2025-05-09T23:39:16.376679" level="INFO">${mokapi} = &lt;Popen: returncode: None args: ['D:\\idmHelpers\\PortableApps\\mokapi_v0.15....&gt;</msg>
+<var>${mokapi}</var>
+<arg>${MOKAPI_PATH}</arg>
+<arg>--providers-file-filename</arg>
+<arg>${PROV_FILE}</arg>
+<arg>shell</arg>
+<doc>Starts a new process on background.</doc>
+<status status="PASS" start="2025-05-09T23:39:16.366546" elapsed="0.010133"/>
+</kw>
+<kw name="Connect" owner="Ldap3Library">
+<msg time="2025-05-09T23:39:16.376679" level="TRACE">Arguments: [ ldap_url='ldap://localhost:389/cn=tfoster,ou=users,dc=example,dc=com?postalCode,telephoneNumber,title??(postalCode=13029)' | bind_dn='cn=admin,dc=example,dc=com' | password='P4ssW0rd!' ]</msg>
+<msg time="2025-05-09T23:39:16.376679" level="INFO">Connecting to LDAP server: localhost</msg>
+<msg time="2025-05-09T23:39:18.455970" level="TRACE">Return: None</msg>
+<arg>ldap_url=${LDAP_URL}</arg>
+<arg>bind_dn=${BIND_DN}</arg>
+<arg>password=${PASSWORD}</arg>
+<doc>Connect to an LDAP server.
+Parameters:
+- ldap_url: The LDAP URL to connect to.
+- bind_dn: The bind DN to use for authentication.
+- password: The password to use for authentication.
+- cert_path: The path to the root certificate for secure connection (optional).</doc>
+<status status="PASS" start="2025-05-09T23:39:16.376679" elapsed="2.079291"/>
+</kw>
+<kw name="Log Many" owner="BuiltIn">
+<msg time="2025-05-09T23:39:18.456978" level="TRACE">Arguments: [ '${mokapi.stdout}' | '${mokapi.stderr}' ]</msg>
+<msg time="2025-05-09T23:39:18.458999" level="INFO">&lt;_io.BufferedReader name=4&gt;</msg>
+<msg time="2025-05-09T23:39:18.460089" level="INFO">&lt;_io.BufferedReader name=5&gt;</msg>
+<msg time="2025-05-09T23:39:18.460089" level="TRACE">Return: None</msg>
+<arg>${mokapi.stdout}</arg>
+<arg>${mokapi.stderr}</arg>
+<doc>Logs the given messages as separate entries using the INFO level.</doc>
+<status status="PASS" start="2025-05-09T23:39:18.456978" elapsed="0.003111"/>
+</kw>
+<msg time="2025-05-09T23:39:18.460089" level="TRACE">Return: None</msg>
+<status status="PASS" start="2025-05-09T23:39:16.366546" elapsed="2.093543"/>
+</kw>
+<test id="s1-s1-t1" name="Search LDAP with subtree scope" line="21">
+<kw name="Search" owner="Ldap3Library">
+<msg time="2025-05-09T23:39:18.462854" level="TRACE">Arguments: [ 'ldap://localhost:389/ou=users,dc=example,dc=com?postalCode,telephoneNumber,title?sub?(postalCode=13029)' ]</msg>
+<msg time="2025-05-09T23:39:18.465860" level="INFO">Search results: 1 entries found.</msg>
+<msg time="2025-05-09T23:39:18.465860" level="TRACE">Return: 'version: 1\r\ndn: cn=tfoster,ou=users,dc=example,dc=com\r\npostalCode: 98765\r\npostalCode: 13029\r\ntitle: Industrial buyer\r\ntelephoneNumber: (261)555-4472\r\ntelephoneNumber: +49-201-555-0123\r\ntelephoneNumber: 0049-201-555-0123\r\ntelephoneNumber: 001-821-664-8819\r\n\r\n# total number of entries: 1'</msg>
+<msg time="2025-05-09T23:39:18.465860" level="INFO">${result} = version: 1
+dn: cn=tfoster,ou=users,dc=example,dc=com
+postalCode: 98765
+postalCode: 13029
+title: Industrial buyer
+telephoneNumber: (261)555-4472
+telephoneNumber: +49-201-555-0123
+telephoneNumber...</msg>
+<var>${result}</var>
+<arg>${LDAP_URL_SUB}</arg>
+<doc>Searches the LDAP directory using the provided URL.</doc>
+<status status="PASS" start="2025-05-09T23:39:18.461723" elapsed="0.004137"/>
+</kw>
+<kw name="Log To Console" owner="BuiltIn">
+<msg time="2025-05-09T23:39:18.466979" level="TRACE">Arguments: [ 'version: 1\r\ndn: cn=tfoster,ou=users,dc=example,dc=com\r\npostalCode: 98765\r\npostalCode: 13029\r\ntitle: Industrial buyer\r\ntelephoneNumber: (261)555-4472\r\ntelephoneNumber: +49-201-555-0123\r\ntelephoneNumber: 0049-201-555-0123\r\ntelephoneNumber: 001-821-664-8819\r\n\r\n# total number of entries: 1' ]</msg>
+<msg time="2025-05-09T23:39:18.467979" level="TRACE">Return: None</msg>
+<arg>${result}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" start="2025-05-09T23:39:18.466979" elapsed="0.001000"/>
+</kw>
+<status status="PASS" start="2025-05-09T23:39:18.460089" elapsed="0.008802"/>
+</test>
+<test id="s1-s1-t2" name="Search LDAP with base scope" line="25">
+<kw name="Search" owner="Ldap3Library">
+<msg time="2025-05-09T23:39:18.470867" level="TRACE">Arguments: [ 'ldap://localhost:389/cn=tfoster,ou=users,dc=example,dc=com?postalCode,telephoneNumber,title??(postalCode=13029)' ]</msg>
+<msg time="2025-05-09T23:39:18.472964" level="INFO">Search results: 1 entries found.</msg>
+<msg time="2025-05-09T23:39:18.472964" level="TRACE">Return: 'version: 1\r\ndn: cn=tfoster,ou=users,dc=example,dc=com\r\ntitle: Industrial buyer\r\ntelephoneNumber: (261)555-4472\r\ntelephoneNumber: +49-201-555-0123\r\ntelephoneNumber: 0049-201-555-0123\r\ntelephoneNumber: 001-821-664-8819\r\npostalCode: 98765\r\npostalCode: 13029\r\n\r\n# total number of entries: 1'</msg>
+<msg time="2025-05-09T23:39:18.472964" level="INFO">${result} = version: 1
+dn: cn=tfoster,ou=users,dc=example,dc=com
+title: Industrial buyer
+telephoneNumber: (261)555-4472
+telephoneNumber: +49-201-555-0123
+telephoneNumber: 0049-201-555-0123
+telephoneNumber: ...</msg>
+<var>${result}</var>
+<arg>${LDAP_URL_BASE}</arg>
+<doc>Searches the LDAP directory using the provided URL.</doc>
+<status status="PASS" start="2025-05-09T23:39:18.470867" elapsed="0.003114"/>
+</kw>
+<kw name="Log To Console" owner="BuiltIn">
+<msg time="2025-05-09T23:39:18.473981" level="TRACE">Arguments: [ 'version: 1\r\ndn: cn=tfoster,ou=users,dc=example,dc=com\r\ntitle: Industrial buyer\r\ntelephoneNumber: (261)555-4472\r\ntelephoneNumber: +49-201-555-0123\r\ntelephoneNumber: 0049-201-555-0123\r\ntelephoneNumber: 001-821-664-8819\r\npostalCode: 98765\r\npostalCode: 13029\r\n\r\n# total number of entries: 1' ]</msg>
+<msg time="2025-05-09T23:39:18.474978" level="TRACE">Return: None</msg>
+<arg>${result}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" start="2025-05-09T23:39:18.473981" elapsed="0.000997"/>
+</kw>
+<status status="PASS" start="2025-05-09T23:39:18.469869" elapsed="0.005109"/>
+</test>
+<test id="s1-s1-t3" name="Search LDAP with one level scope" line="29">
+<kw name="Search" owner="Ldap3Library">
+<msg time="2025-05-09T23:39:18.478001" level="TRACE">Arguments: [ 'ldap://localhost:389/ou=users,dc=example,dc=com?postalCode,telephoneNumber,title?one?(postalCode=13029)' ]</msg>
+<msg time="2025-05-09T23:39:18.480240" level="INFO">Search results: 1 entries found.</msg>
+<msg time="2025-05-09T23:39:18.480292" level="TRACE">Return: 'version: 1\r\ndn: cn=tfoster,ou=users,dc=example,dc=com\r\ntitle: Industrial buyer\r\ntelephoneNumber: (261)555-4472\r\ntelephoneNumber: +49-201-555-0123\r\ntelephoneNumber: 0049-201-555-0123\r\ntelephoneNumber: 001-821-664-8819\r\npostalCode: 98765\r\npostalCode: 13029\r\n\r\n# total number of entries: 1'</msg>
+<msg time="2025-05-09T23:39:18.480292" level="INFO">${result} = version: 1
+dn: cn=tfoster,ou=users,dc=example,dc=com
+title: Industrial buyer
+telephoneNumber: (261)555-4472
+telephoneNumber: +49-201-555-0123
+telephoneNumber: 0049-201-555-0123
+telephoneNumber: ...</msg>
+<var>${result}</var>
+<arg>${LDAP_URL_LEVEL}</arg>
+<doc>Searches the LDAP directory using the provided URL.</doc>
+<status status="PASS" start="2025-05-09T23:39:18.476983" elapsed="0.003309"/>
+</kw>
+<kw name="Log To Console" owner="BuiltIn">
+<msg time="2025-05-09T23:39:18.480292" level="TRACE">Arguments: [ 'version: 1\r\ndn: cn=tfoster,ou=users,dc=example,dc=com\r\ntitle: Industrial buyer\r\ntelephoneNumber: (261)555-4472\r\ntelephoneNumber: +49-201-555-0123\r\ntelephoneNumber: 0049-201-555-0123\r\ntelephoneNumber: 001-821-664-8819\r\npostalCode: 98765\r\npostalCode: 13029\r\n\r\n# total number of entries: 1' ]</msg>
+<msg time="2025-05-09T23:39:18.481465" level="TRACE">Return: None</msg>
+<arg>${result}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" start="2025-05-09T23:39:18.480292" elapsed="0.001173"/>
+</kw>
+<status status="PASS" start="2025-05-09T23:39:18.476887" elapsed="0.004578"/>
+</test>
+<test id="s1-s1-t4" name="Search LDAP with subtree scope and return JSON" line="33">
+<kw name="Search" owner="Ldap3Library">
+<msg time="2025-05-09T23:39:18.483697" level="TRACE">Arguments: [ 'ldap://localhost:389/ou=users,dc=example,dc=com?postalCode,telephoneNumber,title?sub?(postalCode=13029)' | 'json' ]</msg>
+<msg time="2025-05-09T23:39:18.485490" level="INFO">Search results: 1 entries found.</msg>
+<msg time="2025-05-09T23:39:18.486018" level="TRACE">Return: '{\n    "entries": [\n        {\n            "attributes": {\n                "postalCode": [\n                    "98765",\n                    "13029"\n                ],\n                "telephoneNumber": [\n                    "(261)555-4472",\n                    "+49-201-555-0123",\n                    "0049-201-555-0123",\n                    "001-821-664-8819"\n                ],\n                "title": [\n                    "Industrial buyer"\n                ]\n            },\n            "dn": "cn=tfoster,ou=users,dc=example,dc=com"\n        }\n    ]\n}'</msg>
+<msg time="2025-05-09T23:39:18.486018" level="INFO">${result} = {
+    "entries": [
+        {
+            "attributes": {
+                "postalCode": [
+                    "98765",
+                    "13029"
+                ],
+                "telephoneNumber": ...</msg>
+<var>${result}</var>
+<arg>${LDAP_URL_SUB}</arg>
+<arg>json</arg>
+<doc>Searches the LDAP directory using the provided URL.</doc>
+<status status="PASS" start="2025-05-09T23:39:18.483697" elapsed="0.002321"/>
+</kw>
+<kw name="Log To Console" owner="BuiltIn">
+<msg time="2025-05-09T23:39:18.486018" level="TRACE">Arguments: [ '{\n    "entries": [\n        {\n            "attributes": {\n                "postalCode": [\n                    "98765",\n                    "13029"\n                ],\n                "telephoneNumber": [\n                    "(261)555-4472",\n                    "+49-201-555-0123",\n                    "0049-201-555-0123",\n                    "001-821-664-8819"\n                ],\n                "title": [\n                    "Industrial buyer"\n                ]\n            },\n            "dn": "cn=tfoster,ou=users,dc=example,dc=com"\n        }\n    ]\n}' ]</msg>
+<msg time="2025-05-09T23:39:18.487031" level="TRACE">Return: None</msg>
+<arg>${result}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" start="2025-05-09T23:39:18.486018" elapsed="0.001013"/>
+</kw>
+<status status="PASS" start="2025-05-09T23:39:18.482633" elapsed="0.004398"/>
+</test>
+<test id="s1-s1-t5" name="Check OBject Exists" line="37">
+<kw name="Check Object Exists" owner="Ldap3Library">
+<msg time="2025-05-09T23:39:18.489030" level="TRACE">Arguments: [ 'ldap://localhost:389/cn=tfoster,ou=users,dc=example,dc=com?postalCode,telephoneNumber,title??(postalCode=13029)' ]</msg>
+<msg time="2025-05-09T23:39:18.491306" level="INFO">Search results: 1 entries found.</msg>
+<msg time="2025-05-09T23:39:18.491306" level="INFO">Object cn=tfoster,ou=users,dc=example,dc=com exists: True</msg>
+<msg time="2025-05-09T23:39:18.491306" level="TRACE">Return: True</msg>
+<arg>${LDAP_URL_BASE}</arg>
+<doc>Check if an object exists in the LDAP directory.
+Args:
+    ldap_url (str): &lt;ldap/ldaps&gt;://&lt;host&gt;:&lt;port&gt;/&lt;base_dn&gt;?&lt;attributes&gt;?&lt;scope&gt;?&lt;filter&gt;
+Returns:
+    bool: True if the object exists, False otherwise.
+Raises:
+    ValueError: ScopeError: Scope must be BASE for single object actions</doc>
+<status status="PASS" start="2025-05-09T23:39:18.489030" elapsed="0.002276"/>
+</kw>
+<kw name="Run Keyword And Expect Error" owner="BuiltIn">
+<msg time="2025-05-09T23:39:18.492312" level="TRACE">Arguments: [ '*ScopeError: Scope must be BASE*' | 'Check Object Exists' | '${LDAP_URL_SUB}' ]</msg>
+<kw name="Check Object Exists" owner="Ldap3Library">
+<msg time="2025-05-09T23:39:18.492312" level="TRACE">Arguments: [ 'ldap://localhost:389/ou=users,dc=example,dc=com?postalCode,telephoneNumber,title?sub?(postalCode=13029)' ]</msg>
+<msg time="2025-05-09T23:39:18.492312" level="ERROR">ScopeError: Scope must be BASE for single object actions. Current scope: SUBTREE</msg>
+<msg time="2025-05-09T23:39:18.493311" level="FAIL">ValueError: ScopeError: Scope must be BASE for single object actions. Current scope: SUBTREE</msg>
+<msg time="2025-05-09T23:39:18.495323" level="DEBUG">Traceback (most recent call last):
+  File "D:\git_workspace\robotframework-ldap3\Ldap3Library\query.py", line 106, in check_object_exists
+    _url = self._is_base_scope(ldap_url)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\git_workspace\robotframework-ldap3\Ldap3Library\query.py", line 52, in _is_base_scope
+    raise ValueError(
+ValueError: ScopeError: Scope must be BASE for single object actions. Current scope: SUBTREE</msg>
+<arg>${LDAP_URL_SUB}</arg>
+<doc>Check if an object exists in the LDAP directory.
+Args:
+    ldap_url (str): &lt;ldap/ldaps&gt;://&lt;host&gt;:&lt;port&gt;/&lt;base_dn&gt;?&lt;attributes&gt;?&lt;scope&gt;?&lt;filter&gt;
+Returns:
+    bool: True if the object exists, False otherwise.
+Raises:
+    ValueError: ScopeError: Scope must be BASE for single object actions</doc>
+<status status="FAIL" start="2025-05-09T23:39:18.492312" elapsed="0.003011">ValueError: ScopeError: Scope must be BASE for single object actions. Current scope: SUBTREE</status>
+</kw>
+<msg time="2025-05-09T23:39:18.497310" level="TRACE">Return: 'ValueError: ScopeError: Scope must be BASE for single object actions. Current scope: SUBTREE'</msg>
+<arg>*ScopeError: Scope must be BASE*</arg>
+<arg>Check Object Exists</arg>
+<arg>${LDAP_URL_SUB}</arg>
+<doc>Runs the keyword and checks that the expected error occurred.</doc>
+<status status="PASS" start="2025-05-09T23:39:18.492312" elapsed="0.004998"/>
+</kw>
+<kw name="Check Object Exists" owner="Ldap3Library">
+<msg time="2025-05-09T23:39:18.497310" level="TRACE">Arguments: [ 'ldap://localhost:389/cn=notexisting,ou=users,dc=example,dc=com?postalCode,telephoneNumber,title??(postalCode=13029)' ]</msg>
+<msg time="2025-05-09T23:39:18.499396" level="INFO">Search results: 0 entries found.</msg>
+<msg time="2025-05-09T23:39:18.499396" level="INFO">Object cn=notexisting,ou=users,dc=example,dc=com does not exist.</msg>
+<msg time="2025-05-09T23:39:18.499396" level="TRACE">Return: False</msg>
+<arg>ldap://localhost:389/cn=notexisting,ou=users,dc=example,dc=com?postalCode,telephoneNumber,title??(postalCode=13029)</arg>
+<doc>Check if an object exists in the LDAP directory.
+Args:
+    ldap_url (str): &lt;ldap/ldaps&gt;://&lt;host&gt;:&lt;port&gt;/&lt;base_dn&gt;?&lt;attributes&gt;?&lt;scope&gt;?&lt;filter&gt;
+Returns:
+    bool: True if the object exists, False otherwise.
+Raises:
+    ValueError: ScopeError: Scope must be BASE for single object actions</doc>
+<status status="PASS" start="2025-05-09T23:39:18.497310" elapsed="0.002086"/>
+</kw>
+<status status="PASS" start="2025-05-09T23:39:18.488030" elapsed="0.011366"/>
+</test>
+<test id="s1-s1-t6" name="Check Object Count" line="46">
+<kw name="Check Object Count" owner="Ldap3Library">
+<msg time="2025-05-09T23:39:18.503407" level="TRACE">Arguments: [ 'ldap://localhost:389/ou=users,dc=example,dc=com?postalCode,telephoneNumber,title?sub?(postalCode=13029)' | &lt;AssertionOperator.&gt;=: '&gt;='&gt; | 1 ]</msg>
+<msg time="2025-05-09T23:39:18.505799" level="INFO">Search results: 1 entries found.</msg>
+<msg time="2025-05-09T23:39:18.505799" level="INFO">Expected count: 1, Actual count: 1</msg>
+<msg time="2025-05-09T23:39:18.505799" level="TRACE">Return: True</msg>
+<arg>${LDAP_URL_SUB_MANY}</arg>
+<arg>&gt;=</arg>
+<arg>1</arg>
+<doc>Check the number of objects returned by the search.
+Args:
+    ldap_url (str): &lt;ldap/ldaps&gt;://&lt;host&gt;:&lt;port&gt;/&lt;base_dn&gt;?&lt;attributes&gt;?&lt;scope&gt;?&lt;filter&gt;
+    assertion_operator (AssertionOperator): The operator to use for the assertion.
+    expected_count (int): The expected number of objects.
+    assertion_message (str, optional): Custom message for the assertion. Defaults to None.
+Raises:
+    AssertionError: If the assertion fails.
+Returns:
+    bool: True if the assertion passes, False otherwise.
+Example:
+| Check Object Count    ldap://localhost:389/cn=admin,dc=example,dc=com???(objectClass=*)    ==    1
+| Check Object Count    ldap://localhost:389/cn=admin,dc=example,dc=com???(objectClass=*)    &gt;    0
+| Check Object Count    ldap://localhost:389/cn=admin,dc=example,dc=com???(objectClass=*)    &lt;=    4</doc>
+<status status="PASS" start="2025-05-09T23:39:18.502409" elapsed="0.003390"/>
+</kw>
+<kw name="Check Object Count" owner="Ldap3Library">
+<msg time="2025-05-09T23:39:18.506804" level="TRACE">Arguments: [ 'ldap://localhost:389/ou=users,dc=example,dc=com?postalCode,telephoneNumber,title?sub?(postalCode=13029)' | &lt;AssertionOperator.&lt;=: '&lt;='&gt; | 5 ]</msg>
+<msg time="2025-05-09T23:39:18.510315" level="INFO">Search results: 1 entries found.</msg>
+<msg time="2025-05-09T23:39:18.510315" level="INFO">Expected count: 5, Actual count: 1</msg>
+<msg time="2025-05-09T23:39:18.510315" level="TRACE">Return: True</msg>
+<arg>${LDAP_URL_SUB_MANY}</arg>
+<arg>&lt;=</arg>
+<arg>5</arg>
+<doc>Check the number of objects returned by the search.
+Args:
+    ldap_url (str): &lt;ldap/ldaps&gt;://&lt;host&gt;:&lt;port&gt;/&lt;base_dn&gt;?&lt;attributes&gt;?&lt;scope&gt;?&lt;filter&gt;
+    assertion_operator (AssertionOperator): The operator to use for the assertion.
+    expected_count (int): The expected number of objects.
+    assertion_message (str, optional): Custom message for the assertion. Defaults to None.
+Raises:
+    AssertionError: If the assertion fails.
+Returns:
+    bool: True if the assertion passes, False otherwise.
+Example:
+| Check Object Count    ldap://localhost:389/cn=admin,dc=example,dc=com???(objectClass=*)    ==    1
+| Check Object Count    ldap://localhost:389/cn=admin,dc=example,dc=com???(objectClass=*)    &gt;    0
+| Check Object Count    ldap://localhost:389/cn=admin,dc=example,dc=com???(objectClass=*)    &lt;=    4</doc>
+<status status="PASS" start="2025-05-09T23:39:18.505799" elapsed="0.004516"/>
+</kw>
+<kw name="Run Keyword And Expect Error" owner="BuiltIn">
+<msg time="2025-05-09T23:39:18.511321" level="TRACE">Arguments: [ 'Unexpected result count!*' | 'Check Object Count' | '${LDAP_URL_BASE}' | '&lt;' | '1' ]</msg>
+<kw name="Check Object Count" owner="Ldap3Library">
+<msg time="2025-05-09T23:39:18.511321" level="TRACE">Arguments: [ 'ldap://localhost:389/cn=tfoster,ou=users,dc=example,dc=com?postalCode,telephoneNumber,title??(postalCode=13029)' | &lt;AssertionOperator.less than: '&lt;'&gt; | 1 ]</msg>
+<msg time="2025-05-09T23:39:18.513242" level="INFO">Search results: 1 entries found.</msg>
+<msg time="2025-05-09T23:39:18.513787" level="FAIL">Unexpected result count! '1' (int) should be less than '1' (int)</msg>
+<msg time="2025-05-09T23:39:18.514792" level="DEBUG">Traceback (most recent call last):
+  File "D:\git_workspace\robotframework-ldap3\Ldap3Library\query.py", line 144, in check_object_count
+    verify_assertion(actual_count, assertion_operator, expected_count,
+  File "C:\LegacyApp\Python\Python311\Lib\site-packages\assertionengine\assertion_engine.py", line 191, in verify_assertion
+    raise_error(custom_message, expected, filler, message, text, value)
+  File "C:\LegacyApp\Python\Python311\Lib\site-packages\assertionengine\assertion_engine.py", line 271, in raise_error
+    raise AssertionError(error_msg)
+AssertionError: Unexpected result count! '1' (int) should be less than '1' (int)</msg>
+<arg>${LDAP_URL_BASE}</arg>
+<arg>&lt;</arg>
+<arg>1</arg>
+<doc>Check the number of objects returned by the search.
+Args:
+    ldap_url (str): &lt;ldap/ldaps&gt;://&lt;host&gt;:&lt;port&gt;/&lt;base_dn&gt;?&lt;attributes&gt;?&lt;scope&gt;?&lt;filter&gt;
+    assertion_operator (AssertionOperator): The operator to use for the assertion.
+    expected_count (int): The expected number of objects.
+    assertion_message (str, optional): Custom message for the assertion. Defaults to None.
+Raises:
+    AssertionError: If the assertion fails.
+Returns:
+    bool: True if the assertion passes, False otherwise.
+Example:
+| Check Object Count    ldap://localhost:389/cn=admin,dc=example,dc=com???(objectClass=*)    ==    1
+| Check Object Count    ldap://localhost:389/cn=admin,dc=example,dc=com???(objectClass=*)    &gt;    0
+| Check Object Count    ldap://localhost:389/cn=admin,dc=example,dc=com???(objectClass=*)    &lt;=    4</doc>
+<status status="FAIL" start="2025-05-09T23:39:18.511321" elapsed="0.003471">Unexpected result count! '1' (int) should be less than '1' (int)</status>
+</kw>
+<msg time="2025-05-09T23:39:18.514792" level="TRACE">Return: "Unexpected result count! '1' (int) should be less than '1' (int)"</msg>
+<arg>Unexpected result count!*</arg>
+<arg>Check Object Count</arg>
+<arg>${LDAP_URL_BASE}</arg>
+<arg>&lt;</arg>
+<arg>1</arg>
+<doc>Runs the keyword and checks that the expected error occurred.</doc>
+<status status="PASS" start="2025-05-09T23:39:18.511321" elapsed="0.003471"/>
+</kw>
+<status status="PASS" start="2025-05-09T23:39:18.501412" elapsed="0.014448"/>
+</test>
+<test id="s1-s1-t7" name="Check Attribute Value" line="52">
+<kw name="Check Attribute Value" owner="Ldap3Library">
+<msg time="2025-05-09T23:39:18.517334" level="TRACE">Arguments: [ 'ldap://localhost:389/cn=tfoster,ou=users,dc=example,dc=com?postalCode,telephoneNumber,title??(postalCode=13029)' | 'title' | &lt;AssertionOperator.matches: '$'&gt; | '.*' ]</msg>
+<msg time="2025-05-09T23:39:18.519301" level="INFO">Search results: 1 entries found.</msg>
+<msg time="2025-05-09T23:39:18.519301" level="INFO">Expected value: .*, Actual value: Industrial buyer</msg>
+<msg time="2025-05-09T23:39:18.519301" level="TRACE">Return: True</msg>
+<arg>${LDAP_URL}</arg>
+<arg>title</arg>
+<arg>matches</arg>
+<arg>.*</arg>
+<doc>Check the value of an attribute in the LDAP entry.
+Args:
+    ldap_url (str): &lt;ldap/ldaps&gt;://&lt;host&gt;:&lt;port&gt;/&lt;base_dn&gt;?&lt;attributes&gt;?&lt;scope&gt;?&lt;filter&gt;
+    attribute_name (str): The name of the attribute to check.
+    assertion_operator (AssertionOperator): The operator to use for the assertion.
+    expected_value (Any): The expected value of the attribute.
+    assertion_message (str, optional): Custom message for the assertion. Defaults to None.
+Raises:
+    AssertionError: If the assertion fails.
+    ValueError: ScopeError: Scope must be BASE for single object actions
+    ValueError: If the attribute is not found in the LDAP URL or entry.
+    ValueError: If no entries are found for the given LDAP URL.
+    ValueError: If multiple entries are found for the given LDAP URL.
+Returns:
+    bool: True if the assertion passes, False otherwise.</doc>
+<status status="PASS" start="2025-05-09T23:39:18.517334" elapsed="0.001967"/>
+</kw>
+<kw name="Check Attribute Value" owner="Ldap3Library">
+<msg time="2025-05-09T23:39:18.520308" level="TRACE">Arguments: [ 'ldap://localhost:389/cn=tfoster,ou=users,dc=example,dc=com?postalCode,telephoneNumber,title??(postalCode=13029)' | 'title' | &lt;AssertionOperator.contains: '*='&gt; | 'buyer' ]</msg>
+<msg time="2025-05-09T23:39:18.521738" level="INFO">Search results: 1 entries found.</msg>
+<msg time="2025-05-09T23:39:18.521738" level="INFO">Expected value: buyer, Actual value: Industrial buyer</msg>
+<msg time="2025-05-09T23:39:18.521738" level="TRACE">Return: True</msg>
+<arg>${LDAP_URL}</arg>
+<arg>title</arg>
+<arg>contains</arg>
+<arg>buyer</arg>
+<doc>Check the value of an attribute in the LDAP entry.
+Args:
+    ldap_url (str): &lt;ldap/ldaps&gt;://&lt;host&gt;:&lt;port&gt;/&lt;base_dn&gt;?&lt;attributes&gt;?&lt;scope&gt;?&lt;filter&gt;
+    attribute_name (str): The name of the attribute to check.
+    assertion_operator (AssertionOperator): The operator to use for the assertion.
+    expected_value (Any): The expected value of the attribute.
+    assertion_message (str, optional): Custom message for the assertion. Defaults to None.
+Raises:
+    AssertionError: If the assertion fails.
+    ValueError: ScopeError: Scope must be BASE for single object actions
+    ValueError: If the attribute is not found in the LDAP URL or entry.
+    ValueError: If no entries are found for the given LDAP URL.
+    ValueError: If multiple entries are found for the given LDAP URL.
+Returns:
+    bool: True if the assertion passes, False otherwise.</doc>
+<status status="PASS" start="2025-05-09T23:39:18.519301" elapsed="0.002437"/>
+</kw>
+<kw name="Check Attribute Value" owner="Ldap3Library">
+<msg time="2025-05-09T23:39:18.521738" level="TRACE">Arguments: [ 'ldap://localhost:389/cn=tfoster,ou=users,dc=example,dc=com?postalCode,telephoneNumber,title??(postalCode=13029)' | 'postalCode' | &lt;AssertionOperator.equal: '=='&gt; | '13029' ]</msg>
+<msg time="2025-05-09T23:39:18.523813" level="INFO">Search results: 1 entries found.</msg>
+<msg time="2025-05-09T23:39:18.523813" level="INFO">Assertion failed: Attribute value mismatch</msg>
+<msg time="2025-05-09T23:39:18.523813" level="INFO">Expected value: 13029, Actual value: 13029</msg>
+<msg time="2025-05-09T23:39:18.523813" level="TRACE">Return: True</msg>
+<arg>${LDAP_URL}</arg>
+<arg>postalCode</arg>
+<arg>==</arg>
+<arg>13029</arg>
+<doc>Check the value of an attribute in the LDAP entry.
+Args:
+    ldap_url (str): &lt;ldap/ldaps&gt;://&lt;host&gt;:&lt;port&gt;/&lt;base_dn&gt;?&lt;attributes&gt;?&lt;scope&gt;?&lt;filter&gt;
+    attribute_name (str): The name of the attribute to check.
+    assertion_operator (AssertionOperator): The operator to use for the assertion.
+    expected_value (Any): The expected value of the attribute.
+    assertion_message (str, optional): Custom message for the assertion. Defaults to None.
+Raises:
+    AssertionError: If the assertion fails.
+    ValueError: ScopeError: Scope must be BASE for single object actions
+    ValueError: If the attribute is not found in the LDAP URL or entry.
+    ValueError: If no entries are found for the given LDAP URL.
+    ValueError: If multiple entries are found for the given LDAP URL.
+Returns:
+    bool: True if the assertion passes, False otherwise.</doc>
+<status status="PASS" start="2025-05-09T23:39:18.521738" elapsed="0.002075"/>
+</kw>
+<kw name="Check Attribute Value" owner="Ldap3Library">
+<msg time="2025-05-09T23:39:18.524873" level="TRACE">Arguments: [ 'ldap://localhost:389/cn=tfoster,ou=users,dc=example,dc=com?postalCode,telephoneNumber,title??(postalCode=13029)' | 'postalCode' | &lt;AssertionOperator.equal: '=='&gt; | '13029' ]</msg>
+<msg time="2025-05-09T23:39:18.527477" level="INFO">Search results: 1 entries found.</msg>
+<msg time="2025-05-09T23:39:18.527995" level="INFO">Assertion failed: Attribute value mismatch</msg>
+<msg time="2025-05-09T23:39:18.527995" level="INFO">Expected value: 13029, Actual value: 13029</msg>
+<msg time="2025-05-09T23:39:18.527995" level="TRACE">Return: True</msg>
+<arg>${LDAP_URL}</arg>
+<arg>postalCode</arg>
+<arg>equals</arg>
+<arg>13029</arg>
+<doc>Check the value of an attribute in the LDAP entry.
+Args:
+    ldap_url (str): &lt;ldap/ldaps&gt;://&lt;host&gt;:&lt;port&gt;/&lt;base_dn&gt;?&lt;attributes&gt;?&lt;scope&gt;?&lt;filter&gt;
+    attribute_name (str): The name of the attribute to check.
+    assertion_operator (AssertionOperator): The operator to use for the assertion.
+    expected_value (Any): The expected value of the attribute.
+    assertion_message (str, optional): Custom message for the assertion. Defaults to None.
+Raises:
+    AssertionError: If the assertion fails.
+    ValueError: ScopeError: Scope must be BASE for single object actions
+    ValueError: If the attribute is not found in the LDAP URL or entry.
+    ValueError: If no entries are found for the given LDAP URL.
+    ValueError: If multiple entries are found for the given LDAP URL.
+Returns:
+    bool: True if the assertion passes, False otherwise.</doc>
+<status status="PASS" start="2025-05-09T23:39:18.524873" elapsed="0.003122"/>
+</kw>
+<kw name="Check Attribute Value" owner="Ldap3Library">
+<msg time="2025-05-09T23:39:18.527995" level="TRACE">Arguments: [ 'ldap://localhost:389/cn=tfoster,ou=users,dc=example,dc=com?postalCode,telephoneNumber,title??(postalCode=13029)' | 'postalCode' | &lt;AssertionOperator.equal: '=='&gt; | '13029' ]</msg>
+<msg time="2025-05-09T23:39:18.530531" level="INFO">Search results: 1 entries found.</msg>
+<msg time="2025-05-09T23:39:18.530531" level="INFO">Assertion failed: Attribute value mismatch</msg>
+<msg time="2025-05-09T23:39:18.530531" level="INFO">Expected value: 13029, Actual value: 13029</msg>
+<msg time="2025-05-09T23:39:18.530531" level="TRACE">Return: True</msg>
+<arg>${LDAP_URL}</arg>
+<arg>postalCode</arg>
+<arg>equal</arg>
+<arg>13029</arg>
+<doc>Check the value of an attribute in the LDAP entry.
+Args:
+    ldap_url (str): &lt;ldap/ldaps&gt;://&lt;host&gt;:&lt;port&gt;/&lt;base_dn&gt;?&lt;attributes&gt;?&lt;scope&gt;?&lt;filter&gt;
+    attribute_name (str): The name of the attribute to check.
+    assertion_operator (AssertionOperator): The operator to use for the assertion.
+    expected_value (Any): The expected value of the attribute.
+    assertion_message (str, optional): Custom message for the assertion. Defaults to None.
+Raises:
+    AssertionError: If the assertion fails.
+    ValueError: ScopeError: Scope must be BASE for single object actions
+    ValueError: If the attribute is not found in the LDAP URL or entry.
+    ValueError: If no entries are found for the given LDAP URL.
+    ValueError: If multiple entries are found for the given LDAP URL.
+Returns:
+    bool: True if the assertion passes, False otherwise.</doc>
+<status status="PASS" start="2025-05-09T23:39:18.527995" elapsed="0.002536"/>
+</kw>
+<kw name="Check Attribute Value" owner="Ldap3Library">
+<msg time="2025-05-09T23:39:18.531539" level="TRACE">Arguments: [ 'ldap://localhost:389/cn=tfoster,ou=users,dc=example,dc=com?postalCode,telephoneNumber,title??(postalCode=13029)' | 'postalCode' | &lt;AssertionOperator.&lt;=: '&lt;='&gt; | '13030' ]</msg>
+<msg time="2025-05-09T23:39:18.533911" level="INFO">Search results: 1 entries found.</msg>
+<msg time="2025-05-09T23:39:18.533911" level="INFO">Assertion failed: Attribute value mismatch</msg>
+<msg time="2025-05-09T23:39:18.533911" level="INFO">Expected value: 13030, Actual value: 13029</msg>
+<msg time="2025-05-09T23:39:18.533911" level="TRACE">Return: True</msg>
+<arg>${LDAP_URL}</arg>
+<arg>postalCode</arg>
+<arg>&lt;=</arg>
+<arg>13030</arg>
+<doc>Check the value of an attribute in the LDAP entry.
+Args:
+    ldap_url (str): &lt;ldap/ldaps&gt;://&lt;host&gt;:&lt;port&gt;/&lt;base_dn&gt;?&lt;attributes&gt;?&lt;scope&gt;?&lt;filter&gt;
+    attribute_name (str): The name of the attribute to check.
+    assertion_operator (AssertionOperator): The operator to use for the assertion.
+    expected_value (Any): The expected value of the attribute.
+    assertion_message (str, optional): Custom message for the assertion. Defaults to None.
+Raises:
+    AssertionError: If the assertion fails.
+    ValueError: ScopeError: Scope must be BASE for single object actions
+    ValueError: If the attribute is not found in the LDAP URL or entry.
+    ValueError: If no entries are found for the given LDAP URL.
+    ValueError: If multiple entries are found for the given LDAP URL.
+Returns:
+    bool: True if the assertion passes, False otherwise.</doc>
+<status status="PASS" start="2025-05-09T23:39:18.531539" elapsed="0.002372"/>
+</kw>
+<kw name="Check Attribute Value" owner="Ldap3Library">
+<msg time="2025-05-09T23:39:18.534926" level="TRACE">Arguments: [ 'ldap://localhost:389/cn=tfoster,ou=users,dc=example,dc=com?postalCode,telephoneNumber,title??(postalCode=13029)' | 'postalCode' | &lt;AssertionOperator.less than: '&lt;'&gt; | '13030' ]</msg>
+<msg time="2025-05-09T23:39:18.536971" level="INFO">Search results: 1 entries found.</msg>
+<msg time="2025-05-09T23:39:18.536971" level="INFO">Assertion failed: Attribute value mismatch</msg>
+<msg time="2025-05-09T23:39:18.536971" level="INFO">Expected value: 13030, Actual value: 13029</msg>
+<msg time="2025-05-09T23:39:18.536971" level="TRACE">Return: True</msg>
+<arg>${LDAP_URL}</arg>
+<arg>postalCode</arg>
+<arg>&lt;</arg>
+<arg>13030</arg>
+<doc>Check the value of an attribute in the LDAP entry.
+Args:
+    ldap_url (str): &lt;ldap/ldaps&gt;://&lt;host&gt;:&lt;port&gt;/&lt;base_dn&gt;?&lt;attributes&gt;?&lt;scope&gt;?&lt;filter&gt;
+    attribute_name (str): The name of the attribute to check.
+    assertion_operator (AssertionOperator): The operator to use for the assertion.
+    expected_value (Any): The expected value of the attribute.
+    assertion_message (str, optional): Custom message for the assertion. Defaults to None.
+Raises:
+    AssertionError: If the assertion fails.
+    ValueError: ScopeError: Scope must be BASE for single object actions
+    ValueError: If the attribute is not found in the LDAP URL or entry.
+    ValueError: If no entries are found for the given LDAP URL.
+    ValueError: If multiple entries are found for the given LDAP URL.
+Returns:
+    bool: True if the assertion passes, False otherwise.</doc>
+<status status="PASS" start="2025-05-09T23:39:18.534926" elapsed="0.002045"/>
+</kw>
+<kw name="Check Attribute Value" owner="Ldap3Library">
+<msg time="2025-05-09T23:39:18.537569" level="TRACE">Arguments: [ 'ldap://localhost:389/cn=tfoster,ou=users,dc=example,dc=com?postalCode,telephoneNumber,title??(postalCode=13029)' | 'postalCode' | &lt;AssertionOperator.less than: '&lt;'&gt; | '13030' ]</msg>
+<msg time="2025-05-09T23:39:18.539425" level="INFO">Search results: 1 entries found.</msg>
+<msg time="2025-05-09T23:39:18.539425" level="INFO">Assertion failed: Attribute value mismatch</msg>
+<msg time="2025-05-09T23:39:18.539425" level="INFO">Expected value: 13030, Actual value: 13029</msg>
+<msg time="2025-05-09T23:39:18.539425" level="TRACE">Return: True</msg>
+<arg>${LDAP_URL}</arg>
+<arg>postalCode</arg>
+<arg>less than</arg>
+<arg>13030</arg>
+<doc>Check the value of an attribute in the LDAP entry.
+Args:
+    ldap_url (str): &lt;ldap/ldaps&gt;://&lt;host&gt;:&lt;port&gt;/&lt;base_dn&gt;?&lt;attributes&gt;?&lt;scope&gt;?&lt;filter&gt;
+    attribute_name (str): The name of the attribute to check.
+    assertion_operator (AssertionOperator): The operator to use for the assertion.
+    expected_value (Any): The expected value of the attribute.
+    assertion_message (str, optional): Custom message for the assertion. Defaults to None.
+Raises:
+    AssertionError: If the assertion fails.
+    ValueError: ScopeError: Scope must be BASE for single object actions
+    ValueError: If the attribute is not found in the LDAP URL or entry.
+    ValueError: If no entries are found for the given LDAP URL.
+    ValueError: If multiple entries are found for the given LDAP URL.
+Returns:
+    bool: True if the assertion passes, False otherwise.</doc>
+<status status="PASS" start="2025-05-09T23:39:18.537569" elapsed="0.001856"/>
+</kw>
+<kw name="Check Attribute Value" owner="Ldap3Library">
+<msg time="2025-05-09T23:39:18.539425" level="TRACE">Arguments: [ 'ldap://localhost:389/cn=tfoster,ou=users,dc=example,dc=com?postalCode,telephoneNumber,title??(postalCode=13029)' | 'postalCode' | &lt;AssertionOperator.&gt;=: '&gt;='&gt; | '13028' ]</msg>
+<msg time="2025-05-09T23:39:18.542824" level="INFO">Search results: 1 entries found.</msg>
+<msg time="2025-05-09T23:39:18.542824" level="INFO">Expected value: 13028, Actual value: 98765</msg>
+<msg time="2025-05-09T23:39:18.542824" level="TRACE">Return: True</msg>
+<arg>${LDAP_URL}</arg>
+<arg>postalCode</arg>
+<arg>&gt;=</arg>
+<arg>13028</arg>
+<doc>Check the value of an attribute in the LDAP entry.
+Args:
+    ldap_url (str): &lt;ldap/ldaps&gt;://&lt;host&gt;:&lt;port&gt;/&lt;base_dn&gt;?&lt;attributes&gt;?&lt;scope&gt;?&lt;filter&gt;
+    attribute_name (str): The name of the attribute to check.
+    assertion_operator (AssertionOperator): The operator to use for the assertion.
+    expected_value (Any): The expected value of the attribute.
+    assertion_message (str, optional): Custom message for the assertion. Defaults to None.
+Raises:
+    AssertionError: If the assertion fails.
+    ValueError: ScopeError: Scope must be BASE for single object actions
+    ValueError: If the attribute is not found in the LDAP URL or entry.
+    ValueError: If no entries are found for the given LDAP URL.
+    ValueError: If multiple entries are found for the given LDAP URL.
+Returns:
+    bool: True if the assertion passes, False otherwise.</doc>
+<status status="PASS" start="2025-05-09T23:39:18.539425" elapsed="0.003399"/>
+</kw>
+<kw name="Check Attribute Value" owner="Ldap3Library">
+<msg time="2025-05-09T23:39:18.543833" level="TRACE">Arguments: [ 'ldap://localhost:389/cn=tfoster,ou=users,dc=example,dc=com?postalCode,telephoneNumber,title??(postalCode=13029)' | 'postalCode' | &lt;AssertionOperator.greater than: '&gt;'&gt; | '13028' ]</msg>
+<msg time="2025-05-09T23:39:18.546623" level="INFO">Search results: 1 entries found.</msg>
+<msg time="2025-05-09T23:39:18.546623" level="INFO">Expected value: 13028, Actual value: 98765</msg>
+<msg time="2025-05-09T23:39:18.546623" level="TRACE">Return: True</msg>
+<arg>${LDAP_URL}</arg>
+<arg>postalCode</arg>
+<arg>&gt;</arg>
+<arg>13028</arg>
+<doc>Check the value of an attribute in the LDAP entry.
+Args:
+    ldap_url (str): &lt;ldap/ldaps&gt;://&lt;host&gt;:&lt;port&gt;/&lt;base_dn&gt;?&lt;attributes&gt;?&lt;scope&gt;?&lt;filter&gt;
+    attribute_name (str): The name of the attribute to check.
+    assertion_operator (AssertionOperator): The operator to use for the assertion.
+    expected_value (Any): The expected value of the attribute.
+    assertion_message (str, optional): Custom message for the assertion. Defaults to None.
+Raises:
+    AssertionError: If the assertion fails.
+    ValueError: ScopeError: Scope must be BASE for single object actions
+    ValueError: If the attribute is not found in the LDAP URL or entry.
+    ValueError: If no entries are found for the given LDAP URL.
+    ValueError: If multiple entries are found for the given LDAP URL.
+Returns:
+    bool: True if the assertion passes, False otherwise.</doc>
+<status status="PASS" start="2025-05-09T23:39:18.543833" elapsed="0.002790"/>
+</kw>
+<kw name="Check Attribute Value" owner="Ldap3Library">
+<msg time="2025-05-09T23:39:18.548631" level="TRACE">Arguments: [ 'ldap://localhost:389/cn=tfoster,ou=users,dc=example,dc=com?postalCode,telephoneNumber,title??(postalCode=13029)' | 'postalCode' | &lt;AssertionOperator.greater than: '&gt;'&gt; | '13028' ]</msg>
+<msg time="2025-05-09T23:39:18.551618" level="INFO">Search results: 1 entries found.</msg>
+<msg time="2025-05-09T23:39:18.551618" level="INFO">Expected value: 13028, Actual value: 98765</msg>
+<msg time="2025-05-09T23:39:18.551618" level="TRACE">Return: True</msg>
+<arg>${LDAP_URL}</arg>
+<arg>postalCode</arg>
+<arg>greater than</arg>
+<arg>13028</arg>
+<doc>Check the value of an attribute in the LDAP entry.
+Args:
+    ldap_url (str): &lt;ldap/ldaps&gt;://&lt;host&gt;:&lt;port&gt;/&lt;base_dn&gt;?&lt;attributes&gt;?&lt;scope&gt;?&lt;filter&gt;
+    attribute_name (str): The name of the attribute to check.
+    assertion_operator (AssertionOperator): The operator to use for the assertion.
+    expected_value (Any): The expected value of the attribute.
+    assertion_message (str, optional): Custom message for the assertion. Defaults to None.
+Raises:
+    AssertionError: If the assertion fails.
+    ValueError: ScopeError: Scope must be BASE for single object actions
+    ValueError: If the attribute is not found in the LDAP URL or entry.
+    ValueError: If no entries are found for the given LDAP URL.
+    ValueError: If multiple entries are found for the given LDAP URL.
+Returns:
+    bool: True if the assertion passes, False otherwise.</doc>
+<status status="PASS" start="2025-05-09T23:39:18.547632" elapsed="0.003986"/>
+</kw>
+<kw name="Check Attribute Value" owner="Ldap3Library">
+<msg time="2025-05-09T23:39:18.552625" level="TRACE">Arguments: [ 'ldap://localhost:389/cn=tfoster,ou=users,dc=example,dc=com?postalCode,telephoneNumber,title??(postalCode=13029)' | 'postalCode' | &lt;AssertionOperator.inequal: '!='&gt; | '13028' ]</msg>
+<msg time="2025-05-09T23:39:18.554753" level="INFO">Search results: 1 entries found.</msg>
+<msg time="2025-05-09T23:39:18.554753" level="INFO">Expected value: 13028, Actual value: 98765</msg>
+<msg time="2025-05-09T23:39:18.554753" level="TRACE">Return: True</msg>
+<arg>${LDAP_URL}</arg>
+<arg>postalCode</arg>
+<arg>!=</arg>
+<arg>13028</arg>
+<doc>Check the value of an attribute in the LDAP entry.
+Args:
+    ldap_url (str): &lt;ldap/ldaps&gt;://&lt;host&gt;:&lt;port&gt;/&lt;base_dn&gt;?&lt;attributes&gt;?&lt;scope&gt;?&lt;filter&gt;
+    attribute_name (str): The name of the attribute to check.
+    assertion_operator (AssertionOperator): The operator to use for the assertion.
+    expected_value (Any): The expected value of the attribute.
+    assertion_message (str, optional): Custom message for the assertion. Defaults to None.
+Raises:
+    AssertionError: If the assertion fails.
+    ValueError: ScopeError: Scope must be BASE for single object actions
+    ValueError: If the attribute is not found in the LDAP URL or entry.
+    ValueError: If no entries are found for the given LDAP URL.
+    ValueError: If multiple entries are found for the given LDAP URL.
+Returns:
+    bool: True if the assertion passes, False otherwise.</doc>
+<status status="PASS" start="2025-05-09T23:39:18.552625" elapsed="0.002128"/>
+</kw>
+<kw name="Check Attribute Value" owner="Ldap3Library">
+<msg time="2025-05-09T23:39:18.555444" level="TRACE">Arguments: [ 'ldap://localhost:389/cn=tfoster,ou=users,dc=example,dc=com?postalCode,telephoneNumber,title??(postalCode=13029)' | 'postalCode' | &lt;AssertionOperator.inequal: '!='&gt; | '13028' ]</msg>
+<msg time="2025-05-09T23:39:18.557258" level="INFO">Search results: 1 entries found.</msg>
+<msg time="2025-05-09T23:39:18.558345" level="INFO">Expected value: 13028, Actual value: 98765</msg>
+<msg time="2025-05-09T23:39:18.558345" level="TRACE">Return: True</msg>
+<arg>${LDAP_URL}</arg>
+<arg>postalCode</arg>
+<arg>inequal</arg>
+<arg>13028</arg>
+<doc>Check the value of an attribute in the LDAP entry.
+Args:
+    ldap_url (str): &lt;ldap/ldaps&gt;://&lt;host&gt;:&lt;port&gt;/&lt;base_dn&gt;?&lt;attributes&gt;?&lt;scope&gt;?&lt;filter&gt;
+    attribute_name (str): The name of the attribute to check.
+    assertion_operator (AssertionOperator): The operator to use for the assertion.
+    expected_value (Any): The expected value of the attribute.
+    assertion_message (str, optional): Custom message for the assertion. Defaults to None.
+Raises:
+    AssertionError: If the assertion fails.
+    ValueError: ScopeError: Scope must be BASE for single object actions
+    ValueError: If the attribute is not found in the LDAP URL or entry.
+    ValueError: If no entries are found for the given LDAP URL.
+    ValueError: If multiple entries are found for the given LDAP URL.
+Returns:
+    bool: True if the assertion passes, False otherwise.</doc>
+<status status="PASS" start="2025-05-09T23:39:18.555444" elapsed="0.002901"/>
+</kw>
+<kw name="Check Attribute Value" owner="Ldap3Library">
+<msg time="2025-05-09T23:39:18.559354" level="TRACE">Arguments: [ 'ldap://localhost:389/cn=tfoster,ou=users,dc=example,dc=com?postalCode,telephoneNumber,title??(postalCode=13029)' | 'postalCode' | &lt;AssertionOperator.inequal: '!='&gt; | '13028' ]</msg>
+<msg time="2025-05-09T23:39:18.561078" level="INFO">Search results: 1 entries found.</msg>
+<msg time="2025-05-09T23:39:18.561078" level="INFO">Expected value: 13028, Actual value: 98765</msg>
+<msg time="2025-05-09T23:39:18.561078" level="TRACE">Return: True</msg>
+<arg>${LDAP_URL}</arg>
+<arg>postalCode</arg>
+<arg>should not be</arg>
+<arg>13028</arg>
+<doc>Check the value of an attribute in the LDAP entry.
+Args:
+    ldap_url (str): &lt;ldap/ldaps&gt;://&lt;host&gt;:&lt;port&gt;/&lt;base_dn&gt;?&lt;attributes&gt;?&lt;scope&gt;?&lt;filter&gt;
+    attribute_name (str): The name of the attribute to check.
+    assertion_operator (AssertionOperator): The operator to use for the assertion.
+    expected_value (Any): The expected value of the attribute.
+    assertion_message (str, optional): Custom message for the assertion. Defaults to None.
+Raises:
+    AssertionError: If the assertion fails.
+    ValueError: ScopeError: Scope must be BASE for single object actions
+    ValueError: If the attribute is not found in the LDAP URL or entry.
+    ValueError: If no entries are found for the given LDAP URL.
+    ValueError: If multiple entries are found for the given LDAP URL.
+Returns:
+    bool: True if the assertion passes, False otherwise.</doc>
+<status status="PASS" start="2025-05-09T23:39:18.558345" elapsed="0.002733"/>
+</kw>
+<kw name="Check Attribute Value" owner="Ldap3Library">
+<msg time="2025-05-09T23:39:18.562563" level="TRACE">Arguments: [ 'ldap://localhost:389/cn=tfoster,ou=users,dc=example,dc=com?postalCode,telephoneNumber,title??(postalCode=13029)' | 'telephoneNumber' | &lt;AssertionOperator.contains: '*='&gt; | '0049-201-555-0123' ]</msg>
+<msg time="2025-05-09T23:39:18.566166" level="INFO">Search results: 1 entries found.</msg>
+<msg time="2025-05-09T23:39:18.566166" level="INFO">Expected value: 0049-201-555-0123, Actual value: ['(261)555-4472', '+49-201-555-0123', '0049-201-555-0123', '001-821-664-8819']</msg>
+<msg time="2025-05-09T23:39:18.566166" level="TRACE">Return: True</msg>
+<arg>${LDAP_URL}</arg>
+<arg>telephoneNumber</arg>
+<arg>*=</arg>
+<arg>0049-201-555-0123</arg>
+<doc>Check the value of an attribute in the LDAP entry.
+Args:
+    ldap_url (str): &lt;ldap/ldaps&gt;://&lt;host&gt;:&lt;port&gt;/&lt;base_dn&gt;?&lt;attributes&gt;?&lt;scope&gt;?&lt;filter&gt;
+    attribute_name (str): The name of the attribute to check.
+    assertion_operator (AssertionOperator): The operator to use for the assertion.
+    expected_value (Any): The expected value of the attribute.
+    assertion_message (str, optional): Custom message for the assertion. Defaults to None.
+Raises:
+    AssertionError: If the assertion fails.
+    ValueError: ScopeError: Scope must be BASE for single object actions
+    ValueError: If the attribute is not found in the LDAP URL or entry.
+    ValueError: If no entries are found for the given LDAP URL.
+    ValueError: If multiple entries are found for the given LDAP URL.
+Returns:
+    bool: True if the assertion passes, False otherwise.</doc>
+<status status="PASS" start="2025-05-09T23:39:18.562563" elapsed="0.003603"/>
+</kw>
+<kw name="Check Attribute Value" owner="Ldap3Library">
+<msg time="2025-05-09T23:39:18.567176" level="TRACE">Arguments: [ 'ldap://localhost:389/cn=tfoster,ou=users,dc=example,dc=com?postalCode,telephoneNumber,title??(postalCode=13029)' | 'telephoneNumber' | &lt;AssertionOperator.contains: '*='&gt; | '+49-201-555-0123' ]</msg>
+<msg time="2025-05-09T23:39:18.568649" level="INFO">Search results: 1 entries found.</msg>
+<msg time="2025-05-09T23:39:18.569185" level="INFO">Expected value: +49-201-555-0123, Actual value: ['(261)555-4472', '+49-201-555-0123', '0049-201-555-0123', '001-821-664-8819']</msg>
+<msg time="2025-05-09T23:39:18.569185" level="TRACE">Return: True</msg>
+<arg>${LDAP_URL}</arg>
+<arg>telephoneNumber</arg>
+<arg>*=</arg>
+<arg>+49-201-555-0123</arg>
+<doc>Check the value of an attribute in the LDAP entry.
+Args:
+    ldap_url (str): &lt;ldap/ldaps&gt;://&lt;host&gt;:&lt;port&gt;/&lt;base_dn&gt;?&lt;attributes&gt;?&lt;scope&gt;?&lt;filter&gt;
+    attribute_name (str): The name of the attribute to check.
+    assertion_operator (AssertionOperator): The operator to use for the assertion.
+    expected_value (Any): The expected value of the attribute.
+    assertion_message (str, optional): Custom message for the assertion. Defaults to None.
+Raises:
+    AssertionError: If the assertion fails.
+    ValueError: ScopeError: Scope must be BASE for single object actions
+    ValueError: If the attribute is not found in the LDAP URL or entry.
+    ValueError: If no entries are found for the given LDAP URL.
+    ValueError: If multiple entries are found for the given LDAP URL.
+Returns:
+    bool: True if the assertion passes, False otherwise.</doc>
+<status status="PASS" start="2025-05-09T23:39:18.567176" elapsed="0.002009"/>
+</kw>
+<kw name="Check Attribute Value" owner="Ldap3Library">
+<msg time="2025-05-09T23:39:18.569185" level="TRACE">Arguments: [ 'ldap://localhost:389/cn=tfoster,ou=users,dc=example,dc=com?postalCode,telephoneNumber,title??(postalCode=13029)' | 'telephoneNumber' | &lt;AssertionOperator.contains: '*='&gt; | '001-821-664-8819' ]</msg>
+<msg time="2025-05-09T23:39:18.571087" level="INFO">Search results: 1 entries found.</msg>
+<msg time="2025-05-09T23:39:18.571087" level="INFO">Expected value: 001-821-664-8819, Actual value: ['(261)555-4472', '+49-201-555-0123', '0049-201-555-0123', '001-821-664-8819']</msg>
+<msg time="2025-05-09T23:39:18.571087" level="TRACE">Return: True</msg>
+<arg>${LDAP_URL}</arg>
+<arg>telephoneNumber</arg>
+<arg>contains</arg>
+<arg>001-821-664-8819</arg>
+<doc>Check the value of an attribute in the LDAP entry.
+Args:
+    ldap_url (str): &lt;ldap/ldaps&gt;://&lt;host&gt;:&lt;port&gt;/&lt;base_dn&gt;?&lt;attributes&gt;?&lt;scope&gt;?&lt;filter&gt;
+    attribute_name (str): The name of the attribute to check.
+    assertion_operator (AssertionOperator): The operator to use for the assertion.
+    expected_value (Any): The expected value of the attribute.
+    assertion_message (str, optional): Custom message for the assertion. Defaults to None.
+Raises:
+    AssertionError: If the assertion fails.
+    ValueError: ScopeError: Scope must be BASE for single object actions
+    ValueError: If the attribute is not found in the LDAP URL or entry.
+    ValueError: If no entries are found for the given LDAP URL.
+    ValueError: If multiple entries are found for the given LDAP URL.
+Returns:
+    bool: True if the assertion passes, False otherwise.</doc>
+<status status="PASS" start="2025-05-09T23:39:18.569185" elapsed="0.001902"/>
+</kw>
+<kw name="Check Attribute Value" owner="Ldap3Library">
+<msg time="2025-05-09T23:39:18.571466" level="TRACE">Arguments: [ 'ldap://localhost:389/cn=tfoster,ou=users,dc=example,dc=com?postalCode,telephoneNumber,title??(postalCode=13029)' | 'telephoneNumber' | &lt;AssertionOperator.not contains: 'not contains'&gt; | '111-111-1111' ]</msg>
+<msg time="2025-05-09T23:39:18.573300" level="INFO">Search results: 1 entries found.</msg>
+<msg time="2025-05-09T23:39:18.573300" level="INFO">Expected value: 111-111-1111, Actual value: ['(261)555-4472', '+49-201-555-0123', '0049-201-555-0123', '001-821-664-8819']</msg>
+<msg time="2025-05-09T23:39:18.573300" level="TRACE">Return: True</msg>
+<arg>${LDAP_URL}</arg>
+<arg>telephoneNumber</arg>
+<arg>not contains</arg>
+<arg>111-111-1111</arg>
+<doc>Check the value of an attribute in the LDAP entry.
+Args:
+    ldap_url (str): &lt;ldap/ldaps&gt;://&lt;host&gt;:&lt;port&gt;/&lt;base_dn&gt;?&lt;attributes&gt;?&lt;scope&gt;?&lt;filter&gt;
+    attribute_name (str): The name of the attribute to check.
+    assertion_operator (AssertionOperator): The operator to use for the assertion.
+    expected_value (Any): The expected value of the attribute.
+    assertion_message (str, optional): Custom message for the assertion. Defaults to None.
+Raises:
+    AssertionError: If the assertion fails.
+    ValueError: ScopeError: Scope must be BASE for single object actions
+    ValueError: If the attribute is not found in the LDAP URL or entry.
+    ValueError: If no entries are found for the given LDAP URL.
+    ValueError: If multiple entries are found for the given LDAP URL.
+Returns:
+    bool: True if the assertion passes, False otherwise.</doc>
+<status status="PASS" start="2025-05-09T23:39:18.571466" elapsed="0.001834"/>
+</kw>
+<kw name="Check Attribute Value" owner="Ldap3Library">
+<msg time="2025-05-09T23:39:18.574308" level="TRACE">Arguments: [ 'ldap://localhost:389/cn=tfoster,ou=users,dc=example,dc=com?postalCode,telephoneNumber,title??(postalCode=13029)' | 'telephoneNumber' | &lt;AssertionOperator.starts: '^='&gt; | '001' ]</msg>
+<msg time="2025-05-09T23:39:18.576524" level="INFO">Search results: 1 entries found.</msg>
+<msg time="2025-05-09T23:39:18.577530" level="INFO">Assertion failed: Attribute value mismatch</msg>
+<msg time="2025-05-09T23:39:18.577530" level="INFO">Assertion failed: Attribute value mismatch</msg>
+<msg time="2025-05-09T23:39:18.577530" level="INFO">Assertion failed: Attribute value mismatch</msg>
+<msg time="2025-05-09T23:39:18.577530" level="INFO">Expected value: 001, Actual value: 001-821-664-8819</msg>
+<msg time="2025-05-09T23:39:18.577530" level="TRACE">Return: True</msg>
+<arg>${LDAP_URL}</arg>
+<arg>telephoneNumber</arg>
+<arg>^=</arg>
+<arg>001</arg>
+<doc>Check the value of an attribute in the LDAP entry.
+Args:
+    ldap_url (str): &lt;ldap/ldaps&gt;://&lt;host&gt;:&lt;port&gt;/&lt;base_dn&gt;?&lt;attributes&gt;?&lt;scope&gt;?&lt;filter&gt;
+    attribute_name (str): The name of the attribute to check.
+    assertion_operator (AssertionOperator): The operator to use for the assertion.
+    expected_value (Any): The expected value of the attribute.
+    assertion_message (str, optional): Custom message for the assertion. Defaults to None.
+Raises:
+    AssertionError: If the assertion fails.
+    ValueError: ScopeError: Scope must be BASE for single object actions
+    ValueError: If the attribute is not found in the LDAP URL or entry.
+    ValueError: If no entries are found for the given LDAP URL.
+    ValueError: If multiple entries are found for the given LDAP URL.
+Returns:
+    bool: True if the assertion passes, False otherwise.</doc>
+<status status="PASS" start="2025-05-09T23:39:18.574308" elapsed="0.003222"/>
+</kw>
+<kw name="Check Attribute Value" owner="Ldap3Library">
+<msg time="2025-05-09T23:39:18.578529" level="TRACE">Arguments: [ 'ldap://localhost:389/cn=tfoster,ou=users,dc=example,dc=com?postalCode,telephoneNumber,title??(postalCode=13029)' | 'telephoneNumber' | &lt;AssertionOperator.starts: '^='&gt; | '+49-' ]</msg>
+<msg time="2025-05-09T23:39:18.581086" level="INFO">Search results: 1 entries found.</msg>
+<msg time="2025-05-09T23:39:18.582093" level="INFO">Assertion failed: Attribute value mismatch</msg>
+<msg time="2025-05-09T23:39:18.582093" level="INFO">Expected value: +49-, Actual value: +49-201-555-0123</msg>
+<msg time="2025-05-09T23:39:18.582093" level="TRACE">Return: True</msg>
+<arg>${LDAP_URL}</arg>
+<arg>telephoneNumber</arg>
+<arg>starts</arg>
+<arg>+49-</arg>
+<doc>Check the value of an attribute in the LDAP entry.
+Args:
+    ldap_url (str): &lt;ldap/ldaps&gt;://&lt;host&gt;:&lt;port&gt;/&lt;base_dn&gt;?&lt;attributes&gt;?&lt;scope&gt;?&lt;filter&gt;
+    attribute_name (str): The name of the attribute to check.
+    assertion_operator (AssertionOperator): The operator to use for the assertion.
+    expected_value (Any): The expected value of the attribute.
+    assertion_message (str, optional): Custom message for the assertion. Defaults to None.
+Raises:
+    AssertionError: If the assertion fails.
+    ValueError: ScopeError: Scope must be BASE for single object actions
+    ValueError: If the attribute is not found in the LDAP URL or entry.
+    ValueError: If no entries are found for the given LDAP URL.
+    ValueError: If multiple entries are found for the given LDAP URL.
+Returns:
+    bool: True if the assertion passes, False otherwise.</doc>
+<status status="PASS" start="2025-05-09T23:39:18.577530" elapsed="0.004563"/>
+</kw>
+<kw name="Check Attribute Value" owner="Ldap3Library">
+<msg time="2025-05-09T23:39:18.583093" level="TRACE">Arguments: [ 'ldap://localhost:389/cn=tfoster,ou=users,dc=example,dc=com?postalCode,telephoneNumber,title??(postalCode=13029)' | 'telephoneNumber' | &lt;AssertionOperator.starts: '^='&gt; | '0049-' ]</msg>
+<msg time="2025-05-09T23:39:18.584789" level="INFO">Search results: 1 entries found.</msg>
+<msg time="2025-05-09T23:39:18.584789" level="INFO">Assertion failed: Attribute value mismatch</msg>
+<msg time="2025-05-09T23:39:18.584789" level="INFO">Assertion failed: Attribute value mismatch</msg>
+<msg time="2025-05-09T23:39:18.584789" level="INFO">Expected value: 0049-, Actual value: 0049-201-555-0123</msg>
+<msg time="2025-05-09T23:39:18.584789" level="TRACE">Return: True</msg>
+<arg>${LDAP_URL}</arg>
+<arg>telephoneNumber</arg>
+<arg>starts</arg>
+<arg>0049-</arg>
+<doc>Check the value of an attribute in the LDAP entry.
+Args:
+    ldap_url (str): &lt;ldap/ldaps&gt;://&lt;host&gt;:&lt;port&gt;/&lt;base_dn&gt;?&lt;attributes&gt;?&lt;scope&gt;?&lt;filter&gt;
+    attribute_name (str): The name of the attribute to check.
+    assertion_operator (AssertionOperator): The operator to use for the assertion.
+    expected_value (Any): The expected value of the attribute.
+    assertion_message (str, optional): Custom message for the assertion. Defaults to None.
+Raises:
+    AssertionError: If the assertion fails.
+    ValueError: ScopeError: Scope must be BASE for single object actions
+    ValueError: If the attribute is not found in the LDAP URL or entry.
+    ValueError: If no entries are found for the given LDAP URL.
+    ValueError: If multiple entries are found for the given LDAP URL.
+Returns:
+    bool: True if the assertion passes, False otherwise.</doc>
+<status status="PASS" start="2025-05-09T23:39:18.582093" elapsed="0.002696"/>
+</kw>
+<kw name="Check Attribute Value" owner="Ldap3Library">
+<msg time="2025-05-09T23:39:18.585795" level="TRACE">Arguments: [ 'ldap://localhost:389/cn=tfoster,ou=users,dc=example,dc=com?postalCode,telephoneNumber,title??(postalCode=13029)' | 'telephoneNumber' | &lt;AssertionOperator.starts: '^='&gt; | '0049-' ]</msg>
+<msg time="2025-05-09T23:39:18.587177" level="INFO">Search results: 1 entries found.</msg>
+<msg time="2025-05-09T23:39:18.587177" level="INFO">Assertion failed: Attribute value mismatch</msg>
+<msg time="2025-05-09T23:39:18.587177" level="INFO">Assertion failed: Attribute value mismatch</msg>
+<msg time="2025-05-09T23:39:18.587177" level="INFO">Expected value: 0049-, Actual value: 0049-201-555-0123</msg>
+<msg time="2025-05-09T23:39:18.587177" level="TRACE">Return: True</msg>
+<arg>${LDAP_URL}</arg>
+<arg>telephoneNumber</arg>
+<arg>should start with</arg>
+<arg>0049-</arg>
+<doc>Check the value of an attribute in the LDAP entry.
+Args:
+    ldap_url (str): &lt;ldap/ldaps&gt;://&lt;host&gt;:&lt;port&gt;/&lt;base_dn&gt;?&lt;attributes&gt;?&lt;scope&gt;?&lt;filter&gt;
+    attribute_name (str): The name of the attribute to check.
+    assertion_operator (AssertionOperator): The operator to use for the assertion.
+    expected_value (Any): The expected value of the attribute.
+    assertion_message (str, optional): Custom message for the assertion. Defaults to None.
+Raises:
+    AssertionError: If the assertion fails.
+    ValueError: ScopeError: Scope must be BASE for single object actions
+    ValueError: If the attribute is not found in the LDAP URL or entry.
+    ValueError: If no entries are found for the given LDAP URL.
+    ValueError: If multiple entries are found for the given LDAP URL.
+Returns:
+    bool: True if the assertion passes, False otherwise.</doc>
+<status status="PASS" start="2025-05-09T23:39:18.584789" elapsed="0.002388"/>
+</kw>
+<kw name="Check Attribute Value" owner="Ldap3Library">
+<msg time="2025-05-09T23:39:18.587177" level="TRACE">Arguments: [ 'ldap://localhost:389/cn=tfoster,ou=users,dc=example,dc=com?postalCode,telephoneNumber,title??(postalCode=13029)' | 'telephoneNumber' | &lt;AssertionOperator.ends: '$='&gt; | '0123' ]</msg>
+<msg time="2025-05-09T23:39:18.589359" level="INFO">Search results: 1 entries found.</msg>
+<msg time="2025-05-09T23:39:18.589359" level="INFO">Assertion failed: Attribute value mismatch</msg>
+<msg time="2025-05-09T23:39:18.589359" level="INFO">Expected value: 0123, Actual value: +49-201-555-0123</msg>
+<msg time="2025-05-09T23:39:18.589359" level="TRACE">Return: True</msg>
+<arg>${LDAP_URL}</arg>
+<arg>telephoneNumber</arg>
+<arg>$=</arg>
+<arg>0123</arg>
+<doc>Check the value of an attribute in the LDAP entry.
+Args:
+    ldap_url (str): &lt;ldap/ldaps&gt;://&lt;host&gt;:&lt;port&gt;/&lt;base_dn&gt;?&lt;attributes&gt;?&lt;scope&gt;?&lt;filter&gt;
+    attribute_name (str): The name of the attribute to check.
+    assertion_operator (AssertionOperator): The operator to use for the assertion.
+    expected_value (Any): The expected value of the attribute.
+    assertion_message (str, optional): Custom message for the assertion. Defaults to None.
+Raises:
+    AssertionError: If the assertion fails.
+    ValueError: ScopeError: Scope must be BASE for single object actions
+    ValueError: If the attribute is not found in the LDAP URL or entry.
+    ValueError: If no entries are found for the given LDAP URL.
+    ValueError: If multiple entries are found for the given LDAP URL.
+Returns:
+    bool: True if the assertion passes, False otherwise.</doc>
+<status status="PASS" start="2025-05-09T23:39:18.587177" elapsed="0.002182"/>
+</kw>
+<kw name="Check Attribute Value" owner="Ldap3Library">
+<msg time="2025-05-09T23:39:18.589359" level="TRACE">Arguments: [ 'ldap://localhost:389/cn=tfoster,ou=users,dc=example,dc=com?postalCode,telephoneNumber,title??(postalCode=13029)' | 'telephoneNumber' | &lt;AssertionOperator.ends: '$='&gt; | '0123' ]</msg>
+<msg time="2025-05-09T23:39:18.594142" level="INFO">Search results: 1 entries found.</msg>
+<msg time="2025-05-09T23:39:18.594142" level="INFO">Assertion failed: Attribute value mismatch</msg>
+<msg time="2025-05-09T23:39:18.594142" level="INFO">Expected value: 0123, Actual value: +49-201-555-0123</msg>
+<msg time="2025-05-09T23:39:18.594142" level="TRACE">Return: True</msg>
+<arg>${LDAP_URL}</arg>
+<arg>telephoneNumber</arg>
+<arg>ends</arg>
+<arg>0123</arg>
+<doc>Check the value of an attribute in the LDAP entry.
+Args:
+    ldap_url (str): &lt;ldap/ldaps&gt;://&lt;host&gt;:&lt;port&gt;/&lt;base_dn&gt;?&lt;attributes&gt;?&lt;scope&gt;?&lt;filter&gt;
+    attribute_name (str): The name of the attribute to check.
+    assertion_operator (AssertionOperator): The operator to use for the assertion.
+    expected_value (Any): The expected value of the attribute.
+    assertion_message (str, optional): Custom message for the assertion. Defaults to None.
+Raises:
+    AssertionError: If the assertion fails.
+    ValueError: ScopeError: Scope must be BASE for single object actions
+    ValueError: If the attribute is not found in the LDAP URL or entry.
+    ValueError: If no entries are found for the given LDAP URL.
+    ValueError: If multiple entries are found for the given LDAP URL.
+Returns:
+    bool: True if the assertion passes, False otherwise.</doc>
+<status status="PASS" start="2025-05-09T23:39:18.589359" elapsed="0.004783"/>
+</kw>
+<kw name="Check Attribute Value" owner="Ldap3Library">
+<msg time="2025-05-09T23:39:18.596140" level="TRACE">Arguments: [ 'ldap://localhost:389/cn=tfoster,ou=users,dc=example,dc=com?postalCode,telephoneNumber,title??(postalCode=13029)' | 'telephoneNumber' | &lt;AssertionOperator.ends: '$='&gt; | '0123' ]</msg>
+<msg time="2025-05-09T23:39:18.598132" level="INFO">Search results: 1 entries found.</msg>
+<msg time="2025-05-09T23:39:18.598132" level="INFO">Assertion failed: Attribute value mismatch</msg>
+<msg time="2025-05-09T23:39:18.598132" level="INFO">Expected value: 0123, Actual value: +49-201-555-0123</msg>
+<msg time="2025-05-09T23:39:18.598132" level="TRACE">Return: True</msg>
+<arg>${LDAP_URL}</arg>
+<arg>telephoneNumber</arg>
+<arg>should end with</arg>
+<arg>0123</arg>
+<doc>Check the value of an attribute in the LDAP entry.
+Args:
+    ldap_url (str): &lt;ldap/ldaps&gt;://&lt;host&gt;:&lt;port&gt;/&lt;base_dn&gt;?&lt;attributes&gt;?&lt;scope&gt;?&lt;filter&gt;
+    attribute_name (str): The name of the attribute to check.
+    assertion_operator (AssertionOperator): The operator to use for the assertion.
+    expected_value (Any): The expected value of the attribute.
+    assertion_message (str, optional): Custom message for the assertion. Defaults to None.
+Raises:
+    AssertionError: If the assertion fails.
+    ValueError: ScopeError: Scope must be BASE for single object actions
+    ValueError: If the attribute is not found in the LDAP URL or entry.
+    ValueError: If no entries are found for the given LDAP URL.
+    ValueError: If multiple entries are found for the given LDAP URL.
+Returns:
+    bool: True if the assertion passes, False otherwise.</doc>
+<status status="PASS" start="2025-05-09T23:39:18.595144" elapsed="0.002988"/>
+</kw>
+<kw name="Run Keyword And Expect Error" owner="BuiltIn">
+<msg time="2025-05-09T23:39:18.599139" level="TRACE">Arguments: [ '*current value * mismatches with expected value*' | 'Check Attribute Value' | '${LDAP_URL}' | 'title' | 'contains' | 'seller' ]</msg>
+<kw name="Check Attribute Value" owner="Ldap3Library">
+<msg time="2025-05-09T23:39:18.600143" level="TRACE">Arguments: [ 'ldap://localhost:389/cn=tfoster,ou=users,dc=example,dc=com?postalCode,telephoneNumber,title??(postalCode=13029)' | 'title' | &lt;AssertionOperator.contains: '*='&gt; | 'seller' ]</msg>
+<msg time="2025-05-09T23:39:18.602356" level="INFO">Search results: 1 entries found.</msg>
+<msg time="2025-05-09T23:39:18.602356" level="FAIL">title's current value Industrial buyer mismatches with expected value seller</msg>
+<msg time="2025-05-09T23:39:18.602356" level="DEBUG">Traceback (most recent call last):
+  File "D:\git_workspace\robotframework-ldap3\Ldap3Library\query.py", line 209, in check_attribute_value
+    verify_assertion(value=actual_value,
+  File "C:\LegacyApp\Python\Python311\Lib\site-packages\assertionengine\assertion_engine.py", line 191, in verify_assertion
+    raise_error(custom_message, expected, filler, message, text, value)
+  File "C:\LegacyApp\Python\Python311\Lib\site-packages\assertionengine\assertion_engine.py", line 271, in raise_error
+    raise AssertionError(error_msg)
+AssertionError: title's current value Industrial buyer mismatches with expected value seller</msg>
+<arg>${LDAP_URL}</arg>
+<arg>title</arg>
+<arg>contains</arg>
+<arg>seller</arg>
+<doc>Check the value of an attribute in the LDAP entry.
+Args:
+    ldap_url (str): &lt;ldap/ldaps&gt;://&lt;host&gt;:&lt;port&gt;/&lt;base_dn&gt;?&lt;attributes&gt;?&lt;scope&gt;?&lt;filter&gt;
+    attribute_name (str): The name of the attribute to check.
+    assertion_operator (AssertionOperator): The operator to use for the assertion.
+    expected_value (Any): The expected value of the attribute.
+    assertion_message (str, optional): Custom message for the assertion. Defaults to None.
+Raises:
+    AssertionError: If the assertion fails.
+    ValueError: ScopeError: Scope must be BASE for single object actions
+    ValueError: If the attribute is not found in the LDAP URL or entry.
+    ValueError: If no entries are found for the given LDAP URL.
+    ValueError: If multiple entries are found for the given LDAP URL.
+Returns:
+    bool: True if the assertion passes, False otherwise.</doc>
+<status status="FAIL" start="2025-05-09T23:39:18.600143" elapsed="0.002213">title's current value Industrial buyer mismatches with expected value seller</status>
+</kw>
+<msg time="2025-05-09T23:39:18.603389" level="TRACE">Return: "title's current value Industrial buyer mismatches with expected value seller"</msg>
+<arg>*current value * mismatches with expected value*</arg>
+<arg>Check Attribute Value</arg>
+<arg>${LDAP_URL}</arg>
+<arg>title</arg>
+<arg>contains</arg>
+<arg>seller</arg>
+<doc>Runs the keyword and checks that the expected error occurred.</doc>
+<status status="PASS" start="2025-05-09T23:39:18.599139" elapsed="0.004250"/>
+</kw>
+<status status="PASS" start="2025-05-09T23:39:18.516326" elapsed="0.087063"/>
+</test>
+<test id="s1-s1-t8" name="Check Attribute Value Count" line="81">
+<kw name="Check Attribute Value Count" owner="Ldap3Library">
+<msg time="2025-05-09T23:39:18.605370" level="TRACE">Arguments: [ 'ldap://localhost:389/cn=tfoster,ou=users,dc=example,dc=com?postalCode,telephoneNumber,title??(postalCode=13029)' | 'telephoneNumber' | &lt;AssertionOperator.equal: '=='&gt; | '4' ]</msg>
+<msg time="2025-05-09T23:39:18.607259" level="INFO">Search results: 1 entries found.</msg>
+<msg time="2025-05-09T23:39:18.611379" level="INFO">Search results: 1 entries found.</msg>
+<msg time="2025-05-09T23:39:18.611379" level="TRACE">Return: True</msg>
+<arg>${LDAP_URL}</arg>
+<arg>telephoneNumber</arg>
+<arg>==</arg>
+<arg>4</arg>
+<doc>Check the number of values for an attribute in the LDAP entry.
+Args:
+    ldap_url (str): &lt;ldap/ldaps&gt;://&lt;host&gt;:&lt;port&gt;/&lt;base_dn&gt;?&lt;attributes&gt;?&lt;scope&gt;?&lt;filter&gt;
+    attribute_name (str): The name of the attribute to check.
+    assertion_operator (AssertionOperator): The operator to use for the assertion.
+    expected_value (Any): The expected number of values for the attribute.
+    assertion_message (str, optional): Custom message for the assertion. Defaults to None.
+Raises:
+    AssertionError: If the assertion fails.
+    ValueError: ScopeError: Scope must be BASE for single object actions
+    ValueError: If the expected value cannot be parsed to integer.
+    ValueError: If the attribute is not found in the LDAP URL or entry.
+    ValueError: If no entries are found for the given LDAP URL.
+Returns:
+    bool: True if the assertion passes, False otherwise.</doc>
+<status status="PASS" start="2025-05-09T23:39:18.604371" elapsed="0.007231"/>
+</kw>
+<kw name="Check Attribute Value Count" owner="Ldap3Library">
+<msg time="2025-05-09T23:39:18.612647" level="TRACE">Arguments: [ 'ldap://localhost:389/cn=tfoster,ou=users,dc=example,dc=com?postalCode,telephoneNumber,title??(postalCode=13029)' | 'telephoneNumber' | &lt;AssertionOperator.equal: '=='&gt; | '4' ]</msg>
+<msg time="2025-05-09T23:39:18.614402" level="INFO">Search results: 1 entries found.</msg>
+<msg time="2025-05-09T23:39:18.616458" level="INFO">Search results: 1 entries found.</msg>
+<msg time="2025-05-09T23:39:18.616458" level="TRACE">Return: True</msg>
+<arg>${LDAP_URL}</arg>
+<arg>telephoneNumber</arg>
+<arg>equal</arg>
+<arg>4</arg>
+<doc>Check the number of values for an attribute in the LDAP entry.
+Args:
+    ldap_url (str): &lt;ldap/ldaps&gt;://&lt;host&gt;:&lt;port&gt;/&lt;base_dn&gt;?&lt;attributes&gt;?&lt;scope&gt;?&lt;filter&gt;
+    attribute_name (str): The name of the attribute to check.
+    assertion_operator (AssertionOperator): The operator to use for the assertion.
+    expected_value (Any): The expected number of values for the attribute.
+    assertion_message (str, optional): Custom message for the assertion. Defaults to None.
+Raises:
+    AssertionError: If the assertion fails.
+    ValueError: ScopeError: Scope must be BASE for single object actions
+    ValueError: If the expected value cannot be parsed to integer.
+    ValueError: If the attribute is not found in the LDAP URL or entry.
+    ValueError: If no entries are found for the given LDAP URL.
+Returns:
+    bool: True if the assertion passes, False otherwise.</doc>
+<status status="PASS" start="2025-05-09T23:39:18.612106" elapsed="0.004352"/>
+</kw>
+<kw name="Run Keyword And Expect Error" owner="BuiltIn">
+<msg time="2025-05-09T23:39:18.617464" level="TRACE">Arguments: [ 'Attribute value count mismatch*' | 'Check Attribute Value Count' | '${LDAP_URL}' | 'telephoneNumber' | '&lt;=' | '3' ]</msg>
+<kw name="Check Attribute Value Count" owner="Ldap3Library">
+<msg time="2025-05-09T23:39:18.617464" level="TRACE">Arguments: [ 'ldap://localhost:389/cn=tfoster,ou=users,dc=example,dc=com?postalCode,telephoneNumber,title??(postalCode=13029)' | 'telephoneNumber' | &lt;AssertionOperator.&lt;=: '&lt;='&gt; | '3' ]</msg>
+<msg time="2025-05-09T23:39:18.619375" level="INFO">Search results: 1 entries found.</msg>
+<msg time="2025-05-09T23:39:18.620738" level="INFO">Search results: 1 entries found.</msg>
+<msg time="2025-05-09T23:39:18.620738" level="FAIL">Attribute value count mismatch! 4 &lt;= 3</msg>
+<msg time="2025-05-09T23:39:18.620738" level="DEBUG">Traceback (most recent call last):
+  File "D:\git_workspace\robotframework-ldap3\Ldap3Library\query.py", line 264, in check_attribute_value_count
+    verify_assertion(value=value_cnt,
+  File "C:\LegacyApp\Python\Python311\Lib\site-packages\assertionengine\assertion_engine.py", line 191, in verify_assertion
+    raise_error(custom_message, expected, filler, message, text, value)
+  File "C:\LegacyApp\Python\Python311\Lib\site-packages\assertionengine\assertion_engine.py", line 271, in raise_error
+    raise AssertionError(error_msg)
+AssertionError: Attribute value count mismatch! 4 &lt;= 3</msg>
+<arg>${LDAP_URL}</arg>
+<arg>telephoneNumber</arg>
+<arg>&lt;=</arg>
+<arg>3</arg>
+<doc>Check the number of values for an attribute in the LDAP entry.
+Args:
+    ldap_url (str): &lt;ldap/ldaps&gt;://&lt;host&gt;:&lt;port&gt;/&lt;base_dn&gt;?&lt;attributes&gt;?&lt;scope&gt;?&lt;filter&gt;
+    attribute_name (str): The name of the attribute to check.
+    assertion_operator (AssertionOperator): The operator to use for the assertion.
+    expected_value (Any): The expected number of values for the attribute.
+    assertion_message (str, optional): Custom message for the assertion. Defaults to None.
+Raises:
+    AssertionError: If the assertion fails.
+    ValueError: ScopeError: Scope must be BASE for single object actions
+    ValueError: If the expected value cannot be parsed to integer.
+    ValueError: If the attribute is not found in the LDAP URL or entry.
+    ValueError: If no entries are found for the given LDAP URL.
+Returns:
+    bool: True if the assertion passes, False otherwise.</doc>
+<status status="FAIL" start="2025-05-09T23:39:18.617464" elapsed="0.003274">Attribute value count mismatch! 4 &lt;= 3</status>
+</kw>
+<msg time="2025-05-09T23:39:18.621746" level="TRACE">Return: 'Attribute value count mismatch! 4 &lt;= 3'</msg>
+<arg>Attribute value count mismatch*</arg>
+<arg>Check Attribute Value Count</arg>
+<arg>${LDAP_URL}</arg>
+<arg>telephoneNumber</arg>
+<arg>&lt;=</arg>
+<arg>3</arg>
+<doc>Runs the keyword and checks that the expected error occurred.</doc>
+<status status="PASS" start="2025-05-09T23:39:18.616458" elapsed="0.005288"/>
+</kw>
+<status status="PASS" start="2025-05-09T23:39:18.604371" elapsed="0.017375"/>
+</test>
+<test id="s1-s1-t9" name="Check get Attribute Value Count" line="86">
+<kw name="Get Attribute Value Count" owner="Ldap3Library">
+<msg time="2025-05-09T23:39:18.623747" level="TRACE">Arguments: [ 'ldap://localhost:389/cn=tfoster,ou=users,dc=example,dc=com?postalCode,telephoneNumber,title??(postalCode=13029)' | 'telephoneNumber' ]</msg>
+<msg time="2025-05-09T23:39:18.626350" level="INFO">Search results: 1 entries found.</msg>
+<msg time="2025-05-09T23:39:18.626350" level="TRACE">Return: 4</msg>
+<msg time="2025-05-09T23:39:18.626350" level="INFO">${result} = 4</msg>
+<var>${result}</var>
+<arg>${LDAP_URL}</arg>
+<arg>telephoneNumber</arg>
+<doc>Get the number of values for an attribute in the LDAP entry.
+Args:
+    ldap_url (str): &lt;ldap/ldaps&gt;://&lt;host&gt;:&lt;port&gt;/&lt;base_dn&gt;?&lt;attributes&gt;?&lt;scope&gt;?&lt;filter&gt;
+    attribute_name (str): The name of the attribute to check.
+Raises:
+    ValueError: ScopeError: Scope must be BASE for single object actions
+    ValueError: If the attribute is not found in the LDAP URL or entry.
+    ValueError: If no entries are found for the given LDAP URL.
+Returns:
+    int: The number of values for the attribute.</doc>
+<status status="PASS" start="2025-05-09T23:39:18.622743" elapsed="0.003607"/>
+</kw>
+<kw name="Log To Console" owner="BuiltIn">
+<msg time="2025-05-09T23:39:18.627356" level="TRACE">Arguments: [ 4 ]</msg>
+<msg time="2025-05-09T23:39:18.627356" level="TRACE">Return: None</msg>
+<arg>${result}</arg>
+<doc>Logs the given message to the console.</doc>
+<status status="PASS" start="2025-05-09T23:39:18.627356" elapsed="0.000000"/>
+</kw>
+<kw name="Should Be Equal As Integers" owner="BuiltIn">
+<msg time="2025-05-09T23:39:18.628354" level="TRACE">Arguments: [ 4 | '4' ]</msg>
+<msg time="2025-05-09T23:39:18.628354" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;class 'str'&gt;</msg>
+<msg time="2025-05-09T23:39:18.628354" level="TRACE">Return: None</msg>
+<arg>${result}</arg>
+<arg>4</arg>
+<doc>Fails if objects are unequal after converting them to integers.</doc>
+<status status="PASS" start="2025-05-09T23:39:18.628354" elapsed="0.000000"/>
+</kw>
+<status status="PASS" start="2025-05-09T23:39:18.622743" elapsed="0.006613"/>
+</test>
+<test id="s1-s1-t10" name="Check Add And Remove Attribute Value" line="91">
+<kw name="Add Attribute Value" owner="Ldap3Library">
+<msg time="2025-05-09T23:39:18.630357" level="TRACE">Arguments: [ 'ldap://localhost:389/cn=tfoster,ou=users,dc=example,dc=com?postalCode,telephoneNumber,title??(postalCode=13029)' | 'telephoneNumber' | '555-555-5555' ]</msg>
+<msg time="2025-05-09T23:39:18.632197" level="INFO">Added attribute telephoneNumber with value 555-555-5555 to ldap://localhost:389/cn=tfoster,ou=users,dc=example,dc=com?postalCode,telephoneNumber,title??(postalCode=13029).</msg>
+<msg time="2025-05-09T23:39:18.632197" level="TRACE">Return: True</msg>
+<arg>${LDAP_URL_BASE}</arg>
+<arg>telephoneNumber</arg>
+<arg>555-555-5555</arg>
+<doc>Add a value to an attribute in the LDAP entry.
+Args:
+    ldap_url (str): &lt;ldap/ldaps&gt;://&lt;host&gt;:&lt;port&gt;/&lt;base_dn&gt;?&lt;attributes&gt;?&lt;scope&gt;?&lt;filter&gt;
+    attribute_name (str): The name of the attribute to add the value to.
+    attribute_value (str): The value to add to the attribute.
+Raises:
+    ValueError: ScopeError: Scope must be BASE for single object actions
+    ValueError: If attribute could not been added to the LDAP entry.
+Returns:
+    bool: True if the value was added successfully, False otherwise.</doc>
+<status status="PASS" start="2025-05-09T23:39:18.630357" elapsed="0.001840"/>
+</kw>
+<kw name="Check Attribute Value" owner="Ldap3Library">
+<msg time="2025-05-09T23:39:18.632701" level="TRACE">Arguments: [ 'ldap://localhost:389/cn=tfoster,ou=users,dc=example,dc=com?postalCode,telephoneNumber,title??(postalCode=13029)' | 'telephoneNumber' | &lt;AssertionOperator.contains: '*='&gt; | '555-555-5555' ]</msg>
+<msg time="2025-05-09T23:39:18.634340" level="INFO">Search results: 1 entries found.</msg>
+<msg time="2025-05-09T23:39:18.634340" level="INFO">Expected value: 555-555-5555, Actual value: ['(261)555-4472', '+49-201-555-0123', '0049-201-555-0123', '001-821-664-8819', '555-555-5555']</msg>
+<msg time="2025-05-09T23:39:18.634340" level="TRACE">Return: True</msg>
+<arg>${LDAP_URL}</arg>
+<arg>telephoneNumber</arg>
+<arg>contains</arg>
+<arg>555-555-5555</arg>
+<doc>Check the value of an attribute in the LDAP entry.
+Args:
+    ldap_url (str): &lt;ldap/ldaps&gt;://&lt;host&gt;:&lt;port&gt;/&lt;base_dn&gt;?&lt;attributes&gt;?&lt;scope&gt;?&lt;filter&gt;
+    attribute_name (str): The name of the attribute to check.
+    assertion_operator (AssertionOperator): The operator to use for the assertion.
+    expected_value (Any): The expected value of the attribute.
+    assertion_message (str, optional): Custom message for the assertion. Defaults to None.
+Raises:
+    AssertionError: If the assertion fails.
+    ValueError: ScopeError: Scope must be BASE for single object actions
+    ValueError: If the attribute is not found in the LDAP URL or entry.
+    ValueError: If no entries are found for the given LDAP URL.
+    ValueError: If multiple entries are found for the given LDAP URL.
+Returns:
+    bool: True if the assertion passes, False otherwise.</doc>
+<status status="PASS" start="2025-05-09T23:39:18.632701" elapsed="0.001639"/>
+</kw>
+<kw name="Replace Attribute Value" owner="Ldap3Library">
+<msg time="2025-05-09T23:39:18.634340" level="TRACE">Arguments: [ 'ldap://localhost:389/cn=tfoster,ou=users,dc=example,dc=com?postalCode,telephoneNumber,title??(postalCode=13029)' | 'telephoneNumber' | '555-555-5555' | '666-666-6666' ]</msg>
+<msg time="2025-05-09T23:39:18.636381" level="INFO">Replaced attribute telephoneNumber from 555-555-5555 to 666-666-6666 in ldap://localhost:389/cn=tfoster,ou=users,dc=example,dc=com?postalCode,telephoneNumber,title??(postalCode=13029).</msg>
+<msg time="2025-05-09T23:39:18.636381" level="TRACE">Return: True</msg>
+<arg>${LDAP_URL_BASE}</arg>
+<arg>telephoneNumber</arg>
+<arg>555-555-5555</arg>
+<arg>666-666-6666</arg>
+<doc>Replace a value in an attribute in the LDAP entry.
+Args:
+    ldap_url (str): &lt;ldap/ldaps&gt;://&lt;host&gt;:&lt;port&gt;/&lt;base_dn&gt;?&lt;attributes&gt;?&lt;scope&gt;?&lt;filter&gt;
+    attribute_name (str): The name of the attribute to replace the value in.
+    old_value (str): The old value to replace.
+    new_value (str): The new value to set.
+Raises:
+    ValueError: ScopeError: Scope must be BASE for single object actions
+    ValueError: If attribute could not been removed or added in the LDAP entry.
+Returns:
+    bool: True if the value was replaced successfully, False otherwise.
+Example:
+| Replace Attribute Value    ldap://localhost:389/cn=admin,dc=example,dc=com???(objectClass=*)    telephoneNumber    444-123-4567    555-987-6543</doc>
+<status status="PASS" start="2025-05-09T23:39:18.634340" elapsed="0.002041"/>
+</kw>
+<kw name="Check Attribute Value" owner="Ldap3Library">
+<msg time="2025-05-09T23:39:18.636907" level="TRACE">Arguments: [ 'ldap://localhost:389/cn=tfoster,ou=users,dc=example,dc=com?postalCode,telephoneNumber,title??(postalCode=13029)' | 'telephoneNumber' | &lt;AssertionOperator.contains: '*='&gt; | '666-666-6666' ]</msg>
+<msg time="2025-05-09T23:39:18.638314" level="INFO">Search results: 1 entries found.</msg>
+<msg time="2025-05-09T23:39:18.638314" level="INFO">Expected value: 666-666-6666, Actual value: ['(261)555-4472', '+49-201-555-0123', '0049-201-555-0123', '001-821-664-8819', '666-666-6666']</msg>
+<msg time="2025-05-09T23:39:18.638314" level="TRACE">Return: True</msg>
+<arg>${LDAP_URL}</arg>
+<arg>telephoneNumber</arg>
+<arg>contains</arg>
+<arg>666-666-6666</arg>
+<doc>Check the value of an attribute in the LDAP entry.
+Args:
+    ldap_url (str): &lt;ldap/ldaps&gt;://&lt;host&gt;:&lt;port&gt;/&lt;base_dn&gt;?&lt;attributes&gt;?&lt;scope&gt;?&lt;filter&gt;
+    attribute_name (str): The name of the attribute to check.
+    assertion_operator (AssertionOperator): The operator to use for the assertion.
+    expected_value (Any): The expected value of the attribute.
+    assertion_message (str, optional): Custom message for the assertion. Defaults to None.
+Raises:
+    AssertionError: If the assertion fails.
+    ValueError: ScopeError: Scope must be BASE for single object actions
+    ValueError: If the attribute is not found in the LDAP URL or entry.
+    ValueError: If no entries are found for the given LDAP URL.
+    ValueError: If multiple entries are found for the given LDAP URL.
+Returns:
+    bool: True if the assertion passes, False otherwise.</doc>
+<status status="PASS" start="2025-05-09T23:39:18.636381" elapsed="0.001933"/>
+</kw>
+<kw name="Remove Attribute Value" owner="Ldap3Library">
+<msg time="2025-05-09T23:39:18.639321" level="TRACE">Arguments: [ 'ldap://localhost:389/cn=tfoster,ou=users,dc=example,dc=com?postalCode,telephoneNumber,title??(postalCode=13029)' | 'telephoneNumber' | '666-666-6666' ]</msg>
+<msg time="2025-05-09T23:39:18.640486" level="INFO">Removed attribute telephoneNumber with value 666-666-6666 from ldap://localhost:389/cn=tfoster,ou=users,dc=example,dc=com?postalCode,telephoneNumber,title??(postalCode=13029).</msg>
+<msg time="2025-05-09T23:39:18.640992" level="TRACE">Return: True</msg>
+<arg>${LDAP_URL_BASE}</arg>
+<arg>telephoneNumber</arg>
+<arg>666-666-6666</arg>
+<doc>Remove a value from an attribute in the LDAP entry.
+Args:
+    ldap_url (str): &lt;ldap/ldaps&gt;://&lt;host&gt;:&lt;port&gt;/&lt;base_dn&gt;?&lt;attributes&gt;?&lt;scope&gt;?&lt;filter&gt;
+    attribute_name (str): The name of the attribute to remove the value from.
+    attribute_value (str): The value to remove from the attribute.
+Raises:
+    ValueError: ScopeError: Scope must be BASE for single object actions
+    ValueError: If attribute could not been removed from the LDAP entry.
+Returns:
+    bool: True if the value was removed successfully, False otherwise.
+Example:
+| Remove Attribute Value    ldap://localhost:389/cn=admin,dc=example,dc=com???(objectClass=*)    telephoneNumber    444-123-4567</doc>
+<status status="PASS" start="2025-05-09T23:39:18.638314" elapsed="0.002678"/>
+</kw>
+<kw name="Check Attribute Value" owner="Ldap3Library">
+<msg time="2025-05-09T23:39:18.641999" level="TRACE">Arguments: [ 'ldap://localhost:389/cn=tfoster,ou=users,dc=example,dc=com?postalCode,telephoneNumber,title??(postalCode=13029)' | 'telephoneNumber' | &lt;AssertionOperator.not contains: 'not contains'&gt; | '666-666-6666' ]</msg>
+<msg time="2025-05-09T23:39:18.643688" level="INFO">Search results: 1 entries found.</msg>
+<msg time="2025-05-09T23:39:18.643688" level="INFO">Expected value: 666-666-6666, Actual value: ['(261)555-4472', '+49-201-555-0123', '0049-201-555-0123', '001-821-664-8819']</msg>
+<msg time="2025-05-09T23:39:18.643688" level="TRACE">Return: True</msg>
+<arg>${LDAP_URL}</arg>
+<arg>telephoneNumber</arg>
+<arg>not contains</arg>
+<arg>666-666-6666</arg>
+<doc>Check the value of an attribute in the LDAP entry.
+Args:
+    ldap_url (str): &lt;ldap/ldaps&gt;://&lt;host&gt;:&lt;port&gt;/&lt;base_dn&gt;?&lt;attributes&gt;?&lt;scope&gt;?&lt;filter&gt;
+    attribute_name (str): The name of the attribute to check.
+    assertion_operator (AssertionOperator): The operator to use for the assertion.
+    expected_value (Any): The expected value of the attribute.
+    assertion_message (str, optional): Custom message for the assertion. Defaults to None.
+Raises:
+    AssertionError: If the assertion fails.
+    ValueError: ScopeError: Scope must be BASE for single object actions
+    ValueError: If the attribute is not found in the LDAP URL or entry.
+    ValueError: If no entries are found for the given LDAP URL.
+    ValueError: If multiple entries are found for the given LDAP URL.
+Returns:
+    bool: True if the assertion passes, False otherwise.</doc>
+<status status="PASS" start="2025-05-09T23:39:18.640992" elapsed="0.002696"/>
+</kw>
+<kw name="Check Attribute Value" owner="Ldap3Library">
+<msg time="2025-05-09T23:39:18.644693" level="TRACE">Arguments: [ 'ldap://localhost:389/cn=tfoster,ou=users,dc=example,dc=com?postalCode,telephoneNumber,title??(postalCode=13029)' | 'telephoneNumber' | &lt;AssertionOperator.not contains: 'not contains'&gt; | '555-555-5555' ]</msg>
+<msg time="2025-05-09T23:39:18.646443" level="INFO">Search results: 1 entries found.</msg>
+<msg time="2025-05-09T23:39:18.646443" level="INFO">Expected value: 555-555-5555, Actual value: ['(261)555-4472', '+49-201-555-0123', '0049-201-555-0123', '001-821-664-8819']</msg>
+<msg time="2025-05-09T23:39:18.646443" level="TRACE">Return: True</msg>
+<arg>${LDAP_URL}</arg>
+<arg>telephoneNumber</arg>
+<arg>not contains</arg>
+<arg>555-555-5555</arg>
+<doc>Check the value of an attribute in the LDAP entry.
+Args:
+    ldap_url (str): &lt;ldap/ldaps&gt;://&lt;host&gt;:&lt;port&gt;/&lt;base_dn&gt;?&lt;attributes&gt;?&lt;scope&gt;?&lt;filter&gt;
+    attribute_name (str): The name of the attribute to check.
+    assertion_operator (AssertionOperator): The operator to use for the assertion.
+    expected_value (Any): The expected value of the attribute.
+    assertion_message (str, optional): Custom message for the assertion. Defaults to None.
+Raises:
+    AssertionError: If the assertion fails.
+    ValueError: ScopeError: Scope must be BASE for single object actions
+    ValueError: If the attribute is not found in the LDAP URL or entry.
+    ValueError: If no entries are found for the given LDAP URL.
+    ValueError: If multiple entries are found for the given LDAP URL.
+Returns:
+    bool: True if the assertion passes, False otherwise.</doc>
+<status status="PASS" start="2025-05-09T23:39:18.644693" elapsed="0.001750"/>
+</kw>
+<kw name="Run Keyword And Expect Error" owner="BuiltIn">
+<msg time="2025-05-09T23:39:18.647449" level="TRACE">Arguments: [ 'REGEXP:.*ScopeError.*' | 'Add Attribute Value' | '${LDAP_URL_LEVEL}' | 'telephoneNumber' | '111-411-1111' ]</msg>
+<kw name="Add Attribute Value" owner="Ldap3Library">
+<msg time="2025-05-09T23:39:18.647449" level="TRACE">Arguments: [ 'ldap://localhost:389/ou=users,dc=example,dc=com?postalCode,telephoneNumber,title?one?(postalCode=13029)' | 'telephoneNumber' | '111-411-1111' ]</msg>
+<msg time="2025-05-09T23:39:18.647449" level="ERROR">ScopeError: Scope must be BASE for single object actions. Current scope: LEVEL</msg>
+<msg time="2025-05-09T23:39:18.648150" level="FAIL">ValueError: ScopeError: Scope must be BASE for single object actions. Current scope: LEVEL</msg>
+<msg time="2025-05-09T23:39:18.648668" level="DEBUG">Traceback (most recent call last):
+  File "D:\git_workspace\robotframework-ldap3\Ldap3Library\query.py", line 316, in add_attribute_value
+    _url = self._is_base_scope(ldap_url)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\git_workspace\robotframework-ldap3\Ldap3Library\query.py", line 52, in _is_base_scope
+    raise ValueError(
+ValueError: ScopeError: Scope must be BASE for single object actions. Current scope: LEVEL</msg>
+<arg>${LDAP_URL_LEVEL}</arg>
+<arg>telephoneNumber</arg>
+<arg>111-411-1111</arg>
+<doc>Add a value to an attribute in the LDAP entry.
+Args:
+    ldap_url (str): &lt;ldap/ldaps&gt;://&lt;host&gt;:&lt;port&gt;/&lt;base_dn&gt;?&lt;attributes&gt;?&lt;scope&gt;?&lt;filter&gt;
+    attribute_name (str): The name of the attribute to add the value to.
+    attribute_value (str): The value to add to the attribute.
+Raises:
+    ValueError: ScopeError: Scope must be BASE for single object actions
+    ValueError: If attribute could not been added to the LDAP entry.
+Returns:
+    bool: True if the value was added successfully, False otherwise.</doc>
+<status status="FAIL" start="2025-05-09T23:39:18.647449" elapsed="0.001219">ValueError: ScopeError: Scope must be BASE for single object actions. Current scope: LEVEL</status>
+</kw>
+<msg time="2025-05-09T23:39:18.648668" level="TRACE">Return: 'ValueError: ScopeError: Scope must be BASE for single object actions. Current scope: LEVEL'</msg>
+<arg>REGEXP:.*ScopeError.*</arg>
+<arg>Add Attribute Value</arg>
+<arg>${LDAP_URL_LEVEL}</arg>
+<arg>telephoneNumber</arg>
+<arg>111-411-1111</arg>
+<doc>Runs the keyword and checks that the expected error occurred.</doc>
+<status status="PASS" start="2025-05-09T23:39:18.647449" elapsed="0.001219"/>
+</kw>
+<status status="PASS" start="2025-05-09T23:39:18.630357" elapsed="0.018311"/>
+</test>
+<test id="s1-s1-t11" name="Check Overwrite Attribute Value" line="102">
+<kw name="Overwrite Attribute Value" owner="Ldap3Library">
+<msg time="2025-05-09T23:39:18.650917" level="TRACE">Arguments: [ 'ldap://localhost:389/cn=tfoster,ou=users,dc=example,dc=com?postalCode,telephoneNumber,title??(postalCode=13029)' | 'telephoneNumber' | '555-555-5555' ]</msg>
+<msg time="2025-05-09T23:39:18.652318" level="INFO">Replaced attribute telephoneNumber with value 555-555-5555 in ldap://localhost:389/cn=tfoster,ou=users,dc=example,dc=com?postalCode,telephoneNumber,title??(postalCode=13029).</msg>
+<msg time="2025-05-09T23:39:18.652318" level="TRACE">Return: True</msg>
+<arg>${LDAP_URL_BASE}</arg>
+<arg>telephoneNumber</arg>
+<arg>555-555-5555</arg>
+<doc>Overwrite an attribute in the LDAP entry.
+Args:
+    ldap_url (str): &lt;ldap/ldaps&gt;://&lt;host&gt;:&lt;port&gt;/&lt;base_dn&gt;?&lt;attributes&gt;?&lt;scope&gt;?&lt;filter&gt;
+    attribute_name (str): The name of the attribute to overwrite.
+    attribute_value (str): The value to set for the attribute.
+Raises:
+    ValueError: ScopeError: Scope must be BASE for single object actions
+    ValueError: If attribute could not be overwritten to the LDAP entry.
+Returns:
+    bool: True if the attribute was overwritten successfully, False otherwise.
+Example:
+| Overwrite Attribute Value    ldap://localhost:389/cn=admin,dc=example,dc=com???(objectClass=*)    telephoneNumber    444-123-4567</doc>
+<status status="PASS" start="2025-05-09T23:39:18.650917" elapsed="0.001401"/>
+</kw>
+<kw name="Check Attribute Value" owner="Ldap3Library">
+<msg time="2025-05-09T23:39:18.652318" level="TRACE">Arguments: [ 'ldap://localhost:389/cn=tfoster,ou=users,dc=example,dc=com?postalCode,telephoneNumber,title??(postalCode=13029)' | 'telephoneNumber' | &lt;AssertionOperator.equal: '=='&gt; | '555-555-5555' ]</msg>
+<msg time="2025-05-09T23:39:18.654461" level="INFO">Search results: 1 entries found.</msg>
+<msg time="2025-05-09T23:39:18.654461" level="INFO">Expected value: 555-555-5555, Actual value: 555-555-5555</msg>
+<msg time="2025-05-09T23:39:18.654461" level="TRACE">Return: True</msg>
+<arg>${LDAP_URL}</arg>
+<arg>telephoneNumber</arg>
+<arg>==</arg>
+<arg>555-555-5555</arg>
+<doc>Check the value of an attribute in the LDAP entry.
+Args:
+    ldap_url (str): &lt;ldap/ldaps&gt;://&lt;host&gt;:&lt;port&gt;/&lt;base_dn&gt;?&lt;attributes&gt;?&lt;scope&gt;?&lt;filter&gt;
+    attribute_name (str): The name of the attribute to check.
+    assertion_operator (AssertionOperator): The operator to use for the assertion.
+    expected_value (Any): The expected value of the attribute.
+    assertion_message (str, optional): Custom message for the assertion. Defaults to None.
+Raises:
+    AssertionError: If the assertion fails.
+    ValueError: ScopeError: Scope must be BASE for single object actions
+    ValueError: If the attribute is not found in the LDAP URL or entry.
+    ValueError: If no entries are found for the given LDAP URL.
+    ValueError: If multiple entries are found for the given LDAP URL.
+Returns:
+    bool: True if the assertion passes, False otherwise.</doc>
+<status status="PASS" start="2025-05-09T23:39:18.652318" elapsed="0.002143"/>
+</kw>
+<kw name="Add Attribute Value" owner="Ldap3Library">
+<msg time="2025-05-09T23:39:18.654461" level="TRACE">Arguments: [ 'ldap://localhost:389/cn=tfoster,ou=users,dc=example,dc=com?postalCode,telephoneNumber,title??(postalCode=13029)' | 'telephoneNumber' | '(261)555-4472' ]</msg>
+<msg time="2025-05-09T23:39:18.656252" level="INFO">Added attribute telephoneNumber with value (261)555-4472 to ldap://localhost:389/cn=tfoster,ou=users,dc=example,dc=com?postalCode,telephoneNumber,title??(postalCode=13029).</msg>
+<msg time="2025-05-09T23:39:18.656252" level="TRACE">Return: True</msg>
+<arg>${LDAP_URL_BASE}</arg>
+<arg>telephoneNumber</arg>
+<arg>(261)555-4472</arg>
+<doc>Add a value to an attribute in the LDAP entry.
+Args:
+    ldap_url (str): &lt;ldap/ldaps&gt;://&lt;host&gt;:&lt;port&gt;/&lt;base_dn&gt;?&lt;attributes&gt;?&lt;scope&gt;?&lt;filter&gt;
+    attribute_name (str): The name of the attribute to add the value to.
+    attribute_value (str): The value to add to the attribute.
+Raises:
+    ValueError: ScopeError: Scope must be BASE for single object actions
+    ValueError: If attribute could not been added to the LDAP entry.
+Returns:
+    bool: True if the value was added successfully, False otherwise.</doc>
+<status status="PASS" start="2025-05-09T23:39:18.654461" elapsed="0.001791"/>
+</kw>
+<kw name="Add Attribute Value" owner="Ldap3Library">
+<msg time="2025-05-09T23:39:18.656252" level="TRACE">Arguments: [ 'ldap://localhost:389/cn=tfoster,ou=users,dc=example,dc=com?postalCode,telephoneNumber,title??(postalCode=13029)' | 'telephoneNumber' | '+49-201-555-0123' ]</msg>
+<msg time="2025-05-09T23:39:18.658357" level="INFO">Added attribute telephoneNumber with value +49-201-555-0123 to ldap://localhost:389/cn=tfoster,ou=users,dc=example,dc=com?postalCode,telephoneNumber,title??(postalCode=13029).</msg>
+<msg time="2025-05-09T23:39:18.658874" level="TRACE">Return: True</msg>
+<arg>${LDAP_URL_BASE}</arg>
+<arg>telephoneNumber</arg>
+<arg>+49-201-555-0123</arg>
+<doc>Add a value to an attribute in the LDAP entry.
+Args:
+    ldap_url (str): &lt;ldap/ldaps&gt;://&lt;host&gt;:&lt;port&gt;/&lt;base_dn&gt;?&lt;attributes&gt;?&lt;scope&gt;?&lt;filter&gt;
+    attribute_name (str): The name of the attribute to add the value to.
+    attribute_value (str): The value to add to the attribute.
+Raises:
+    ValueError: ScopeError: Scope must be BASE for single object actions
+    ValueError: If attribute could not been added to the LDAP entry.
+Returns:
+    bool: True if the value was added successfully, False otherwise.</doc>
+<status status="PASS" start="2025-05-09T23:39:18.656252" elapsed="0.002622"/>
+</kw>
+<kw name="Add Attribute Value" owner="Ldap3Library">
+<msg time="2025-05-09T23:39:18.659894" level="TRACE">Arguments: [ 'ldap://localhost:389/cn=tfoster,ou=users,dc=example,dc=com?postalCode,telephoneNumber,title??(postalCode=13029)' | 'telephoneNumber' | '001-821-664-8819' ]</msg>
+<msg time="2025-05-09T23:39:18.660986" level="INFO">Added attribute telephoneNumber with value 001-821-664-8819 to ldap://localhost:389/cn=tfoster,ou=users,dc=example,dc=com?postalCode,telephoneNumber,title??(postalCode=13029).</msg>
+<msg time="2025-05-09T23:39:18.660986" level="TRACE">Return: True</msg>
+<arg>${LDAP_URL_BASE}</arg>
+<arg>telephoneNumber</arg>
+<arg>001-821-664-8819</arg>
+<doc>Add a value to an attribute in the LDAP entry.
+Args:
+    ldap_url (str): &lt;ldap/ldaps&gt;://&lt;host&gt;:&lt;port&gt;/&lt;base_dn&gt;?&lt;attributes&gt;?&lt;scope&gt;?&lt;filter&gt;
+    attribute_name (str): The name of the attribute to add the value to.
+    attribute_value (str): The value to add to the attribute.
+Raises:
+    ValueError: ScopeError: Scope must be BASE for single object actions
+    ValueError: If attribute could not been added to the LDAP entry.
+Returns:
+    bool: True if the value was added successfully, False otherwise.</doc>
+<status status="PASS" start="2025-05-09T23:39:18.658874" elapsed="0.002112"/>
+</kw>
+<kw name="Add Attribute Value" owner="Ldap3Library">
+<msg time="2025-05-09T23:39:18.661529" level="TRACE">Arguments: [ 'ldap://localhost:389/cn=tfoster,ou=users,dc=example,dc=com?postalCode,telephoneNumber,title??(postalCode=13029)' | 'telephoneNumber' | '0049-201-555-0123' ]</msg>
+<msg time="2025-05-09T23:39:18.662513" level="INFO">Added attribute telephoneNumber with value 0049-201-555-0123 to ldap://localhost:389/cn=tfoster,ou=users,dc=example,dc=com?postalCode,telephoneNumber,title??(postalCode=13029).</msg>
+<msg time="2025-05-09T23:39:18.662513" level="TRACE">Return: True</msg>
+<arg>${LDAP_URL_BASE}</arg>
+<arg>telephoneNumber</arg>
+<arg>0049-201-555-0123</arg>
+<doc>Add a value to an attribute in the LDAP entry.
+Args:
+    ldap_url (str): &lt;ldap/ldaps&gt;://&lt;host&gt;:&lt;port&gt;/&lt;base_dn&gt;?&lt;attributes&gt;?&lt;scope&gt;?&lt;filter&gt;
+    attribute_name (str): The name of the attribute to add the value to.
+    attribute_value (str): The value to add to the attribute.
+Raises:
+    ValueError: ScopeError: Scope must be BASE for single object actions
+    ValueError: If attribute could not been added to the LDAP entry.
+Returns:
+    bool: True if the value was added successfully, False otherwise.</doc>
+<status status="PASS" start="2025-05-09T23:39:18.661529" elapsed="0.000984"/>
+</kw>
+<kw name="Run Keyword And Expect Error" owner="BuiltIn">
+<msg time="2025-05-09T23:39:18.662513" level="TRACE">Arguments: [ 'REGEXP:.*ScopeError.*' | 'Overwrite Attribute Value' | '${LDAP_URL_LEVEL}' | 'telephoneNumber' | '111-411-1111' ]</msg>
+<kw name="Overwrite Attribute Value" owner="Ldap3Library">
+<msg time="2025-05-09T23:39:18.663053" level="TRACE">Arguments: [ 'ldap://localhost:389/ou=users,dc=example,dc=com?postalCode,telephoneNumber,title?one?(postalCode=13029)' | 'telephoneNumber' | '111-411-1111' ]</msg>
+<msg time="2025-05-09T23:39:18.663053" level="ERROR">ScopeError: Scope must be BASE for single object actions. Current scope: LEVEL</msg>
+<msg time="2025-05-09T23:39:18.664102" level="FAIL">ValueError: ScopeError: Scope must be BASE for single object actions. Current scope: LEVEL</msg>
+<msg time="2025-05-09T23:39:18.664102" level="DEBUG">Traceback (most recent call last):
+  File "D:\git_workspace\robotframework-ldap3\Ldap3Library\query.py", line 403, in overwrite_attribute_value
+    _url = self._is_base_scope(ldap_url)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\git_workspace\robotframework-ldap3\Ldap3Library\query.py", line 52, in _is_base_scope
+    raise ValueError(
+ValueError: ScopeError: Scope must be BASE for single object actions. Current scope: LEVEL</msg>
+<arg>${LDAP_URL_LEVEL}</arg>
+<arg>telephoneNumber</arg>
+<arg>111-411-1111</arg>
+<doc>Overwrite an attribute in the LDAP entry.
+Args:
+    ldap_url (str): &lt;ldap/ldaps&gt;://&lt;host&gt;:&lt;port&gt;/&lt;base_dn&gt;?&lt;attributes&gt;?&lt;scope&gt;?&lt;filter&gt;
+    attribute_name (str): The name of the attribute to overwrite.
+    attribute_value (str): The value to set for the attribute.
+Raises:
+    ValueError: ScopeError: Scope must be BASE for single object actions
+    ValueError: If attribute could not be overwritten to the LDAP entry.
+Returns:
+    bool: True if the attribute was overwritten successfully, False otherwise.
+Example:
+| Overwrite Attribute Value    ldap://localhost:389/cn=admin,dc=example,dc=com???(objectClass=*)    telephoneNumber    444-123-4567</doc>
+<status status="FAIL" start="2025-05-09T23:39:18.663053" elapsed="0.001049">ValueError: ScopeError: Scope must be BASE for single object actions. Current scope: LEVEL</status>
+</kw>
+<msg time="2025-05-09T23:39:18.664102" level="TRACE">Return: 'ValueError: ScopeError: Scope must be BASE for single object actions. Current scope: LEVEL'</msg>
+<arg>REGEXP:.*ScopeError.*</arg>
+<arg>Overwrite Attribute Value</arg>
+<arg>${LDAP_URL_LEVEL}</arg>
+<arg>telephoneNumber</arg>
+<arg>111-411-1111</arg>
+<doc>Runs the keyword and checks that the expected error occurred.</doc>
+<status status="PASS" start="2025-05-09T23:39:18.662513" elapsed="0.001589"/>
+</kw>
+<status status="PASS" start="2025-05-09T23:39:18.649895" elapsed="0.015213"/>
+</test>
+<test id="s1-s1-t12" name="Check Add Object fom LDIF File and Delete them instantly" line="112">
+<kw name="Add Object From Ldif" owner="Ldap3Library">
+<msg time="2025-05-09T23:39:18.667100" level="TRACE">Arguments: [ 'ldap://localhost:389/cn=tfoster,ou=users,dc=example,dc=com?postalCode,telephoneNumber,title??(postalCode=13029)' | 'D:\\git_workspace\\robotframework-ldap3\\test\\atest\\..\\..\\fake_single.ldif' ]</msg>
+<msg time="2025-05-09T23:39:18.670606" level="INFO">Added object from LIDF to ldap://localhost:389/cn=tfoster,ou=users,dc=example,dc=com?postalCode,telephoneNumber,title??(postalCode=13029).</msg>
+<msg time="2025-05-09T23:39:18.672566" level="INFO">Added object from LIDF to ldap://localhost:389/cn=tfoster,ou=users,dc=example,dc=com?postalCode,telephoneNumber,title??(postalCode=13029).</msg>
+<msg time="2025-05-09T23:39:18.672566" level="TRACE">Return: True</msg>
+<arg>${LDAP_URL}</arg>
+<arg>D:\\git_workspace\\robotframework-ldap3\\test\\atest${/}..${/}..${/}fake_single.ldif</arg>
+<doc>Add an object from a LDIF file to the LDAP directory.
+Args:
+    ldap_url (str): &lt;ldap/ldaps&gt;://&lt;host&gt;:&lt;port&gt;/&lt;base_dn&gt;?&lt;attributes&gt;?&lt;scope&gt;?&lt;filter&gt;
+    ldif_file (str): Path to the LDIF file.
+    object_class (str, optional): The object class to use. Defaults to "inetOrgPerson".
+Raises:
+    ValueError: If the object(s) could not be added to the LDAP directory.
+Returns:
+    bool: True if the object was added successfully, False otherwise.
+Example:
+| Add Object From LDIF    ldap://localhost:389/cn=admin,dc=example,dc=com???(objectClass=*)    ${CURDIR}${/}..${/}..${/}fake_single.ldif</doc>
+<status status="PASS" start="2025-05-09T23:39:18.667100" elapsed="0.005466"/>
+</kw>
+<kw name="Check Attribute Value" owner="Ldap3Library">
+<msg time="2025-05-09T23:39:18.673172" level="TRACE">Arguments: [ 'ldap://localhost:389/cn=tfoster,ou=users,dc=example,dc=com?postalCode,telephoneNumber,title??(postalCode=13029)' | 'telephoneNumber' | &lt;AssertionOperator.contains: '*='&gt; | '555-555-5555' ]</msg>
+<msg time="2025-05-09T23:39:18.675706" level="INFO">Search results: 1 entries found.</msg>
+<msg time="2025-05-09T23:39:18.675706" level="INFO">Expected value: 555-555-5555, Actual value: ['555-555-5555', '(261)555-4472', '+49-201-555-0123', '001-821-664-8819', '0049-201-555-0123']</msg>
+<msg time="2025-05-09T23:39:18.675706" level="TRACE">Return: True</msg>
+<arg>${LDAP_URL}</arg>
+<arg>telephoneNumber</arg>
+<arg>contains</arg>
+<arg>555-555-5555</arg>
+<doc>Check the value of an attribute in the LDAP entry.
+Args:
+    ldap_url (str): &lt;ldap/ldaps&gt;://&lt;host&gt;:&lt;port&gt;/&lt;base_dn&gt;?&lt;attributes&gt;?&lt;scope&gt;?&lt;filter&gt;
+    attribute_name (str): The name of the attribute to check.
+    assertion_operator (AssertionOperator): The operator to use for the assertion.
+    expected_value (Any): The expected value of the attribute.
+    assertion_message (str, optional): Custom message for the assertion. Defaults to None.
+Raises:
+    AssertionError: If the assertion fails.
+    ValueError: ScopeError: Scope must be BASE for single object actions
+    ValueError: If the attribute is not found in the LDAP URL or entry.
+    ValueError: If no entries are found for the given LDAP URL.
+    ValueError: If multiple entries are found for the given LDAP URL.
+Returns:
+    bool: True if the assertion passes, False otherwise.</doc>
+<status status="PASS" start="2025-05-09T23:39:18.673172" elapsed="0.002534"/>
+</kw>
+<kw name="Delete Object" owner="Ldap3Library">
+<msg time="2025-05-09T23:39:18.676759" level="TRACE">Arguments: [ 'ldap://localhost:389/cn=jmason,ou=users,dc=example,dc=com???(objectClass=*)' ]</msg>
+<msg time="2025-05-09T23:39:18.677519" level="INFO">Deleted object ldap://localhost:389/cn=jmason,ou=users,dc=example,dc=com???(objectClass=*).</msg>
+<msg time="2025-05-09T23:39:18.677519" level="TRACE">Return: True</msg>
+<arg>ldap://localhost:389/cn=jmason,ou=users,dc=example,dc=com???(objectClass=*)</arg>
+<doc>Delete an object from the LDAP directory.
+Args:
+    ldap_url (str): &lt;ldap/ldaps&gt;://&lt;host&gt;:&lt;port&gt;/&lt;base_dn&gt;?&lt;attributes&gt;?&lt;scope&gt;?&lt;filter&gt;
+Raises:
+    ValueError: ScopeError: Scope must be BASE for single object actions
+    ValueError: If the object could not be deleted from the LDAP directory.
+Returns:
+    bool: True if the object was deleted successfully, False otherwise.
+Example:
+| Delete Object    ldap://localhost:389/cn=admin,dc=example,dc=com???(objectClass=*)</doc>
+<status status="PASS" start="2025-05-09T23:39:18.676759" elapsed="0.000760"/>
+</kw>
+<kw name="Delete Object" owner="Ldap3Library">
+<msg time="2025-05-09T23:39:18.678060" level="TRACE">Arguments: [ 'ldap://localhost:389/cn=khernandez,ou=users,dc=example,dc=com???(objectClass=*)' ]</msg>
+<msg time="2025-05-09T23:39:18.678668" level="INFO">Deleted object ldap://localhost:389/cn=khernandez,ou=users,dc=example,dc=com???(objectClass=*).</msg>
+<msg time="2025-05-09T23:39:18.678668" level="TRACE">Return: True</msg>
+<arg>ldap://localhost:389/cn=khernandez,ou=users,dc=example,dc=com???(objectClass=*)</arg>
+<doc>Delete an object from the LDAP directory.
+Args:
+    ldap_url (str): &lt;ldap/ldaps&gt;://&lt;host&gt;:&lt;port&gt;/&lt;base_dn&gt;?&lt;attributes&gt;?&lt;scope&gt;?&lt;filter&gt;
+Raises:
+    ValueError: ScopeError: Scope must be BASE for single object actions
+    ValueError: If the object could not be deleted from the LDAP directory.
+Returns:
+    bool: True if the object was deleted successfully, False otherwise.
+Example:
+| Delete Object    ldap://localhost:389/cn=admin,dc=example,dc=com???(objectClass=*)</doc>
+<status status="PASS" start="2025-05-09T23:39:18.678060" elapsed="0.000608"/>
+</kw>
+<kw name="Run Keyword And Expect Error" owner="BuiltIn">
+<msg time="2025-05-09T23:39:18.678668" level="TRACE">Arguments: [ 'REGEXP:.*ScopeError.*' | 'Delete Object' | 'ldap://localhost:389/cn=notexisting,ou=users,dc=example,dc=com??sub?(objectClass=*)' ]</msg>
+<kw name="Delete Object" owner="Ldap3Library">
+<msg time="2025-05-09T23:39:18.679279" level="TRACE">Arguments: [ 'ldap://localhost:389/cn=notexisting,ou=users,dc=example,dc=com??sub?(objectClass=*)' ]</msg>
+<msg time="2025-05-09T23:39:18.679279" level="ERROR">ScopeError: Scope must be BASE for single object actions. Current scope: SUBTREE</msg>
+<msg time="2025-05-09T23:39:18.679279" level="FAIL">ValueError: ScopeError: Scope must be BASE for single object actions. Current scope: SUBTREE</msg>
+<msg time="2025-05-09T23:39:18.680322" level="DEBUG">Traceback (most recent call last):
+  File "D:\git_workspace\robotframework-ldap3\Ldap3Library\query.py", line 452, in delete_object
+    _url = self._is_base_scope(ldap_url)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\git_workspace\robotframework-ldap3\Ldap3Library\query.py", line 52, in _is_base_scope
+    raise ValueError(
+ValueError: ScopeError: Scope must be BASE for single object actions. Current scope: SUBTREE</msg>
+<arg>ldap://localhost:389/cn=notexisting,ou=users,dc=example,dc=com??sub?(objectClass=*)</arg>
+<doc>Delete an object from the LDAP directory.
+Args:
+    ldap_url (str): &lt;ldap/ldaps&gt;://&lt;host&gt;:&lt;port&gt;/&lt;base_dn&gt;?&lt;attributes&gt;?&lt;scope&gt;?&lt;filter&gt;
+Raises:
+    ValueError: ScopeError: Scope must be BASE for single object actions
+    ValueError: If the object could not be deleted from the LDAP directory.
+Returns:
+    bool: True if the object was deleted successfully, False otherwise.
+Example:
+| Delete Object    ldap://localhost:389/cn=admin,dc=example,dc=com???(objectClass=*)</doc>
+<status status="FAIL" start="2025-05-09T23:39:18.679279" elapsed="0.001043">ValueError: ScopeError: Scope must be BASE for single object actions. Current scope: SUBTREE</status>
+</kw>
+<msg time="2025-05-09T23:39:18.680322" level="TRACE">Return: 'ValueError: ScopeError: Scope must be BASE for single object actions. Current scope: SUBTREE'</msg>
+<arg>REGEXP:.*ScopeError.*</arg>
+<arg>Delete Object</arg>
+<arg>ldap://localhost:389/cn=notexisting,ou=users,dc=example,dc=com??sub?(objectClass=*)</arg>
+<doc>Runs the keyword and checks that the expected error occurred.</doc>
+<status status="PASS" start="2025-05-09T23:39:18.678668" elapsed="0.001654"/>
+</kw>
+<status status="PASS" start="2025-05-09T23:39:18.666107" elapsed="0.014215"/>
+</test>
+<kw name="Clean up" type="TEARDOWN">
+<msg time="2025-05-09T23:39:18.682387" level="TRACE">Arguments: [  ]</msg>
+<kw name="Disconnect" owner="Ldap3Library">
+<msg time="2025-05-09T23:39:18.683393" level="TRACE">Arguments: [ 'ldap://localhost:389/cn=tfoster,ou=users,dc=example,dc=com?postalCode,telephoneNumber,title??(postalCode=13029)' ]</msg>
+<msg time="2025-05-09T23:39:18.683393" level="INFO">Disconnected from LDAP server: localhost</msg>
+<msg time="2025-05-09T23:39:18.684368" level="TRACE">Return: None</msg>
+<arg>${LDAP_URL}</arg>
+<doc>Disconnect from an LDAP server.
+Parameters:
+- ldap_url: The LDAP URL to disconnect from.
+Raises:
+- ValueError: If ldap_url is not provided.</doc>
+<status status="PASS" start="2025-05-09T23:39:18.682387" elapsed="0.002038"/>
+</kw>
+<kw name="Terminate Process" owner="Process">
+<msg time="2025-05-09T23:39:18.684425" level="TRACE">Arguments: [ None ]</msg>
+<msg time="2025-05-09T23:39:18.684425" level="INFO">Gracefully terminating process.</msg>
+<msg time="2025-05-09T23:39:18.786534" level="INFO">Process completed.</msg>
+<msg time="2025-05-09T23:39:18.786534" level="TRACE">Return: &lt;robot.libraries.Process.ExecutionResult object at 0x000001E146AD2A50&gt;</msg>
+<arg>${mokapi}</arg>
+<doc>Stops the process gracefully or forcefully.</doc>
+<status status="PASS" start="2025-05-09T23:39:18.684425" elapsed="0.102109"/>
+</kw>
+<msg time="2025-05-09T23:39:18.787555" level="TRACE">Return: None</msg>
+<status status="PASS" start="2025-05-09T23:39:18.682387" elapsed="0.105168"/>
+</kw>
+<status status="PASS" start="2025-05-09T23:39:16.213507" elapsed="2.574048"/>
+</suite>
+<status status="PASS" start="2025-05-09T23:39:16.184582" elapsed="2.608494"/>
+</suite>
+<statistics>
+<total>
+<stat pass="12" fail="0" skip="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat name="Atest" id="s1" pass="12" fail="0" skip="0">Atest</stat>
+<stat name="Test Ldap Library" id="s1-s1" pass="12" fail="0" skip="0">Atest.Test Ldap Library</stat>
+</suite>
+</statistics>
+<errors>
+<msg time="2025-05-09T23:39:18.492312" level="ERROR">ScopeError: Scope must be BASE for single object actions. Current scope: SUBTREE</msg>
+<msg time="2025-05-09T23:39:18.647449" level="ERROR">ScopeError: Scope must be BASE for single object actions. Current scope: LEVEL</msg>
+<msg time="2025-05-09T23:39:18.663053" level="ERROR">ScopeError: Scope must be BASE for single object actions. Current scope: LEVEL</msg>
+<msg time="2025-05-09T23:39:18.679279" level="ERROR">ScopeError: Scope must be BASE for single object actions. Current scope: SUBTREE</msg>
+</errors>
+</robot>
