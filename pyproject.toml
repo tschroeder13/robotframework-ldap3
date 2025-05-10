@@ -3,7 +3,7 @@ name = "robotframework-ldap3"
 version = "0.1.0"
 description = "A Robotframework library to interact with a LDAP server"
 authors = [
-    {name = "Wilee Coyote",email = "wilee.coyote@outlook.de"}
+    {name = "Tobias Linkermann"}
 ]
 license = {text = "Apache License 2.0"}
 readme = "README.md"
