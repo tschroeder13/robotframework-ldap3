@@ -6,7 +6,11 @@ Here yo can find the [keyword docs](https://tschroeder13.github.io/robotframewor
 
 ## Credits
 [Robot Framework](https://robotframework.org)
+
 [ldap3](https://github.com/cannatag/ldap3/)
+
 [Apache Directory Studio](https://directory.apache.org/studio/downloads.html)
+
 [MarketSquare for Assertion Engine and tons of inspiration](https://github.com/MarketSquare/)
+
 [@ManyDefects](https://github.com/manykarim)
